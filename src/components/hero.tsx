@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { ArrowDown, MapPin, Wifi, Zap, Clock, UtensilsCrossed } from 'lucide-react';
 import { CAFE_INFO } from '@/data/coffee-menu';
+import { useOperationalStatus } from '@/hooks/use-operational-status';
 
 interface HeroProps {
   onScrollToMenu?: () => void;
@@ -10,6 +11,7 @@ interface HeroProps {
 }
 
 export default function Hero({ onScrollToMenu, onScrollToLocation }: HeroProps) {
+  const { isOpen, statusLabel, detailLabel } = useOperationalStatus();
   const scrollTo = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -40,10 +42,29 @@ export default function Hero({ onScrollToMenu, onScrollToLocation }: HeroProps) 
       {/* Hero Content Container with spatial rhythm */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 space-y-5 sm:space-y-7">
         
-        {/* Eyebrow / Kicker: Teks kecil di atas judul */}
-        <div className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#EA580C]/15 border border-[#EA580C]/35 text-[#F59E0B] text-xs sm:text-sm font-bold tracking-wide shadow-md backdrop-blur-md">
-          <span className="w-2 h-2 rounded-full bg-[#EA580C] animate-ping" />
-          <span>{CAFE_INFO.kicker}</span>
+        {/* Eyebrow / Kicker & Live Status Pill */}
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+          <div className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#EA580C]/15 border border-[#EA580C]/35 text-[#F59E0B] text-xs sm:text-sm font-bold tracking-wide shadow-md backdrop-blur-md">
+            <span className="w-2 h-2 rounded-full bg-[#EA580C] animate-ping" />
+            <span>{CAFE_INFO.kicker}</span>
+          </div>
+
+          <div
+            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-bold tracking-wide shadow-md backdrop-blur-md border transition-colors ${
+              isOpen
+                ? 'bg-emerald-950/70 border-emerald-500/40 text-emerald-300'
+                : 'bg-rose-950/70 border-rose-500/40 text-rose-300'
+            }`}
+          >
+            <span
+              className={`w-2 h-2 rounded-full flex-shrink-0 ${
+                isOpen
+                  ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse'
+                  : 'bg-rose-400'
+              }`}
+            />
+            <span>{statusLabel} &bull; {detailLabel}</span>
+          </div>
         </div>
 
         {/* Judul Utama (Headline) - Scaled for zero clipping on narrow mobile */}
@@ -108,7 +129,7 @@ export default function Hero({ onScrollToMenu, onScrollToLocation }: HeroProps) 
                 <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#EA580C]/20 flex items-center justify-center text-[#F59E0B]">
                   <Clock className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 </div>
-                <span>s/d 01.00 Pagi</span>
+                <span>{isOpen ? detailLabel : 'Buka 09.00 WIB'}</span>
               </div>
 
               <div className="hidden md:block w-px h-4 bg-stone-800" />

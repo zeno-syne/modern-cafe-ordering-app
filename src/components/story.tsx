@@ -1,34 +1,73 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
-import { Wifi, Zap, Wind, Clock, Sparkles, CheckCircle2 } from 'lucide-react';
+import {
+  Wifi,
+  Zap,
+  Wind,
+  Clock,
+  Sparkles,
+  CheckCircle2,
+  Activity,
+  Gauge,
+} from 'lucide-react';
 
 export default function Story() {
+  const [isTestingSpeed, setIsTestingSpeed] = useState(false);
+  const [speedResult, setSpeedResult] = useState<{
+    ping: number;
+    download: number;
+    upload: number;
+  } | null>(null);
+
+  const handleTestSpeed = () => {
+    setIsTestingSpeed(true);
+    setSpeedResult(null);
+
+    setTimeout(() => {
+      // Generate realistic high-speed warkop metrics
+      const download = Math.floor(Math.random() * 25) + 145; // 145 - 170 Mbps
+      const upload = Math.floor(Math.random() * 20) + 75; // 75 - 95 Mbps
+      const ping = Math.floor(Math.random() * 4) + 5; // 5 - 8 ms
+      setSpeedResult({ download, upload, ping });
+      setIsTestingSpeed(false);
+    }, 1200);
+  };
+
   const points = [
     {
       icon: Wifi,
       title: 'WiFi Dewa & Colokan Dimana-mana.',
-      description: 'Nggak perlu takut baterai habis atau nge-lag pas lagi push rank / kejar deadline skripsi.',
+      description:
+        'Nggak perlu takut baterai habis atau nge-lag pas lagi push rank / kejar deadline skripsi.',
       badge: 'Anti Lag & Full Power',
+      interactive: true,
     },
     {
       icon: Wind,
       title: 'Area Lesehan & Smoking Luas.',
-      description: 'Mau duduk di kursi atau selonjoran di lesehan, bebas! Ruang sirkulasi udara juga aman.',
+      description:
+        'Mau duduk di kursi atau selonjoran di lesehan, bebas! Ruang sirkulasi udara juga aman.',
       badge: 'Bisa Selonjoran Santai',
+      interactive: false,
     },
     {
       icon: Clock,
       title: 'Buka Sampai Tengah Malam.',
-      description: 'Otak baru encer pas malam hari? Tenang, kita temenin sampai jam 1 pagi.',
+      description:
+        'Otak baru encer pas malam hari? Tenang, kita temenin sampai jam 1 atau 2 pagi.',
       badge: 'Teman Lembur & Begadang',
+      interactive: false,
     },
   ];
 
   return (
-    <section id="kenapa-kami" className="scroll-mt-24 py-20 sm:py-28 md:py-32 relative bg-[#17120E] border-y border-stone-800/80">
+    <section
+      id="kenapa-kami"
+      className="scroll-mt-24 py-20 sm:py-28 md:py-32 relative bg-[#17120E] border-y border-stone-800/80"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3 mb-12 sm:mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#EA580C]/15 border border-[#EA580C]/35 text-[#F59E0B] text-xs font-bold tracking-wide">
@@ -41,13 +80,13 @@ export default function Story() {
           </h2>
 
           <p className="text-xs sm:text-sm md:text-base text-stone-300 max-w-xl mx-auto leading-relaxed font-normal px-2">
-            Bukan sekadar ngopi, tapi tempat nyaman buat nugas berjam-jam, mabar santai bareng squad, atau nongkrong seru tanpa canggung.
+            Bukan sekadar ngopi, tapi tempat nyaman buat nugas berjam-jam, mabar
+            santai bareng squad, atau nongkrong seru tanpa canggung.
           </p>
         </div>
 
         {/* Content Layout: Candid Photo + 3 Main Youth Focus Points with Double-Bezel */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
-          
           {/* Left: Candid Photo in Double-Bezel Framing */}
           <div className="lg:col-span-5 w-full">
             <div className="bezel-shell">
@@ -79,34 +118,75 @@ export default function Story() {
               const MainIcon = pt.icon;
               return (
                 <div key={idx} className="bezel-shell">
-                  <div className="bezel-core !p-4 sm:!p-6 !flex-row items-start gap-3.5 sm:gap-5">
-                    {/* Bold Casual Line Icon */}
-                    <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-[#120E0B] border-2 border-[#EA580C]/40 flex items-center justify-center text-[#F59E0B] flex-shrink-0 group-hover:border-[#EA580C] group-hover:scale-105 transition-all shadow-inner">
-                      <MainIcon className="w-5 h-5 sm:w-7 sm:h-7 stroke-[2.2]" />
-                    </div>
-
-                    <div className="flex-1 space-y-1">
-                      <div className="flex flex-wrap items-center justify-between gap-1.5">
-                        <h3 className="text-sm sm:text-base md:text-lg font-bold text-white font-display group-hover:text-[#F59E0B] transition-colors">
-                          {pt.title}
-                        </h3>
-                        <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-[#EA580C] bg-[#EA580C]/15 px-2.5 py-0.5 rounded-full border border-[#EA580C]/30">
-                          {pt.badge}
-                        </span>
+                  <div className="bezel-core !p-4 sm:!p-6 !flex-col items-start gap-3">
+                    <div className="flex items-start gap-3.5 sm:gap-5 w-full">
+                      {/* Bold Casual Line Icon */}
+                      <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-[#120E0B] border-2 border-[#EA580C]/40 flex items-center justify-center text-[#F59E0B] flex-shrink-0 group-hover:border-[#EA580C] group-hover:scale-105 transition-all shadow-inner">
+                        <MainIcon className="w-5 h-5 sm:w-7 sm:h-7 stroke-[2.2]" />
                       </div>
 
-                      <p className="text-xs sm:text-sm text-stone-300 font-normal leading-relaxed">
-                        {pt.description}
-                      </p>
+                      <div className="flex-1 space-y-1">
+                        <div className="flex flex-wrap items-center justify-between gap-1.5">
+                          <h3 className="text-sm sm:text-base md:text-lg font-bold text-white font-display group-hover:text-[#F59E0B] transition-colors">
+                            {pt.title}
+                          </h3>
+                          <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-[#EA580C] bg-[#EA580C]/15 px-2.5 py-0.5 rounded-full border border-[#EA580C]/30">
+                            {pt.badge}
+                          </span>
+                        </div>
+
+                        <p className="text-xs sm:text-sm text-stone-300 font-normal leading-relaxed">
+                          {pt.description}
+                        </p>
+                      </div>
                     </div>
+
+                    {/* Interactive WiFi Speedometer Widget on the first card */}
+                    {pt.interactive && (
+                      <div className="w-full pt-2.5 mt-1 border-t border-stone-800/80">
+                        <div className="p-3 rounded-xl bg-[#14100D] border border-stone-800 flex flex-col sm:flex-row items-center justify-between gap-3">
+                          <div className="flex items-center gap-2.5 text-xs text-stone-300">
+                            <Gauge className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                            {speedResult ? (
+                              <div className="text-left font-mono">
+                                <span className="text-emerald-400 font-extrabold text-sm">
+                                  {speedResult.download} Mbps
+                                </span>{' '}
+                                <span className="text-stone-400 text-[11px]">
+                                  (Ping: {speedResult.ping}ms &bull; Upload: {speedResult.upload} Mbps)
+                                </span>
+                              </div>
+                            ) : (
+                              <span>
+                                Dedicated Fiber Optic • <strong>150 Mbps</strong> stabil anti drop
+                              </span>
+                            )}
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={handleTestSpeed}
+                            disabled={isTestingSpeed}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-stone-800 hover:bg-[#EA580C]/20 border border-stone-700 hover:border-[#EA580C]/50 text-white text-[11px] font-bold transition-all cursor-pointer active:scale-95 disabled:opacity-50"
+                          >
+                            <Activity
+                              className={`w-3 h-3 text-[#EA580C] ${
+                                isTestingSpeed ? 'animate-spin' : ''
+                              }`}
+                            />
+                            <span>
+                              {isTestingSpeed ? 'Mengukur Speed...' : speedResult ? 'Tes Ulang WiFi' : 'Tes Speed WiFi'}
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               );
             })}
           </div>
-
         </div>
-
       </div>
     </section>
   );

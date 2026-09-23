@@ -4,11 +4,13 @@ import { useState, useEffect } from 'react';
 import { Coffee, Menu, X, MapPin, UtensilsCrossed, ShoppingBag } from 'lucide-react';
 import { CAFE_INFO } from '@/data/coffee-menu';
 import { useCart } from '@/context/cart-context';
+import { useOperationalStatus } from '@/hooks/use-operational-status';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { totalItems, setIsCartOpen } = useCart();
+  const { isOpen, statusLabel } = useOperationalStatus();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,8 +59,16 @@ export default function Navbar() {
               <Coffee className="w-4 h-4 stroke-[2.5]" />
             </div>
             <div>
-              <span className="text-sm sm:text-base md:text-lg font-black tracking-tight text-white flex items-center gap-1 font-display">
+              <span className="text-sm sm:text-base md:text-lg font-black tracking-tight text-white flex items-center gap-1.5 font-display">
                 {CAFE_INFO.name}
+                <span
+                  className={`inline-block w-2 h-2 rounded-full flex-shrink-0 ${
+                    isOpen
+                      ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse'
+                      : 'bg-rose-400'
+                  }`}
+                  title={statusLabel}
+                />
               </span>
               <span className="text-[9px] sm:text-[10px] font-bold text-[#F59E0B] tracking-wide block -mt-0.5">
                 Nongkrong &bull; Nugas &bull; Mabar

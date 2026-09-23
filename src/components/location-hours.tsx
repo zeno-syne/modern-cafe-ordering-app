@@ -2,8 +2,10 @@
 
 import { MapPin, Clock, ExternalLink, Bike, Send } from 'lucide-react';
 import { CAFE_INFO } from '@/data/coffee-menu';
+import { useOperationalStatus } from '@/hooks/use-operational-status';
 
 export default function LocationHours() {
+  const { isOpen, statusLabel, detailLabel, currentTimeWIB } = useOperationalStatus();
   return (
     <section id="lokasi" className="scroll-mt-24 py-20 sm:py-28 md:py-32 relative bg-[#14110E] border-t border-stone-800/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -52,11 +54,30 @@ export default function LocationHours() {
             {/* Hours Card with Double-Bezel */}
             <div className="bezel-shell">
               <div className="bezel-core space-y-3 !p-5 sm:!p-6">
-                <div className="flex items-center gap-2.5 sm:gap-3 text-[#EA580C]">
-                  <Clock className="w-5 h-5" />
-                  <h3 className="text-base sm:text-lg font-bold text-white font-display">
-                    Jam Buka Warkop
-                  </h3>
+                <div className="flex items-center justify-between gap-2 flex-wrap">
+                  <div className="flex items-center gap-2.5 sm:gap-3 text-[#EA580C]">
+                    <Clock className="w-5 h-5" />
+                    <h3 className="text-base sm:text-lg font-bold text-white font-display">
+                      Jam Buka Warkop
+                    </h3>
+                  </div>
+
+                  <div
+                    className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border ${
+                      isOpen
+                        ? 'bg-emerald-950/70 border-emerald-500/40 text-emerald-300'
+                        : 'bg-rose-950/70 border-rose-500/40 text-rose-300'
+                    }`}
+                  >
+                    <span
+                      className={`w-2 h-2 rounded-full ${
+                        isOpen
+                          ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse'
+                          : 'bg-rose-400'
+                      }`}
+                    />
+                    <span>{statusLabel} ({currentTimeWIB})</span>
+                  </div>
                 </div>
                 
                 <div className="space-y-2 pt-1">
@@ -70,7 +91,7 @@ export default function LocationHours() {
                   </div>
                 </div>
                 <p className="text-[11px] text-stone-400 font-normal">
-                  *Dapur Indomie, mendoan anget, dan kopi susu tetap melayani sampai jam tutup!
+                  *{detailLabel}. Dapur Indomie, mendoan anget, dan kopi susu tetap melayani sampai jam tutup!
                 </p>
               </div>
             </div>
