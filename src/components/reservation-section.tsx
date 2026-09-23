@@ -1,11 +1,37 @@
 'use client';
 
 import { useState } from 'react';
-import { Calendar, Clock, Users, User, FileText, CheckCircle2, X, Send, Sparkles } from 'lucide-react';
+import { Calendar, Clock, Users, User, FileText, CheckCircle2, X, Send, Sparkles, Car, Shield, DoorClosed } from 'lucide-react';
 import { CAFE_INFO } from '@/data/coffee-menu';
+
+const ROOM_OPTIONS = [
+  {
+    id: 'main-hall',
+    name: 'Main Dining & Vinyl Counter',
+    capacity: '1 - 4 Orang',
+    minSpend: 0,
+    desc: 'Area temaram utama dekat barista slow bar dan vinyl turntable.',
+  },
+  {
+    id: 'mezzanine',
+    name: 'Mezzanine Lounge (Semi-Private)',
+    capacity: '4 - 8 Orang',
+    minSpend: 250000,
+    desc: 'Lantai dua bernuansa hangat dan tenang untuk diskusi atau kerja kelompok.',
+  },
+  {
+    id: 'vip-room',
+    name: 'VIP Private & Listening Salon',
+    capacity: '6 - 12 Orang',
+    minSpend: 500000,
+    desc: 'Ruangan eksklusif kedap suara dengan smart display 4K, turntable privat, dan dedicated host.',
+  },
+];
 
 export default function ReservationSection() {
   const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [roomType, setRoomType] = useState('main-hall');
   const [people, setPeople] = useState('2');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('19:00');
@@ -15,6 +41,9 @@ export default function ReservationSection() {
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [confirmedData, setConfirmedData] = useState<{
     name: string;
+    phone: string;
+    roomName: string;
+    minSpend: number;
     people: string;
     date: string;
     time: string;
@@ -22,14 +51,27 @@ export default function ReservationSection() {
     code: string;
   } | null>(null);
 
+  const selectedRoom = ROOM_OPTIONS.find((r) => r.id === roomType) || ROOM_OPTIONS[0];
+
+  const formatRupiah = (val: number) => {
+    if (val === 0) return 'Tanpa Min. Charge';
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0,
+    }).format(val);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Generate confirmation code
-    const randomCode = `WS-${Math.floor(1000 + Math.random() * 9000)}`;
+    const randomCode = `SENOPATI-${Math.floor(1000 + Math.random() * 9000)}`;
 
     const data = {
       name,
+      phone: phone || '-',
+      roomName: selectedRoom.name,
+      minSpend: selectedRoom.minSpend,
       people,
       date: date || new Date().toISOString().split('T')[0],
       time,
@@ -43,8 +85,8 @@ export default function ReservationSection() {
 
   const handleCloseConfirmation = () => {
     setIsConfirmationOpen(false);
-    // Reset form after successful submission
     setName('');
+    setPhone('');
     setDate('');
     setTime('19:00');
     setPeople('2');
@@ -54,215 +96,311 @@ export default function ReservationSection() {
   const handleShareToWhatsApp = () => {
     if (!confirmedData) return;
     const msg = encodeURIComponent(
-      `*KONFIRMASI RESERVASI MEJA [${confirmedData.code}]*\n\n` +
+      `*KONFIRMASI RESERVASI WARKOP SENTOSA [${confirmedData.code}]*\n\n` +
       `👤 Nama: ${confirmedData.name}\n` +
-      `👥 Jumlah Orang: ${confirmedData.people} Orang\n` +
+      `📱 Telepon/WA: ${confirmedData.phone}\n` +
+      `📍 Area: *${confirmedData.roomName}*\n` +
+      `💰 Ketentuan: ${formatRupiah(confirmedData.minSpend)}\n` +
+      `👥 Jumlah: ${confirmedData.people} Orang\n` +
       `📅 Tanggal: ${confirmedData.date}\n` +
       `⏰ Waktu: ${confirmedData.time} WIB\n` +
       `📝 Catatan: ${confirmedData.notes}\n\n` +
-      `Halo Warkop Sentosa, mohon konfirmasi reservasi dengan kode ini.`
+      `🚗 Mohon info ketersediaan slot valet parking juga. Terima kasih!`
     );
     window.open(`https://wa.me/6281289902026?text=${msg}`, '_blank');
   };
 
   return (
-    <section id="reservation" className="py-20 md:py-28 relative bg-stone-900/40 border-t border-stone-800/80">
-      {/* Ambient background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-amber-600/10 rounded-full blur-3xl pointer-events-none" />
+    <section id="reservation" className="py-24 md:py-32 relative bg-[#0D0B0A] border-t border-stone-800/80">
+      {/* Ambient background gold glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] ambient-glow-gold rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center space-y-3 mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold">
+        <div className="text-center space-y-3 mb-14">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#C5A059]/15 border border-[#C5A059]/30 text-[#C5A059] text-xs font-semibold">
             <Calendar className="w-3.5 h-3.5" />
-            <span>Table Reservation</span>
+            <span>Table &amp; VIP Room Booking</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white font-serif">
-            Reservasi Meja
+          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white font-serif">
+            Reservasi Meja &amp; Private VIP Room
           </h2>
-          <p className="text-stone-400 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
-            Pastikan meja terbaik Anda tersedia sebelum tiba. Tanpa biaya uang muka untuk reservasi harian.
+          <p className="text-stone-400 text-sm sm:text-base max-w-xl mx-auto leading-relaxed font-light">
+            Amankan area pilihan Anda untuk ngopi santai, pertemuan bisnis privat, maupun kumpul tertutup di Senopati.
           </p>
         </div>
 
+        {/* Valet Feature Banner */}
+        <div className="mb-8 p-4 rounded-2xl bg-[#1A1512] border border-[#C5A059]/30 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-[#C5A059]/20 flex items-center justify-center text-[#C5A059]">
+              <Car className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-xs font-bold text-white uppercase tracking-wider">
+                Complimentary Valet Parking
+              </p>
+              <p className="text-[11px] text-stone-400 font-light">
+                Parkir bebas repot. Tim valet profesional kami siap menyambut kendaraan Anda langsung di lobi.
+              </p>
+            </div>
+          </div>
+          <span className="text-[10px] uppercase font-bold tracking-widest text-[#C5A059] px-3 py-1 rounded-full bg-[#C5A059]/10 border border-[#C5A059]/30">
+            Free Service
+          </span>
+        </div>
+
         {/* Reservation Form Card */}
-        <div className="rounded-3xl bg-stone-900/90 border border-stone-800 p-6 sm:p-10 shadow-2xl backdrop-blur-xl">
+        <div className="rounded-3xl bg-[#140F0D] border border-stone-800 p-6 sm:p-10 shadow-2xl backdrop-blur-xl">
           <form onSubmit={handleSubmit} className="space-y-6">
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {/* Area Choice Selector */}
+            <div className="space-y-3">
+              <label className="text-xs font-bold text-[#EDE6DD] uppercase tracking-wider flex items-center gap-1.5">
+                <DoorClosed className="w-3.5 h-3.5 text-[#C5A059]" />
+                <span>Pilih Tipe Ruangan / Area *</span>
+              </label>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {ROOM_OPTIONS.map((room) => {
+                  const isSelected = roomType === room.id;
+                  return (
+                    <div
+                      key={room.id}
+                      onClick={() => setRoomType(room.id)}
+                      className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between ${
+                        isSelected
+                          ? 'bg-[#241C16] border-[#C5A059] shadow-lg shadow-[#C5A059]/20 ring-1 ring-[#C5A059]'
+                          : 'bg-[#181310] border-stone-800 hover:border-stone-700'
+                      }`}
+                    >
+                      <div>
+                        <div className="flex items-center justify-between gap-1 mb-1.5">
+                          <p className={`text-xs font-bold ${isSelected ? 'text-[#C5A059]' : 'text-white'}`}>
+                            {room.name}
+                          </p>
+                        </div>
+                        <p className="text-[11px] text-stone-400 font-light leading-relaxed mb-3">
+                          {room.desc}
+                        </p>
+                      </div>
+
+                      <div className="pt-2 border-t border-stone-800/80 flex items-center justify-between text-[10px]">
+                        <span className="text-stone-400">{room.capacity}</span>
+                        <span className="font-bold text-[#E5C07B]">{formatRupiah(room.minSpend)}</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Inputs Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
               {/* Name Field */}
               <div className="space-y-2">
                 <label className="text-xs font-semibold text-stone-300 flex items-center gap-1.5">
-                  <User className="w-3.5 h-3.5 text-amber-500" />
+                  <User className="w-3.5 h-3.5 text-[#C5A059]" />
                   <span>Nama Lengkap *</span>
                 </label>
                 <input
                   type="text"
                   required
+                  placeholder="Contoh: Adrian Pratama"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Masukkan nama Anda"
-                  className="w-full px-4 py-3 rounded-xl bg-stone-950 border border-stone-800 text-stone-100 text-sm placeholder:text-stone-600 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all"
+                  className="w-full px-4 py-3 rounded-xl bg-[#0D0B0A] border border-stone-800 text-stone-100 placeholder-stone-500 text-xs sm:text-sm focus:outline-none focus:border-[#C5A059] transition-colors"
                 />
               </div>
 
-              {/* Number of People Field */}
+              {/* Phone / WhatsApp */}
               <div className="space-y-2">
                 <label className="text-xs font-semibold text-stone-300 flex items-center gap-1.5">
-                  <Users className="w-3.5 h-3.5 text-amber-500" />
-                  <span>Jumlah Orang *</span>
+                  <Send className="w-3.5 h-3.5 text-[#C5A059]" />
+                  <span>Nomor WhatsApp Aktif *</span>
                 </label>
-                <select
-                  value={people}
-                  onChange={(e) => setPeople(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl bg-stone-950 border border-stone-800 text-stone-100 text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all"
-                >
-                  <option value="1">1 Orang (Solo Work)</option>
-                  <option value="2">2 Orang</option>
-                  <option value="3">3 Orang</option>
-                  <option value="4">4 Orang</option>
-                  <option value="5">5 Orang</option>
-                  <option value="6">6 Orang</option>
-                  <option value="8+">Grup Besar (&gt; 8 Orang)</option>
-                </select>
+                <input
+                  type="tel"
+                  required
+                  placeholder="0812-xxxx-xxxx"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl bg-[#0D0B0A] border border-stone-800 text-stone-100 placeholder-stone-500 text-xs sm:text-sm focus:outline-none focus:border-[#C5A059] transition-colors"
+                />
               </div>
 
               {/* Date Field */}
               <div className="space-y-2">
                 <label className="text-xs font-semibold text-stone-300 flex items-center gap-1.5">
-                  <Calendar className="w-3.5 h-3.5 text-amber-500" />
-                  <span>Tanggal Kunjungan *</span>
+                  <Calendar className="w-3.5 h-3.5 text-[#C5A059]" />
+                  <span>Tanggal Kedatangan *</span>
                 </label>
                 <input
                   type="date"
                   required
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl bg-stone-950 border border-stone-800 text-stone-100 text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all"
+                  className="w-full px-4 py-3 rounded-xl bg-[#0D0B0A] border border-stone-800 text-stone-100 text-xs sm:text-sm focus:outline-none focus:border-[#C5A059] transition-colors"
                 />
               </div>
 
               {/* Time Field */}
               <div className="space-y-2">
                 <label className="text-xs font-semibold text-stone-300 flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-amber-500" />
-                  <span>Waktu / Jam Datang *</span>
+                  <Clock className="w-3.5 h-3.5 text-[#C5A059]" />
+                  <span>Waktu / Jam *</span>
                 </label>
-                <input
-                  type="time"
-                  required
+                <select
                   value={time}
                   onChange={(e) => setTime(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl bg-stone-950 border border-stone-800 text-stone-100 text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all"
-                />
+                  className="w-full px-4 py-3 rounded-xl bg-[#0D0B0A] border border-stone-800 text-stone-100 text-xs sm:text-sm focus:outline-none focus:border-[#C5A059] transition-colors cursor-pointer"
+                >
+                  <option value="09:00">09:00 WIB (Pagi Santai)</option>
+                  <option value="11:30">11:30 WIB (Lunch Meeting)</option>
+                  <option value="14:00">14:00 WIB (Afternoon Coffee)</option>
+                  <option value="16:30">16:30 WIB (Golden Hour Sunset)</option>
+                  <option value="19:00">19:00 WIB (Evening Vinyl Session)</option>
+                  <option value="21:00">21:00 WIB (Late Night Sanctuary)</option>
+                  <option value="22:30">22:30 WIB (Midnight Chill)</option>
+                </select>
+              </div>
+
+              {/* People Count */}
+              <div className="space-y-2">
+                <label className="text-xs font-semibold text-stone-300 flex items-center gap-1.5">
+                  <Users className="w-3.5 h-3.5 text-[#C5A059]" />
+                  <span>Jumlah Tamu *</span>
+                </label>
+                <select
+                  value={people}
+                  onChange={(e) => setPeople(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl bg-[#0D0B0A] border border-stone-800 text-stone-100 text-xs sm:text-sm focus:outline-none focus:border-[#C5A059] transition-colors cursor-pointer"
+                >
+                  <option value="1">1 Orang (Solo Work / Slow Bar)</option>
+                  <option value="2">2 Orang (Casual Catch-up)</option>
+                  <option value="3-4">3 - 4 Orang (Small Group)</option>
+                  <option value="5-8">5 - 8 Orang (Lounge Discussion)</option>
+                  <option value="8+">8+ Orang (VIP Private Exclusive)</option>
+                </select>
+              </div>
+
+              {/* Minimum Spend Notice Badge */}
+              <div className="space-y-2 flex flex-col justify-end">
+                <div className="p-3 rounded-xl bg-[#1A1512] border border-[#C5A059]/30 text-xs">
+                  <span className="text-stone-400 block text-[10px] uppercase tracking-wider">
+                    Ketentuan Area Dipilih:
+                  </span>
+                  <span className="font-bold text-[#E5C07B] font-mono text-sm">
+                    {formatRupiah(selectedRoom.minSpend)}
+                  </span>
+                </div>
               </div>
             </div>
 
-            {/* Notes Field */}
+            {/* Special Requests */}
             <div className="space-y-2">
               <label className="text-xs font-semibold text-stone-300 flex items-center gap-1.5">
-                <FileText className="w-3.5 h-3.5 text-amber-500" />
-                <span>Catatan Tambahan (Notes)</span>
+                <FileText className="w-3.5 h-3.5 text-[#C5A059]" />
+                <span>Permintaan Khusus / Kebutuhan Rapat (Opsional)</span>
               </label>
               <textarea
                 rows={3}
+                placeholder="Contoh: Butuh colokan dekat sofa, request lagu piringan hitam, atau butuh konektor HDMI untuk TV VIP Room..."
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                placeholder="Contoh: Butuh meja dekat stopkontak, area non-smoking, perayaan ulang tahun..."
-                className="w-full px-4 py-3 rounded-xl bg-stone-950 border border-stone-800 text-stone-100 text-sm placeholder:text-stone-600 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all resize-none"
+                className="w-full px-4 py-3 rounded-xl bg-[#0D0B0A] border border-stone-800 text-stone-100 placeholder-stone-600 text-xs sm:text-sm focus:outline-none focus:border-[#C5A059] transition-colors resize-none"
               />
             </div>
 
             {/* Submit Button */}
-            <div className="pt-2">
-              <button
-                type="submit"
-                className="w-full py-4 rounded-xl bg-[#D97706] hover:bg-[#b45309] text-stone-950 font-extrabold text-sm shadow-xl shadow-[#D97706]/30 flex items-center justify-center gap-2 transition-all cursor-pointer hover:scale-[1.01] active:scale-[0.99] border border-[#f59e0b]/40"
-              >
-                <Sparkles className="w-4 h-4 text-stone-950" />
-                <span>Kirim Permintaan Reservasi</span>
-              </button>
-            </div>
-
+            <button
+              type="submit"
+              className="w-full py-4 rounded-full button-gold font-bold text-xs uppercase tracking-wider shadow-xl flex items-center justify-center gap-2 cursor-pointer hover:scale-[1.01] active:scale-[0.99] transition-all"
+            >
+              <Calendar className="w-4 h-4" />
+              <span>Konfirmasi &amp; Amankan Tempat Sekarang</span>
+            </button>
           </form>
         </div>
-
       </div>
 
-      {/* Confirmation Pop-up Notification Modal */}
+      {/* Confirmation Pop-up Modal */}
       {isConfirmationOpen && confirmedData && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="relative w-full max-w-md rounded-3xl bg-stone-900 border border-stone-700 p-6 sm:p-8 shadow-2xl text-center space-y-6">
+          <div className="relative w-full max-w-lg rounded-3xl bg-[#181310] border border-[#C5A059]/40 p-6 sm:p-8 shadow-2xl space-y-6">
             
-            {/* Close Icon */}
             <button
               onClick={handleCloseConfirmation}
-              className="absolute top-4 right-4 p-2 rounded-full bg-stone-800 hover:bg-stone-700 text-stone-400 hover:text-white transition-colors"
+              className="absolute top-5 right-5 p-2 rounded-full bg-stone-900 text-stone-400 hover:text-white border border-stone-800 transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
 
-            {/* Success Icon Badge */}
-            <div className="mx-auto w-16 h-16 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center shadow-lg shadow-emerald-500/10 animate-bounce">
-              <CheckCircle2 className="w-8 h-8" />
-            </div>
-
-            {/* Title & Status */}
-            <div>
-              <span className="px-3 py-0.5 rounded-full text-[11px] font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30 uppercase tracking-wider">
-                Kode: {confirmedData.code}
-              </span>
-              <h3 className="text-2xl font-bold text-white font-serif mt-2">
+            {/* Modal Header */}
+            <div className="text-center space-y-2 pt-2">
+              <div className="w-14 h-14 rounded-full bg-[#C5A059]/20 text-[#C5A059] border border-[#C5A059]/40 flex items-center justify-center mx-auto shadow-lg shadow-[#C5A059]/20">
+                <CheckCircle2 className="w-7 h-7" />
+              </div>
+              <h3 className="text-2xl font-bold text-white font-serif">
                 Reservasi Berhasil Diajukan!
               </h3>
-              <p className="text-xs text-stone-400 mt-1">
-                Terima kasih, <strong>{confirmedData.name}</strong>. Tim barista kami telah mencatat jadwal kedatangan Anda.
+              <p className="text-xs text-stone-400 font-light">
+                Kode Booking: <span className="font-mono font-bold text-[#E5C07B]">{confirmedData.code}</span>
               </p>
             </div>
 
-            {/* Reservation Summary Details */}
-            <div className="p-4 rounded-2xl bg-stone-950 border border-stone-800 text-left space-y-2.5 text-xs">
+            {/* Booking Details Card */}
+            <div className="rounded-2xl bg-[#0D0B0A] border border-stone-800 p-5 space-y-3 text-xs">
               <div className="flex justify-between border-b border-stone-800/80 pb-2">
-                <span className="text-stone-400">Tamu</span>
-                <span className="font-semibold text-stone-200">{confirmedData.name}</span>
+                <span className="text-stone-400">Nama Pemesan:</span>
+                <span className="font-semibold text-white">{confirmedData.name}</span>
               </div>
               <div className="flex justify-between border-b border-stone-800/80 pb-2">
-                <span className="text-stone-400">Jumlah Orang</span>
-                <span className="font-semibold text-amber-400">{confirmedData.people} Orang</span>
+                <span className="text-stone-400">Area / Ruangan:</span>
+                <span className="font-semibold text-[#C5A059]">{confirmedData.roomName}</span>
               </div>
               <div className="flex justify-between border-b border-stone-800/80 pb-2">
-                <span className="text-stone-400">Jadwal</span>
-                <span className="font-semibold text-stone-200">{confirmedData.date} • {confirmedData.time} WIB</span>
+                <span className="text-stone-400">Ketentuan Min. Spend:</span>
+                <span className="font-mono text-[#E5C07B] font-bold">{formatRupiah(confirmedData.minSpend)}</span>
               </div>
-              <div className="flex justify-between pt-0.5">
-                <span className="text-stone-400">Catatan</span>
-                <span className="font-medium text-stone-300 text-right max-w-[200px] truncate">{confirmedData.notes}</span>
+              <div className="flex justify-between border-b border-stone-800/80 pb-2">
+                <span className="text-stone-400">Jumlah Tamu:</span>
+                <span className="font-semibold text-white">{confirmedData.people} Orang</span>
+              </div>
+              <div className="flex justify-between border-b border-stone-800/80 pb-2">
+                <span className="text-stone-400">Waktu Kedatangan:</span>
+                <span className="font-semibold text-white">{confirmedData.date} &bull; {confirmedData.time} WIB</span>
+              </div>
+              <div className="flex justify-between pt-1">
+                <span className="text-stone-400">Fasilitas Parkir:</span>
+                <span className="font-semibold text-emerald-400 flex items-center gap-1">
+                  <Car className="w-3.5 h-3.5" />
+                  Free Valet Parking
+                </span>
               </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="space-y-2 pt-2">
+            {/* Actions */}
+            <div className="space-y-3">
               <button
                 onClick={handleShareToWhatsApp}
-                className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 transition-all cursor-pointer"
+                className="w-full py-3.5 rounded-full button-gold font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer"
               >
-                <Send className="w-4 h-4" />
-                <span>Kirim Salinan ke WhatsApp Kedai</span>
+                <Send className="w-3.5 h-3.5" />
+                <span>Kirim Detail ke WhatsApp Warkop Sentosa</span>
               </button>
 
               <button
                 onClick={handleCloseConfirmation}
-                className="w-full py-2.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs font-semibold transition-all cursor-pointer"
+                className="w-full py-2.5 rounded-full bg-transparent hover:bg-stone-900 text-stone-400 hover:text-white text-xs font-semibold transition-colors cursor-pointer"
               >
-                Tutup Notifikasi
+                Tutup Jendela
               </button>
             </div>
-
           </div>
         </div>
       )}
-
     </section>
   );
 }

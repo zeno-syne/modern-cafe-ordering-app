@@ -1,84 +1,77 @@
 'use client';
 
-import { Wifi, Zap, Disc3, Coffee, Clock, Sparkles } from 'lucide-react';
+import { Wifi, Zap, Disc3, Coffee, Clock, Sparkles, Car, DoorClosed } from 'lucide-react';
 import { AMENITIES } from '@/data/coffee-menu';
+import VinylPlayer from './vinyl-player';
 
 export default function Atmosphere() {
   const getIcon = (name: string) => {
     switch (name) {
+      case 'car':
+        return <Car className="w-5 h-5 text-[#C5A059]" />;
+      case 'door':
+        return <DoorClosed className="w-5 h-5 text-[#C5A059]" />;
       case 'wifi':
-        return <Wifi className="w-5 h-5" />;
+        return <Wifi className="w-5 h-5 text-[#C5A059]" />;
       case 'plug':
-        return <Zap className="w-5 h-5" />;
+        return <Zap className="w-5 h-5 text-[#C5A059]" />;
       case 'music':
-        return <Disc3 className="w-5 h-5" />;
+        return <Disc3 className="w-5 h-5 text-[#C5A059]" />;
       case 'coffee':
-        return <Coffee className="w-5 h-5" />;
+        return <Coffee className="w-5 h-5 text-[#C5A059]" />;
       case 'clock':
-        return <Clock className="w-5 h-5" />;
+        return <Clock className="w-5 h-5 text-[#C5A059]" />;
       default:
-        return <Sparkles className="w-5 h-5" />;
+        return <Sparkles className="w-5 h-5 text-[#C5A059]" />;
     }
   };
 
   return (
-    <section id="suasana" className="py-20 md:py-28 relative bg-stone-950">
+    <section id="suasana" className="py-24 md:py-32 relative bg-[#0D0B0A] border-t border-stone-800/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#C5A059]/15 border border-[#C5A059]/30 text-[#C5A059] text-xs font-semibold">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Kenyamanan Ruang Kerja & Temu</span>
+            <span>Kenyamanan Ruang &amp; Fasilitas Eksklusif</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-stone-100 font-serif">
-            Didesain untuk Fokus dan Santai
+          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white font-serif">
+            Didesain untuk Fokus, Temu, dan Eksklusivitas
           </h2>
-          <p className="text-stone-400 text-sm sm:text-base leading-relaxed">
-            Pencahayaan temaram hangat, tata akustik yang ramah konsentrasi, dan fasilitas modern yang memanjakan remote worker maupun penikmat obrolan santai.
+          <p className="text-stone-400 text-sm sm:text-base leading-relaxed font-light">
+            Pencahayaan temaram hangat, peredam akustik alami, sofa kulit empuk, serta layanan valet bebas biaya di kawasan Senopati.
           </p>
         </div>
 
         {/* 6 Amenities Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
           {AMENITIES.map((item) => (
             <div
               key={item.id}
-              className="rounded-2xl bg-stone-900/50 border border-stone-800/80 p-6 hover:border-amber-500/30 hover:bg-stone-900/90 transition-all duration-300 group"
+              className="rounded-3xl bg-[#140F0D] border border-stone-800/80 p-7 hover:border-[#C5A059]/50 hover:bg-[#1C1613] transition-all duration-300 group shadow-lg"
             >
-              <div className="w-10 h-10 rounded-xl bg-stone-800 text-amber-400 flex items-center justify-center mb-4 group-hover:bg-amber-500 group-hover:text-stone-950 transition-colors">
+              <div className="w-12 h-12 rounded-2xl bg-[#0D0B0A] border border-stone-800 flex items-center justify-center mb-5 group-hover:border-[#C5A059]/40 group-hover:scale-105 transition-all">
                 {getIcon(item.iconName)}
               </div>
-              <h3 className="text-base font-bold text-stone-100 font-serif mb-2 group-hover:text-amber-300 transition-colors">
+              <h3 className="text-lg font-bold text-white font-serif mb-2 group-hover:text-[#C5A059] transition-colors">
                 {item.title}
               </h3>
-              <p className="text-xs text-stone-400 leading-relaxed">
+              <p className="text-xs text-stone-400 leading-relaxed font-light">
                 {item.description}
               </p>
             </div>
           ))}
         </div>
 
-        {/* Atmosphere Highlight Feature Box */}
-        <div className="mt-12 rounded-3xl bg-gradient-to-br from-stone-900 via-stone-900/90 to-amber-950/20 border border-stone-800 p-8 md:p-12 relative overflow-hidden">
-          <div className="relative z-10 max-w-2xl space-y-4">
-            <span className="text-xs font-bold uppercase tracking-wider text-amber-400">
-              Kultur Kerja & Kreasi
+        {/* Curated Vinyl Lounge & Spotify Player Integration */}
+        <div className="pt-4">
+          <div className="text-center mb-4">
+            <span className="text-xs uppercase tracking-widest text-[#C5A059] font-semibold">
+              Live Atmosphere &bull; Vinyl Audio
             </span>
-            <h3 className="text-2xl sm:text-3xl font-bold text-stone-100 font-serif">
-              WFC (*Work From Cafe*) Tanpa Rasa Canggung
-            </h3>
-            <p className="text-stone-300 text-xs sm:text-sm leading-relaxed">
-              Kami menyambut Anda yang ingin bekerja sepanjang hari. Tidak ada batasan waktu duduk yang kaku, stopkontak melimpah, dan barisan kudapan lezat pengganjal lapar saat *deadline* mengejar.
-            </p>
-            <div className="pt-2 flex items-center gap-4 text-xs text-amber-300 font-medium">
-              <span>✓ Non-Smoking AC Indoor</span>
-              <span>•</span>
-              <span>✓ Outdoor Smoking Garden</span>
-              <span>•</span>
-              <span>✓ Musholla & Restroom Bersih</span>
-            </div>
           </div>
+          <VinylPlayer />
         </div>
 
       </div>

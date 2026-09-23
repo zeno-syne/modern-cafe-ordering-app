@@ -1,42 +1,44 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Warkop Sentosa | Kultur Kopi Otentik, Racikan Masa Kini",
+  title: "Warkop Sentosa | Warkop Vibe. Senopati Standard.",
   description:
-    "Kedai kopi warkop modern dengan standar specialty grade. Menghadirkan single origin nusantara, signature aren bakar, suasana temaram hangat, dan ruang kerja nyaman.",
+    "Mendefinisikan ulang kultur warkop lokal dengan standar specialty coffee internasional. Ruang temaram estetik, vinyl lounge, slow bar, dan complimentary valet parking di Senopati.",
   keywords: [
-    "warkop",
-    "coffee shop",
-    "specialty coffee",
-    "kopi susu aren",
-    "manual brew",
-    "v60",
+    "warkop senopati",
+    "specialty coffee jakarta",
+    "kopi susu aren bakar",
+    "vinyl lounge jakarta",
+    "private room cafe senopati",
+    "tempat nongkrong senopati",
     "warkop modern",
-    "tempat kerja jakarta",
-    "cafe senopati",
   ],
   openGraph: {
-    title: "Warkop Sentosa | Artisan Coffee & Modern Warkop",
-    description: "Kultur Kopi Otentik, Diracik Presisi Masa Kini.",
+    title: "Warkop Sentosa | Warkop Vibe. Senopati Standard.",
+    description: "Ruang Temaram Estetik, Specialty Coffee & Vinyl Lounge di Senopati.",
     type: "website",
     locale: "id_ID",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0c0a09",
+  themeColor: "#0D0B0A",
 };
 
 export default function RootLayout({
@@ -47,9 +49,9 @@ export default function RootLayout({
   return (
     <html
       lang="id"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth dark`}
+      className={`${playfair.variable} ${jakarta.variable} h-full antialiased scroll-smooth dark`}
     >
-      <body className="min-h-full flex flex-col bg-stone-950 text-stone-100 selection:bg-amber-500 selection:text-stone-950">
+      <body className="min-h-full flex flex-col bg-[#0D0B0A] text-[#EDE6DD] selection:bg-[#C5A059] selection:text-[#0D0B0A] font-sans">
         {children}
       </body>
     </html>

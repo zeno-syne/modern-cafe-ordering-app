@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Coffee, MessageCircle, MapPin, Send, Check } from 'lucide-react';
+import { Coffee, MessageCircle, MapPin, Send, Check, Car, Sparkles } from 'lucide-react';
 import { CAFE_INFO } from '@/data/coffee-menu';
 
 function InstagramIcon({ className }: { className?: string }) {
@@ -38,144 +38,139 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-stone-950 border-t border-stone-800/80 pt-16 pb-12 relative overflow-hidden">
+    <footer className="bg-[#0A0807] border-t border-stone-800/80 pt-20 pb-12 relative overflow-hidden text-stone-400">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-stone-800/80">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-14 border-b border-stone-800/80">
           
           {/* Brand Col */}
           <div className="lg:col-span-4 space-y-4">
             <Link href="#beranda" className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-stone-950 shadow-lg shadow-amber-600/20">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#C5A059] to-[#8C6D2D] flex items-center justify-center text-[#0D0B0A] shadow-lg shadow-[#C5A059]/20">
                 <Coffee className="w-5 h-5 stroke-[2.5]" />
               </div>
-              <span className="text-xl font-bold tracking-tight text-stone-100 font-serif">
+              <span className="text-xl font-bold tracking-tight text-white font-serif">
                 {CAFE_INFO.name}
               </span>
             </Link>
 
-            <p className="text-xs sm:text-sm text-stone-400 leading-relaxed max-w-sm">
-              Menghadirkan kehangatan warkop nusantara dengan racikan kopi specialty berstandar tinggi. Tempat pulang, kerja, dan bercengkerama.
+            <p className="text-xs sm:text-sm text-stone-400 font-light leading-relaxed max-w-sm">
+              Mendefinisikan ulang warkop lokal dengan standar specialty coffee internasional. Ruang temaram estetik, vinyl lounge analog, dan layanan valet gratis di Senopati.
             </p>
 
-            <div className="flex items-center gap-3 pt-2">
-              <a
-                href={CAFE_INFO.whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-stone-900 border border-stone-800 text-stone-300 hover:text-amber-400 hover:border-amber-500/40 flex items-center justify-center transition-colors"
-                aria-label="WhatsApp"
-              >
-                <MessageCircle className="w-4 h-4" />
-              </a>
-
-              <a
-                href={`https://instagram.com/${CAFE_INFO.instagram.replace('@', '')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-stone-900 border border-stone-800 text-stone-300 hover:text-amber-400 hover:border-amber-500/40 flex items-center justify-center transition-colors"
-                aria-label="Instagram"
-              >
-                <InstagramIcon className="w-4 h-4" />
-              </a>
-
-              <a
-                href={CAFE_INFO.googleMapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-stone-900 border border-stone-800 text-stone-300 hover:text-amber-400 hover:border-amber-500/40 flex items-center justify-center transition-colors"
-                aria-label="Google Maps"
-              >
-                <MapPin className="w-4 h-4" />
-              </a>
+            <div className="flex items-center gap-2 pt-1 text-xs text-[#C5A059]">
+              <Car className="w-4 h-4" />
+              <span className="font-semibold">Complimentary Valet Parking Available</span>
             </div>
           </div>
 
-          {/* Nav Links */}
+          {/* Quick Links */}
           <div className="lg:col-span-2 space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-amber-500">
-              Navigasi
+            <h4 className="text-xs uppercase tracking-widest text-white font-bold font-mono">
+              Eksplorasi
             </h4>
-            <ul className="space-y-2 text-xs text-stone-400">
-              <li><a href="#beranda" className="hover:text-amber-400 transition-colors">Beranda</a></li>
-              <li><a href="#menu" className="hover:text-amber-400 transition-colors">Menu Kopi & Kudapan</a></li>
-              <li><a href="#filosofi" className="hover:text-amber-400 transition-colors">Filosofi Warkop</a></li>
-              <li><a href="#suasana" className="hover:text-amber-400 transition-colors">Suasana & Fasilitas</a></li>
-              <li><a href="#ulasan" className="hover:text-amber-400 transition-colors">Ulasan Pengunjung</a></li>
-              <li><a href="#lokasi" className="hover:text-amber-400 transition-colors">Lokasi & Jam Buka</a></li>
+            <ul className="space-y-2 text-xs">
+              <li>
+                <Link href="#menu" className="hover:text-[#C5A059] transition-colors">
+                  Reserve Menu
+                </Link>
+              </li>
+              <li>
+                <Link href="#menu" className="hover:text-[#C5A059] transition-colors">
+                  Specialty Coffee
+                </Link>
+              </li>
+              <li>
+                <Link href="#filosofi" className="hover:text-[#C5A059] transition-colors">
+                  Filosofi Kami
+                </Link>
+              </li>
+              <li>
+                <Link href="#suasana" className="hover:text-[#C5A059] transition-colors">
+                  Vinyl Lounge
+                </Link>
+              </li>
+              <li>
+                <Link href="#reservation" className="hover:text-[#C5A059] transition-colors">
+                  VIP Private Room
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* Jam Buka */}
+          {/* Contact & Hours */}
           <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-amber-500">
-              Waktu Buka
+            <h4 className="text-xs uppercase tracking-widest text-white font-bold font-mono">
+              Info &amp; Lokasi
             </h4>
-            <div className="text-xs text-stone-400 space-y-2">
-              <div>
-                <span className="text-stone-300 font-medium block">Senin - Jumat</span>
-                <span>{CAFE_INFO.operatingHours.weekdays}</span>
-              </div>
-              <div>
-                <span className="text-stone-300 font-medium block">Sabtu - Minggu</span>
-                <span>{CAFE_INFO.operatingHours.weekends}</span>
-              </div>
-              <p className="text-[11px] text-stone-500 pt-1">
-                Melayani dine-in, takeaway, dan beans delivery.
+            <div className="space-y-2 text-xs">
+              <p className="text-stone-300 font-light">
+                Jl. Senopati Raya No. 42, Kebayoran Baru, Jakarta Selatan
+              </p>
+              <p className="text-stone-400">
+                Weekdays: <span className="text-white font-mono">{CAFE_INFO.operatingHours.weekdays}</span>
+              </p>
+              <p className="text-stone-400">
+                Weekend: <span className="text-white font-mono">{CAFE_INFO.operatingHours.weekends}</span>
+              </p>
+              <p className="pt-1">
+                <a
+                  href={CAFE_INFO.whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-emerald-400 hover:text-emerald-300 font-semibold inline-flex items-center gap-1.5"
+                >
+                  <MessageCircle className="w-3.5 h-3.5" />
+                  <span>WhatsApp Concierge</span>
+                </a>
               </p>
             </div>
           </div>
 
-          {/* Newsletter / Bean Drops */}
+          {/* Newsletter / Exclusive Drops */}
           <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-amber-500">
-              Special Roast Drops
+            <h4 className="text-xs uppercase tracking-widest text-white font-bold font-mono">
+              Sentosa Reserve Drops
             </h4>
-            <p className="text-xs text-stone-400 leading-relaxed">
-              Dapatkan kabar saat kami merilis biji kopi sangrai edisi terbatas & promo khusus member.
+            <p className="text-xs text-stone-400 font-light leading-relaxed">
+              Dapatkan info rilisan biji lelang langka (Gesha / Geisha) dan jadwal kurasi vinyl live session.
             </p>
 
             <form onSubmit={handleSubscribe} className="space-y-2">
               <div className="relative">
                 <input
                   type="email"
+                  required
+                  placeholder="Masukkan email Anda..."
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Ketik email Anda..."
-                  required
-                  className="w-full px-3.5 py-2 rounded-xl bg-stone-900 border border-stone-800 text-stone-200 text-xs placeholder:text-stone-500 focus:outline-none focus:border-amber-500 transition-all pr-9"
+                  className="w-full px-4 py-2.5 rounded-full bg-[#181310] border border-stone-800 text-xs text-white placeholder-stone-600 focus:outline-none focus:border-[#C5A059] transition-colors"
                 />
                 <button
                   type="submit"
-                  className="absolute right-1 top-1 bottom-1 px-2.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-stone-950 flex items-center justify-center transition-colors cursor-pointer"
-                  aria-label="Daftar newsletter"
+                  className="absolute right-1 top-1 bottom-1 px-4 rounded-full button-gold text-[10px] font-bold uppercase tracking-wider cursor-pointer"
                 >
-                  <Send className="w-3.5 h-3.5" />
+                  {subscribed ? <Check className="w-3.5 h-3.5 text-[#0D0B0A]" /> : <span>Join</span>}
                 </button>
               </div>
-
               {subscribed && (
-                <div className="flex items-center gap-1.5 text-[11px] text-emerald-400 pt-1">
-                  <Check className="w-3.5 h-3.5" />
-                  <span>Terima kasih! Anda telah terdaftar dalam daftar rilisan kami.</span>
-                </div>
+                <p className="text-[11px] text-emerald-400 font-medium">
+                  Terima kasih! Anda telah terdaftar di klub Sentosa Reserve.
+                </p>
               )}
             </form>
           </div>
 
         </div>
 
-        {/* Bottom Credits */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 gap-4">
-          <p>© 2026 {CAFE_INFO.name}. All rights reserved. Bangga Kopi Asli Indonesia.</p>
-          <div className="flex items-center gap-4 text-[11px]">
-            <span>Privasi</span>
-            <span>•</span>
-            <span>Syarat & Ketentuan</span>
-            <span>•</span>
-            <span>Kemitraan</span>
-          </div>
+        {/* Bottom Copyright */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 gap-4 text-center sm:text-left font-light">
+          <p>
+            &copy; {new Date().getFullYear()} {CAFE_INFO.name}. Hak cipta dilindungi.
+          </p>
+          <p className="text-stone-400">
+            Warkop Vibe. Senopati Standard.
+          </p>
         </div>
-
       </div>
     </footer>
   );
