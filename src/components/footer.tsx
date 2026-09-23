@@ -1,6 +1,6 @@
 'use client';
 
-import { Coffee, MessageCircle, Wifi, Zap, Clock } from 'lucide-react';
+import { Coffee, MessageCircle, Wifi, Zap, Clock, Share2, Sparkles } from 'lucide-react';
 import { CAFE_INFO } from '@/data/coffee-menu';
 
 export default function Footer() {
@@ -11,6 +11,31 @@ export default function Footer() {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
+  };
+
+  const handleShareSquad = async () => {
+    const shareData = {
+      title: 'Warkop Sentosa - Tempat Nongkrong Asik di Senopati',
+      text: 'Yuk nongkrong di Warkop Sentosa! Kopi enak, WiFi kencang 150 Mbps, buka sampai pagi. Cek menu & lokasinya di sini:',
+      url: typeof window !== 'undefined' ? window.location.origin : 'https://warkop-modern-app.vercel.app',
+    };
+
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      try {
+        await navigator.share(shareData);
+        return;
+      } catch {
+        // Fallback to WhatsApp if share dismissed or unsupported
+      }
+    }
+
+    const shareUrl = typeof window !== 'undefined' ? window.location.origin : 'https://warkop-modern-app.vercel.app';
+    const waText = encodeURIComponent(
+      `*Yuk nongkrong di Warkop Sentosa!*\n\n` +
+      `Kopi enak, WiFi kencang 150 Mbps, colokan melimpah, dan buka sampai jam 1 pagi di Senopati.\n\n` +
+      `Cek menu & lokasinya di sini: ${shareUrl}`
+    );
+    window.open(`https://wa.me/?text=${waText}`, '_blank');
   };
 
   return (
@@ -50,6 +75,18 @@ export default function Footer() {
                 <Clock className="w-3.5 h-3.5" />
                 s/d 01.00 Pagi
               </span>
+            </div>
+
+            {/* Share to Squad Button */}
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={handleShareSquad}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#1C1612] hover:bg-[#251D18] border border-stone-700 hover:border-[#EA580C]/50 text-stone-200 hover:text-[#F59E0B] text-xs font-bold transition-all shadow-md active:scale-95 cursor-pointer"
+              >
+                <Share2 className="w-3.5 h-3.5 text-[#EA580C]" />
+                <span>Ajak Squad Nongkrong (Share ke WhatsApp)</span>
+              </button>
             </div>
           </div>
 

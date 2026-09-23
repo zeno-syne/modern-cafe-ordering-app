@@ -18,6 +18,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://warkop-modern-app.vercel.app"),
   title: "Warkop Sentosa | Kopi Enak, WiFi Kencang, Nongkrong Sampai Pagi",
   description:
     "Tempat nongkrong asik di Senopati. Pas buat nugas, mabar, atau sekadar ngobrol ngalor-ngidul sama teman. Harga merakyat, rasa tetap pejabat!",
@@ -28,17 +29,50 @@ export const metadata: Metadata = {
     "kopi susu murah jakarta",
     "tempat mabar jakarta selatan",
     "warkop murah senopati",
+    "warkop jakarta wifi kencang",
   ],
+  authors: [{ name: "Warkop Sentosa" }],
+  manifest: "/manifest.json",
+  icons: {
+    icon: "/icon.svg",
+    apple: "/icon.svg",
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Warkop Sentosa",
+  },
   openGraph: {
     title: "Warkop Sentosa | Tempat Nongkrong Asik di Senopati",
-    description: "Kopi Enak, WiFi Kencang, Nongkrong Sampai Pagi. Harga Merakyat, Rasa Tetap Pejabat.",
+    description:
+      "Kopi Enak, WiFi Kencang, Nongkrong Sampai Pagi. Harga Merakyat, Rasa Tetap Pejabat.",
+    url: "https://warkop-modern-app.vercel.app",
+    siteName: "Warkop Sentosa",
+    images: [
+      {
+        url: "/warkop-hero.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Warkop Sentosa Senopati",
+      },
+    ],
     type: "website",
     locale: "id_ID",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Warkop Sentosa | Tempat Nongkrong Asik di Senopati",
+    description:
+      "Kopi Enak, WiFi Kencang, Nongkrong Sampai Pagi. Harga Merakyat, Rasa Tetap Pejabat.",
+    images: ["/warkop-hero.jpg"],
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#1A1512",
+  themeColor: "#14110E",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 export default function RootLayout({
@@ -51,7 +85,7 @@ export default function RootLayout({
       lang="id"
       className={`${jakarta.variable} ${outfit.variable} h-full antialiased scroll-smooth`}
     >
-      <body className="min-h-full flex flex-col bg-[#1A1512] text-[#F9F5F0] selection:bg-[#E65100] selection:text-white font-sans">
+      <body className="min-h-full flex flex-col bg-[#14110E] text-[#F9F5F0] selection:bg-[#E65100] selection:text-white font-sans">
         <CartProvider>
           {children}
         </CartProvider>
