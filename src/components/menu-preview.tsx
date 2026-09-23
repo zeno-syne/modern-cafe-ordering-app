@@ -50,30 +50,30 @@ export default function MenuPreview() {
     }, 3500);
   };
 
-  // Helper for bold organic badge styles
+  // Helper for bold organic sticker badges
   const getBadgeStyle = (color?: string) => {
     switch (color) {
       case 'red':
-        return 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-lg shadow-red-950/50 ring-1 ring-red-400/40 -rotate-1';
+        return 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-lg shadow-red-950/60 ring-1 ring-red-400/40 -rotate-2';
       case 'yellow':
-        return 'bg-gradient-to-r from-amber-400 to-yellow-400 text-stone-950 shadow-lg shadow-amber-950/40 ring-1 ring-amber-300 rotate-1';
+        return 'bg-gradient-to-r from-amber-400 to-yellow-400 text-stone-950 shadow-lg shadow-amber-950/50 ring-1 ring-amber-300 rotate-1';
       case 'green':
-        return 'bg-gradient-to-r from-emerald-500 to-teal-500 text-stone-950 shadow-lg shadow-emerald-950/40 ring-1 ring-emerald-300';
+        return 'bg-gradient-to-r from-emerald-500 to-teal-500 text-stone-950 shadow-lg shadow-emerald-950/50 ring-1 ring-emerald-300';
       default:
         return 'bg-[#EA580C] text-white shadow-md';
     }
   };
 
   return (
-    <section id="menu" className="py-20 md:py-28 relative bg-[#14110E] border-t border-stone-800/80">
-      {/* Background warm glow */}
+    <section id="menu" className="py-24 md:py-32 relative bg-[#14110E] border-t border-stone-800/80">
+      {/* Background ambient lighting */}
       <div className="absolute top-1/4 -left-20 w-96 h-96 bg-amber-600/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-orange-600/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Title Header */}
-        <div className="text-center max-w-2xl mx-auto space-y-3 mb-10">
+        <div className="text-center max-w-2xl mx-auto space-y-3.5 mb-12">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#EA580C]/15 border border-[#EA580C]/35 text-[#F59E0B] text-xs font-bold tracking-wide">
             <Flame className="w-3.5 h-3.5 text-[#EA580C]" />
             <span>Menu Warkop Kekinian</span>
@@ -86,8 +86,8 @@ export default function MenuPreview() {
           </p>
         </div>
 
-        {/* Category Filters */}
-        <div className="flex items-center justify-center flex-wrap gap-2.5 mb-12">
+        {/* Category Filters: Floating Pill Buttons */}
+        <div className="flex items-center justify-center flex-wrap gap-2.5 mb-14">
           {MENU_CATEGORIES.map((cat) => (
             <button
               key={cat.id}
@@ -95,7 +95,7 @@ export default function MenuPreview() {
               className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer ${
                 activeCategory === cat.id
                   ? 'bg-gradient-to-r from-[#EA580C] to-[#C2410C] text-white shadow-lg shadow-[#EA580C]/30 scale-105'
-                  : 'bg-[#201914] hover:bg-[#2A211B] text-[#F5EDE4]/80 border border-stone-800 hover:border-[#EA580C]/40'
+                  : 'bg-[#1D1713] hover:bg-[#271F1A] text-[#F5EDE4]/80 border border-stone-800 hover:border-[#EA580C]/40'
               }`}
             >
               {cat.label}
@@ -103,95 +103,88 @@ export default function MenuPreview() {
           ))}
         </div>
 
-        {/* Organic Menu Grid: Broken Grid Layout */}
+        {/* Double-Bezel Broken Grid Cards Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredItems.map((item, index) => {
-            // Organic highlight for the first 2 items (Indomie Internet & Es Kopi Susu)
             const isFeatured = item.popular && index < 2;
 
             return (
               <div
                 key={item.id}
-                className={`group relative rounded-3xl p-6 sm:p-7 flex flex-col justify-between 
-                           transition-all duration-300 ease-out 
-                           hover:-translate-y-1.5 hover:shadow-2xl 
-                           overflow-hidden ${
-                             isFeatured
-                               ? 'bg-gradient-to-b from-[#2B1D15] via-[#221711] to-[#1A120E] border-2 border-[#EA580C]/60 shadow-xl shadow-[#EA580C]/15 ring-1 ring-[#EA580C]/30'
-                               : 'bg-[#1C1612]/95 border border-stone-800/90 hover:border-[#EA580C]/40 hover:bg-[#241D17]'
-                           }`}
+                className="bezel-shell group"
               >
-                {/* Background ambient shine for featured */}
-                {isFeatured && (
-                  <div className="absolute -top-16 -right-16 w-36 h-36 bg-[#EA580C]/20 rounded-full blur-2xl pointer-events-none" />
-                )}
+                <div className={`bezel-core ${isFeatured ? '!bg-[#221711] ring-1 ring-[#EA580C]/40' : ''}`}>
+                  <div>
+                    {/* Organic Sticker Badge & Price Header */}
+                    <div className="flex items-start justify-between gap-3 mb-3.5">
+                      <div>
+                        {item.badge ? (
+                          <span
+                            className={`inline-block px-3 py-1 rounded-full text-[11px] font-black tracking-wider uppercase transition-transform group-hover:scale-105 ${getBadgeStyle(
+                              item.badgeColor
+                            )}`}
+                          >
+                            {item.badge}
+                          </span>
+                        ) : (
+                          <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-semibold text-stone-400 bg-stone-900 border border-stone-800">
+                            {item.category === 'kopi' ? 'Kopi' : item.category === 'makanan' ? 'Makanan' : 'Minuman'}
+                          </span>
+                        )}
+                      </div>
 
-                <div className="relative z-10">
-                  {/* Organic Badge & Price */}
-                  <div className="flex items-start justify-between gap-3 mb-3">
-                    <div>
-                      {item.badge ? (
-                        <span
-                          className={`inline-block px-3 py-1 rounded-full text-[11px] font-black tracking-wider uppercase transition-transform group-hover:scale-105 ${getBadgeStyle(
-                            item.badgeColor
-                          )}`}
-                        >
-                          {item.badge}
+                      <div className="text-right flex-shrink-0">
+                        <span className="text-xl sm:text-2xl font-black text-[#F59E0B] font-display">
+                          {formatRupiah(item.price)}
                         </span>
-                      ) : (
-                        <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-semibold text-stone-400 bg-stone-900 border border-stone-800">
-                          {item.category === 'kopi' ? 'Kopi' : item.category === 'makanan' ? 'Makanan' : 'Minuman'}
-                        </span>
-                      )}
+                      </div>
                     </div>
 
-                    <div className="text-right flex-shrink-0">
-                      <span className="text-xl sm:text-2xl font-black text-[#F59E0B] font-display">
-                        {formatRupiah(item.price)}
-                      </span>
-                    </div>
+                    {/* Item Name */}
+                    <h3 className="text-lg sm:text-xl font-bold text-white font-display group-hover:text-[#F59E0B] transition-colors duration-200">
+                      {item.name}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="text-xs sm:text-sm text-stone-300 mt-2.5 leading-relaxed font-normal">
+                      {item.description}
+                    </p>
                   </div>
 
-                  {/* Item Name */}
-                  <h3 className="text-lg sm:text-xl font-bold text-white font-display group-hover:text-[#F59E0B] transition-colors duration-200">
-                    {item.name}
-                  </h3>
+                  {/* Card Action Footer with Nested Button */}
+                  <div className="mt-6 pt-4 border-t border-stone-800/90 flex items-center justify-between">
+                    <span className="text-xs text-stone-400 font-medium">
+                      {item.badge === 'BEST SELLER' ? '🔥 Paling Dicari' : item.badge === 'PAKET AKHIR BULAN' ? '💰 Penyelamat Dompet' : '☕ Porsi Mantap'}
+                    </span>
 
-                  {/* Description */}
-                  <p className="text-xs sm:text-sm text-stone-300 mt-2.5 leading-relaxed font-normal">
-                    {item.description}
-                  </p>
-                </div>
-
-                {/* Card Action Footer */}
-                <div className="relative z-10 mt-6 pt-4 border-t border-stone-800/90 flex items-center justify-between">
-                  <span className="text-xs text-stone-400 font-medium">
-                    {item.badge === 'BEST SELLER' ? '🔥 Paling Dicari' : item.badge === 'PAKET AKHIR BULAN' ? '💰 Penyelamat Dompet' : '☕ Porsi Mantap'}
-                  </span>
-
-                  <button
-                    onClick={() => handleOpenOrder(item)}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white text-xs font-bold tracking-wide cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-md shadow-[#EA580C]/20"
-                  >
-                    <span>Pesan</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
+                    <button
+                      onClick={() => handleOpenOrder(item)}
+                      className="group/btn inline-flex items-center gap-2 pl-3.5 pr-1.5 py-1.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white text-xs font-bold tracking-wide cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-md shadow-[#EA580C]/25"
+                    >
+                      <span>Pesan</span>
+                      <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center transition-transform group-hover/btn:translate-x-0.5">
+                        <ArrowRight className="w-3 h-3" />
+                      </div>
+                    </button>
+                  </div>
                 </div>
               </div>
             );
           })}
         </div>
 
-        {/* Bottom Banner: Direct WA Order prompt */}
-        <div className="mt-12 text-center">
+        {/* Direct WhatsApp Callout in Double-Bezel Banner */}
+        <div className="mt-14 max-w-2xl mx-auto text-center">
           <a
             href="https://wa.me/6281289902026?text=Halo%20Warkop%20Sentosa,%20mau%20tanya%20menu%20dan%20pesan"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1F1813] hover:bg-[#282019] text-[#F5EDE4] hover:text-[#F59E0B] border border-stone-700/80 hover:border-[#EA580C]/50 text-xs sm:text-sm font-semibold transition-all shadow-md"
+            className="group inline-flex items-center gap-3 pl-5 pr-2 py-2 rounded-full bg-[#1D1713] hover:bg-[#251D18] text-[#F5EDE4] hover:text-[#F59E0B] border border-stone-700/80 hover:border-[#EA580C]/50 text-xs sm:text-sm font-semibold transition-all shadow-lg"
           >
-            <MessageCircle className="w-4 h-4 text-emerald-400" />
-            <span>Mau pesan bawa pulang / tanya ketersediaan menu? Chat WhatsApp Kita</span>
+            <span>Mau pesan bawa pulang atau tanya menu hari ini?</span>
+            <div className="w-7 h-7 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center transition-transform group-hover:scale-110">
+              <MessageCircle className="w-4 h-4" />
+            </div>
           </a>
         </div>
       </div>

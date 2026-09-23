@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #1A1512;    /* Warm Wood Charcoal */
-  --foreground: #F9F5F0;    /* Clean Warm Cream */
-  --card-bg: rgba(38, 31, 26, 0.85);
-  --primary: #EA580C;       /* Warm Energetic Orange */
+  --background: #14110E;    /* Deep Warm Coffee */
+  --foreground: #F9F5F0;    /* Warm Cream */
+  --card-bg: rgba(32, 25, 20, 0.9);
+  --primary: #EA580C;       /* Energetic Orange */
   --primary-hover: #F97316;
-  --accent-yellow: #F59E0B; /* Bright Friendly Yellow */
+  --accent-yellow: #F59E0B; /* Warm Amber */
 }
 
 @theme inline {
@@ -25,68 +25,77 @@ body {
   color: var(--foreground);
   font-family: var(--font-jakarta), system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, h4, .font-display {
   font-family: var(--font-outfit), var(--font-jakarta), sans-serif;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
+}
+
+/* Double-Bezel Architectural Enclosures (from high-end-visual-design) */
+.bezel-shell {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.375rem;
+  border-radius: 1.75rem;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bezel-shell:hover {
+  border-color: rgba(234, 88, 12, 0.35);
+  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.7), 0 0 20px -5px rgba(234, 88, 12, 0.15);
+  transform: translateY(-2px);
+}
+
+.bezel-core {
+  background: #1C1612;
+  border-radius: calc(1.75rem - 0.375rem);
+  padding: 1.5rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Button-in-Button Trailing Icon Helper */
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.btn-pill:active {
+  transform: scale(0.97);
+}
+
+.icon-nest {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.group:hover .icon-nest {
+  transform: translate(2px, -1px);
 }
 
 /* Friendly Warm Ambient Glow */
 .ambient-glow-warm {
-  background: radial-gradient(circle, rgba(234, 88, 12, 0.18) 0%, rgba(26, 21, 18, 0) 70%);
+  background: radial-gradient(circle, rgba(234, 88, 12, 0.18) 0%, rgba(20, 17, 14, 0) 70%);
 }
 
 .ambient-glow-yellow {
-  background: radial-gradient(circle, rgba(245, 158, 11, 0.14) 0%, rgba(26, 21, 18, 0) 70%);
-}
-
-/* Warm, Accessible Cards */
-.warm-card {
-  background: rgba(38, 31, 26, 0.8);
-  border: 1px solid rgba(245, 158, 11, 0.15);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-.warm-card-hover {
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.warm-card-hover:hover {
-  background: rgba(48, 39, 33, 0.95);
-  border-color: rgba(249, 115, 22, 0.45);
-  box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.5), 0 0 16px -4px rgba(234, 88, 12, 0.2);
-  transform: translateY(-2px);
-}
-
-/* Friendly Curved Buttons */
-.btn-primary {
-  background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%);
-  color: #FFFFFF;
-  font-weight: 700;
-  box-shadow: 0 4px 16px rgba(234, 88, 12, 0.35);
-  transition: all 0.2s ease;
-}
-
-.btn-primary:hover {
-  background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
-  box-shadow: 0 6px 20px rgba(234, 88, 12, 0.5);
-  transform: translateY(-1px);
-}
-
-.btn-secondary {
-  background: rgba(48, 39, 33, 0.7);
-  border: 1px solid rgba(245, 158, 11, 0.3);
-  color: #F9F5F0;
-  font-weight: 600;
-  transition: all 0.2s ease;
-}
-
-.btn-secondary:hover {
-  background: rgba(60, 49, 41, 0.9);
-  border-color: #F97316;
-  color: #FFFFFF;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.14) 0%, rgba(20, 17, 14, 0) 70%);
 }
 
 /* Smooth Rounded Scrollbar */
@@ -94,12 +103,12 @@ h1, h2, h3, h4, .font-display {
   width: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #1A1512;
+  background: #14110E;
 }
 ::-webkit-scrollbar-thumb {
-  background: #362C25;
+  background: #2E251E;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #4E4036;
+  background: #4A3C31;
 }
