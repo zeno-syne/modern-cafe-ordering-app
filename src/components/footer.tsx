@@ -176,12 +176,14 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 gap-3 text-center sm:text-left font-normal">
+        <div className="pt-8 border-t border-stone-800/60 mt-4 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 gap-3 text-center sm:text-left font-normal">
           <p>
             &copy; {new Date().getFullYear()} {CAFE_INFO.name}. Tempat Nongkrong Asik di Senopati.
           </p>
-          <p className="text-stone-400 flex items-center justify-center sm:justify-end gap-1">
-            Dibuat untuk anak muda, mahasiswa &amp; teman se-tongkrongan.
+          <p className="text-stone-400 flex items-center justify-center sm:justify-end gap-1.5">
+            <span>Crafted with precision by</span>
+            <strong className="font-bold text-[#F59E0B]">Agung Ota</strong>
+            <span>&bull; Product Builder &amp; QA Specialist</span>
           </p>
         </div>
       </div>

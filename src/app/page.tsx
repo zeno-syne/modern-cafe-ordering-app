@@ -8,6 +8,7 @@ import Testimonials from '@/components/testimonials';
 import LocationHours from '@/components/location-hours';
 import Footer from '@/components/footer';
 import CartDrawer from '@/components/cart-drawer';
+import DemoTableSwitcher from '@/components/demo-table-switcher';
 import { useCart } from '@/context/cart-context';
 import { QrCode } from 'lucide-react';
 
@@ -32,6 +33,9 @@ export default function Home() {
           </span>
         </div>
       )}
+
+      {/* Client Demo Quick Table Switcher */}
+      <DemoTableSwitcher />
 
       {/* 1. Navbar with Brand & Cart Counter */}
       <Navbar />

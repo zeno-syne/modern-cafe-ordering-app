@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#241B15" />
+      <stop offset="100%" stop-color="#14110E" />
+    </linearGradient>
+    <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F97316" />
+      <stop offset="50%" stop-color="#EA580C" />
+      <stop offset="100%" stop-color="#C2410C" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE047" />
+      <stop offset="100%" stop-color="#F59E0B" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background rounded squircle -->
+  <rect width="512" height="512" rx="128" fill="url(#bgGrad)" stroke="#EA580C" stroke-width="8" stroke-opacity="0.3"/>
+
+  <!-- Coffee Cup Body -->
+  <path d="M128 192 H340 C340 310 270 360 234 360 C198 360 128 310 128 192 Z" fill="url(#brandGrad)" />
+
+  <!-- Cup Handle -->
+  <path d="M336 216 C390 216 390 300 336 300" fill="none" stroke="url(#brandGrad)" stroke-width="28" stroke-linecap="round" />
+
+  <!-- Saucer / Plate -->
+  <path d="M112 384 H356" stroke="url(#goldGrad)" stroke-width="24" stroke-linecap="round" />
+
+  <!-- Steam Line 1 -->
+  <path d="M192 144 C184 120 200 100 192 76" fill="none" stroke="url(#goldGrad)" stroke-width="18" stroke-linecap="round" opacity="0.85" />
+  
+  <!-- Steam Line 2 -->
+  <path d="M234 140 C226 112 242 92 234 68" fill="none" stroke="url(#goldGrad)" stroke-width="18" stroke-linecap="round" opacity="0.95" />
+
+  <!-- Steam Line 3 -->
+  <path d="M276 144 C268 120 284 100 276 76" fill="none" stroke="url(#goldGrad)" stroke-width="18" stroke-linecap="round" opacity="0.85" />
+</svg>
