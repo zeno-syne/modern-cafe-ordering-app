@@ -43,6 +43,17 @@
 - [ ] **Tombol Salin Nominal QRIS:** Di dalam modal QRIS, klik tombol "Salin Nominal". Pastikan angka total tagihan murni tersalin ke clipboard sehingga customer mudah paste di aplikasi m-Banking.
 - [ ] **Status Pembayaran di WhatsApp:** Pastikan WhatsApp checkout mencantumkan `💳 Pembayaran: *Scan QRIS Kasir (Non-Tunai)*` bila opsi QRIS dipilih, atau `💵 Pembayaran: *Bayar Tunai di Kasir*` bila opsi Tunai dipilih. ★
 
+### 1.5 Struk Kasir Digital (Thermal Receipt Preview & Print) Flow
+- [ ] **Pembukaan Modal Struk:** Tambahkan minimal 1 item ke keranjang, lalu klik tombol "Struk" di samping tombol WhatsApp. Pastikan modal struk thermal muncul di tengah layar dengan estetika kertas kasir dot-matrix.
+- [ ] **Akurasi Data Struk:**
+  - Pastikan No. Nota ter-generate otomatis (format `WS-Mxx-xxxx`).
+  - Pastikan waktu transaksi menampilkan format tanggal dan jam WIB saat ini.
+  - Pastikan rincian harga per item, kuantitas, catatan menu, subtotal, dan total tagihan 100% cocok dengan isi keranjang.
+  - Jika split bill aktif, pastikan rincian patungan per orang tampil di badan struk.
+- [ ] **Fungsi Salin Teks Struk:** Klik tombol "Salin" di header struk. Pastikan teks nota kasir ter-copy ke clipboard dan tombol berubah menjadi "Tersalin".
+- [ ] **Fungsi Cetak Native (Print):** Klik tombol "Print". Pastikan dialog print browser (`window.print()`) terbuka. Pada mode cetak, pastikan hanya kertas struk yang ter-print tanpa elemen latar belakang yang berantakan. ★
+- [ ] **Aksesibilitas Tombol Escape:** Tekan tombol `Escape` saat modal struk terbuka. Pastikan modal struk tertutup kembali ke drawer keranjang dengan mulus.
+
 ---
 
 ## 🔢 Priority 2 — Edge Cases & Boundary Conditions (High Bug Bounty Potential ★)

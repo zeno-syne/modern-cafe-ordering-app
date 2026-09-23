@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useCart } from '@/context/cart-context';
+import ThermalReceiptModal from '@/components/thermal-receipt-modal';
 import {
   ShoppingBag,
   X,
@@ -57,11 +58,16 @@ export default function CartDrawer() {
   const [showQrisModal, setShowQrisModal] = useState(false);
   const [amountCopiedToast, setAmountCopiedToast] = useState(false);
 
-  // Close drawer or QRIS modal on Escape key press (WCAG Keyboard Accessibility)
+  // Thermal Receipt Modal State
+  const [showReceiptModal, setShowReceiptModal] = useState(false);
+
+  // Close drawer or modals on Escape key press (WCAG Keyboard Accessibility)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        if (showQrisModal) {
+        if (showReceiptModal) {
+          setShowReceiptModal(false);
+        } else if (showQrisModal) {
           setShowQrisModal(false);
         } else if (isCartOpen) {
           setIsCartOpen(false);
@@ -70,7 +76,7 @@ export default function CartDrawer() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isCartOpen, showQrisModal, setIsCartOpen]);
+  }, [isCartOpen, showQrisModal, showReceiptModal, setIsCartOpen]);
 
   const formatRupiah = (amount: number) => {
     return new Intl.NumberFormat('id-ID', {
@@ -747,13 +753,26 @@ export default function CartDrawer() {
                   </div>
                 </div>
 
-                <button
-                  onClick={handleCheckoutWhatsApp}
-                  className="w-full min-h-[48px] py-3.5 sm:py-4 rounded-full bg-gradient-to-r from-emerald-600 via-[#EA580C] to-[#C2410C] hover:opacity-95 text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2.5 shadow-xl shadow-[#EA580C]/25 cursor-pointer active:scale-95 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
-                >
-                  <Send className="w-4 h-4 fill-white/20" />
-                  <span>Kirim Pesanan ke WhatsApp Kasir</span>
-                </button>
+                <div className="flex items-center gap-2 pt-1">
+                  <button
+                    type="button"
+                    onClick={() => setShowReceiptModal(true)}
+                    className="min-h-[48px] px-3.5 sm:px-4 rounded-full bg-stone-900 hover:bg-stone-800 border border-stone-750 hover:border-amber-500/50 text-stone-200 hover:text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C] flex-shrink-0"
+                    aria-label="Lihat pratinjau struk kasir digital"
+                    title="Pratinjau Struk Kasir"
+                  >
+                    <Receipt className="w-4 h-4 text-[#EA580C]" />
+                    <span className="hidden xs:inline sm:inline">Struk</span>
+                  </button>
+
+                  <button
+                    onClick={handleCheckoutWhatsApp}
+                    className="flex-1 min-h-[48px] py-3.5 sm:py-4 px-4 rounded-full bg-gradient-to-r from-emerald-600 via-[#EA580C] to-[#C2410C] hover:opacity-95 text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-xl shadow-[#EA580C]/25 cursor-pointer active:scale-95 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
+                  >
+                    <Send className="w-4 h-4 fill-white/20 flex-shrink-0" />
+                    <span className="truncate">Kirim Pesanan ke WA</span>
+                  </button>
+                </div>
 
                 <p className="text-[10px] text-center text-stone-400">
                   ⚡ Pesanan otomatis terformat rapi dan langsung diteruskan ke kasir warkop.
@@ -933,6 +952,22 @@ export default function CartDrawer() {
           </div>
         </div>
       )}
+
+      {/* 6. MODAL INTERAKTIF STRUK KASIR DIGITAL */}
+      <ThermalReceiptModal
+        isOpen={showReceiptModal}
+        onClose={() => setShowReceiptModal(false)}
+        items={items}
+        totalPrice={totalPrice}
+        totalItems={totalItems}
+        orderType={orderType}
+        tableNumber={tableNumber}
+        customerName={customerName}
+        paymentMethod={paymentMethod}
+        splitBillEnabled={splitBillEnabled}
+        splitPeopleCount={splitPeopleCount}
+        perPersonShare={perPersonShare}
+      />
 
       {/* Checkout Success Feedback Toast */}
       {checkoutSuccessToast && (

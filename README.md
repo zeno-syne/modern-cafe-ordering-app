@@ -53,8 +53,20 @@ Di industri F&B kasual Indonesia (khususnya warkop modern dan kedai kopi tongkro
 ### 5. Sub-Second Instant Search & Category Filtering
 * Filter pencarian instan sisi klien (*zero-latency search*) yang mencocokkan kata kunci pada nama menu, komposisi, rasa, dan badge promo.
 
-### 6. Accessibility & Mobile Ergonomics (WCAG 2.2 AA)
-* **Keyboard Flow:** Drawer dan modal dialog pemesanan dapat ditutup seketika dengan tombol `Escape`.
+### 6. Kalkulator Patungan (Split Bill Warkop)
+* **Real-Time Fair Share:** Pengunjung dapat membagi tagihan secara merata untuk 2 hingga 20 orang teman nongkrong dengan pembulatan matematis aman (`Math.ceil`).
+* **WhatsApp Group Broadcast:** Tombol satu kali klik untuk menyalin pesan breakdown patungan yang ramah siap sebar ke grup obrolan.
+
+### 7. Dual Payment Gateway & Interactive QRIS Modal
+* Pilihan pembayaran fleksibel: **💵 Tunai di Kasir** vs **📲 QRIS (Scan Kasir)**.
+* Pop-up modal QRIS berstandar nasional (ASPI/BI style) dengan vector barcode tajam, nama merchant **WARKOP SENTOSA**, NMID, serta tombol salin nominal cepat.
+
+### 8. Struk Kasir Digital (Thermal Paper POS Receipt)
+* Pratinjau struk kasir bergaya kertas thermal dot-matrix dengan tepi gerigi (*serrated tear edge*), barcode nota unik, rincian menu, metode bayar, dan info WiFi.
+* Dilengkapi fungsi cetak native (`window.print()`) berformat print CSS bersih serta tombol salin teks nota ke clipboard.
+
+### 9. Accessibility & Mobile Ergonomics (WCAG 2.2 AA)
+* **Keyboard Flow:** Drawer, modal QRIS, dan modal struk dapat ditutup seketika dengan tombol `Escape`.
 * **Touch Target Standard:** Mematuhi pedoman Apple HIG & Android WCAG 2.5.5 dengan target sentuh tombol minimal 44x44px untuk kenyamanan navigasi satu tangan di smartphone.
 * **Semantic ARIA:** Dilengkapi atribut `role="dialog"`, `aria-modal="true"`, dan label screen reader lengkap.
 
