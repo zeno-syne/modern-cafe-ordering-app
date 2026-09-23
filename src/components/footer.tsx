@@ -182,7 +182,7 @@ export default function Footer() {
           </p>
           <p className="text-stone-400 flex items-center justify-center sm:justify-end gap-1.5">
             <span>Crafted with precision by</span>
-            <strong className="font-bold text-[#F59E0B]">Agung Ota</strong>
+            <strong className="font-bold text-[#F59E0B]">Zeno</strong>
             <span>&bull; Product Builder &amp; QA Specialist</span>
           </p>
         </div>

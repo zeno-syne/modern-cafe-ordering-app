@@ -7,7 +7,7 @@
 [![WCAG 2.2 AA](https://img.shields.io/badge/Accessibility-WCAG_2.2_AA-emerald?style=for-the-badge)](https://www.w3.org/WAI/standards-guidelines/wcag/)
 
 > **Live Production URL:** [https://warkop-modern-app.vercel.app](https://warkop-modern-app.vercel.app)  
-> **Product Builder & QA:** Agung Ota  
+> **Product Builder & QA:** Zeno  
 
 ---
 
@@ -113,7 +113,7 @@ Sebagai bukti komitmen terhadap reliabilitas software tingkat produksi, proyek i
 ## 👤 Product Builder & Contact
 
 Dikembangkan dengan dedikasi tinggi oleh:
-* **Nama:** Agung Ota
+* **Nama:** Zeno
 * **Spesialisasi:** Product Builder, Frontend Engineer & QA Specialist (Freelance Tester di test.io)
 * **GitHub:** [@zeno-syne](https://github.com/zeno-syne)
 * **Demo Aplikasi:** [warkop-modern-app.vercel.app](https://warkop-modern-app.vercel.app)
