@@ -1,72 +1,69 @@
 'use client';
 
 import { useState } from 'react';
-import { Disc3, Music2, ExternalLink, Play, Pause, Volume2, Sparkles } from 'lucide-react';
+import { Disc3, Music2, ExternalLink, Play, Pause, Headphones, Sparkles } from 'lucide-react';
 
 export default function VinylPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
 
   return (
-    <div className="w-full max-w-4xl mx-auto my-12 p-6 sm:p-8 rounded-3xl glass-panel border border-[#C5A059]/30 relative overflow-hidden shadow-2xl">
-      {/* Background ambient lighting */}
-      <div className="absolute top-0 right-0 w-80 h-80 bg-[#C5A059]/10 rounded-full blur-3xl pointer-events-none" />
+    <div className="w-full max-w-4xl mx-auto p-6 sm:p-7 rounded-3xl bg-[#1C1612] border border-[#E07A2A]/25 relative overflow-hidden shadow-xl">
+      {/* Warm ambient glow */}
+      <div className="absolute top-0 right-0 w-72 h-72 ambient-glow-warm rounded-full blur-3xl pointer-events-none" />
 
       <div className="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
         
-        {/* Left: Spinning Vinyl Graphic */}
-        <div className="flex items-center gap-5">
-          <div className="relative w-20 h-20 sm:w-24 sm:h-24 flex-shrink-0">
-            {/* Spinning Vinyl Record */}
+        {/* Left: Vinyl Record Illustration */}
+        <div className="flex items-center gap-4 text-center sm:text-left">
+          <div className="relative w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 mx-auto">
             <div
-              className={`w-full h-full rounded-full bg-stone-950 border-4 border-stone-800 flex items-center justify-center shadow-xl shadow-black/80 ${
+              className={`w-full h-full rounded-full bg-stone-950 border-4 border-stone-800 flex items-center justify-center shadow-lg shadow-black/60 ${
                 isPlaying ? 'animate-spin' : ''
               }`}
               style={{ animationDuration: '6s', animationTimingFunction: 'linear' }}
             >
-              {/* Record Grooves */}
-              <div className="w-16 h-16 rounded-full border border-stone-800/80 flex items-center justify-center">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#C5A059] to-[#8C6D2D] flex items-center justify-center border border-amber-300/40">
-                  <div className="w-2.5 h-2.5 rounded-full bg-stone-950" />
+              <div className="w-12 h-12 rounded-full border border-stone-800 flex items-center justify-center">
+                <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-[#E07A2A] to-[#B8530C] flex items-center justify-center">
+                  <div className="w-2 h-2 rounded-full bg-stone-950" />
                 </div>
               </div>
             </div>
             
-            {/* Small Needle/Turntable Arm */}
-            <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-stone-900 border border-[#C5A059]/40 flex items-center justify-center shadow">
-              <Disc3 className="w-3.5 h-3.5 text-[#C5A059]" />
+            <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-stone-900 border border-[#E07A2A]/50 flex items-center justify-center">
+              <Headphones className="w-3.5 h-3.5 text-[#E07A2A]" />
             </div>
           </div>
 
           <div>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#C5A059]/15 border border-[#C5A059]/30 text-[#C5A059] text-[10px] font-semibold uppercase tracking-wider mb-1.5">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#E07A2A]/15 border border-[#E07A2A]/30 text-[#E07A2A] text-[10px] font-bold uppercase tracking-wider mb-1">
               <Sparkles className="w-3 h-3" />
-              <span>Vinyl Lounge Live Ambience</span>
+              <span>Curated Audio Vibe</span>
             </div>
-            <h4 className="font-serif text-lg sm:text-xl text-white font-bold tracking-wide">
-              Sentosa Vinyl Session Vol. 04
+            <h4 className="font-display text-lg sm:text-xl text-white font-bold tracking-wide">
+              Playlist Teman Nugas &amp; Mabar
             </h4>
-            <p className="text-xs text-stone-400 font-light mt-0.5">
-              Kurasi Piringan Hitam: Japanese City Pop, Bossa Nova &amp; Midnight Jazz
+            <p className="text-xs text-stone-300 font-light mt-0.5">
+              Alunan Lo-Fi Chill Beats, Indo Indie &amp; Japanese City Pop anti-distraksi
             </p>
           </div>
         </div>
 
-        {/* Right: Actions & Spotify Link */}
-        <div className="flex items-center gap-3 w-full md:w-auto justify-end">
+        {/* Right: Actions */}
+        <div className="flex items-center gap-3 w-full md:w-auto justify-center md:justify-end">
           <button
             type="button"
             onClick={() => setIsPlaying(!isPlaying)}
-            className="flex-1 md:flex-initial inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-[#C5A059]/15 hover:bg-[#C5A059]/25 text-[#EDE6DD] border border-[#C5A059]/40 text-xs font-semibold tracking-wider uppercase transition-all cursor-pointer"
+            className="flex-1 md:flex-initial inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-[#E07A2A]/15 hover:bg-[#E07A2A]/25 text-[#F5EDE4] border border-[#E07A2A]/40 text-xs font-bold tracking-wider uppercase transition-all cursor-pointer"
           >
             {isPlaying ? (
               <>
-                <Pause className="w-3.5 h-3.5 text-[#C5A059]" />
-                <span>Pause Vinyl</span>
+                <Pause className="w-3.5 h-3.5 text-[#E07A2A]" />
+                <span>Pause Musik</span>
               </>
             ) : (
               <>
-                <Play className="w-3.5 h-3.5 text-[#C5A059] fill-[#C5A059]" />
-                <span>Putar Musik</span>
+                <Play className="w-3.5 h-3.5 text-[#E07A2A] fill-[#E07A2A]" />
+                <span>Dengarkan Vibe</span>
               </>
             )}
           </button>
@@ -75,18 +72,18 @@ export default function VinylPlayer() {
             href="https://open.spotify.com/playlist/37i9dQZF1DXc8kgYqQLMfH"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 md:flex-initial inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-semibold tracking-wider uppercase transition-all"
+            className="flex-1 md:flex-initial inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-bold tracking-wider uppercase transition-all"
           >
             <Music2 className="w-3.5 h-3.5" />
             <span>Open Spotify</span>
-            <ExternalLink className="w-3 h-3 text-emerald-400/80" />
+            <ExternalLink className="w-3 h-3 text-emerald-400" />
           </a>
         </div>
       </div>
 
-      {/* Embedded Spotify Player Preview (when playing or expandable) */}
+      {/* Embedded Player */}
       {isPlaying && (
-        <div className="mt-6 pt-6 border-t border-stone-800/80 animate-in fade-in duration-300">
+        <div className="mt-5 pt-5 border-t border-stone-800/80 animate-in fade-in duration-300">
           <iframe
             style={{ borderRadius: '16px' }}
             src="https://open.spotify.com/embed/playlist/37i9dQZF1DXc8kgYqQLMfH?utm_source=generator&theme=0"
@@ -95,7 +92,7 @@ export default function VinylPlayer() {
             frameBorder="0"
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
             loading="lazy"
-            title="Warkop Sentosa Curated Spotify Playlist"
+            title="Warkop Sentosa Teman Nugas Spotify Playlist"
           />
         </div>
       )}

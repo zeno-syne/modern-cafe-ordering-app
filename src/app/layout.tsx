@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
+import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
   display: "swap",
@@ -12,33 +12,33 @@ const playfair = Playfair_Display({
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700", "800"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Warkop Sentosa | Warkop Vibe. Senopati Standard.",
+  title: "Warkop Sentosa | Kopi Enak, WiFi Kencang, Nongkrong Sampai Pagi",
   description:
-    "Mendefinisikan ulang kultur warkop lokal dengan standar specialty coffee internasional. Ruang temaram estetik, vinyl lounge, slow bar, dan complimentary valet parking di Senopati.",
+    "Warkop modern paling asyik buat nugas, mabar, dan nongkrong santai. Harga ramah mahasiswa mulai Rp10 ribuan, colokan di tiap meja, WiFi 150 Mbps, board games gratis, dan buka sampai subuh!",
   keywords: [
-    "warkop senopati",
-    "specialty coffee jakarta",
-    "kopi susu aren bakar",
-    "vinyl lounge jakarta",
-    "private room cafe senopati",
-    "tempat nongkrong senopati",
+    "warkop jakarta",
+    "tempat nugas jakarta selatan",
+    "cafe murah wifi kencang",
     "warkop modern",
+    "tempat mabar jakarta",
+    "kopi susu murah",
+    "warkop 24 jam",
   ],
   openGraph: {
-    title: "Warkop Sentosa | Warkop Vibe. Senopati Standard.",
-    description: "Ruang Temaram Estetik, Specialty Coffee & Vinyl Lounge di Senopati.",
+    title: "Warkop Sentosa | Tempat Pelarian Paling Nyaman Buat Nugas & Mabar",
+    description: "Kopi Enak, WiFi Kencang, Colokan Melimpah, Buka Sampai Subuh!",
     type: "website",
     locale: "id_ID",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0D0B0A",
+  themeColor: "#181411",
 };
 
 export default function RootLayout({
@@ -49,9 +49,9 @@ export default function RootLayout({
   return (
     <html
       lang="id"
-      className={`${playfair.variable} ${jakarta.variable} h-full antialiased scroll-smooth dark`}
+      className={`${outfit.variable} ${jakarta.variable} h-full antialiased scroll-smooth`}
     >
-      <body className="min-h-full flex flex-col bg-[#0D0B0A] text-[#EDE6DD] selection:bg-[#C5A059] selection:text-[#0D0B0A] font-sans">
+      <body className="min-h-full flex flex-col bg-[#14110E] text-[#F5EDE4] selection:bg-[#E07A2A] selection:text-white font-sans">
         {children}
       </body>
     </html>
