@@ -47,12 +47,11 @@
 
 ---
 
-## 📲 Priority 4 — PWA & Web Share API
+## 📲 Priority 4 — Social Share & Link Preview
 
-- [ ] **Install Prompt di Chrome Android:** Buka website di Google Chrome Android asli. Pastikan banner "Pasang Aplikasi Warkop" muncul dengan tombol "Install Sekarang (Gratis)".
-- [ ] **Instruksi PWA di iOS Safari:** Buka di Safari iPhone. Pastikan panduan "Cara Pasang di iPhone" dapat dibuka dan memberikan instruksi langkah yang benar.
+- [ ] **OpenGraph Link Preview di WhatsApp:** Salin link website dan tempel di chat WhatsApp. Pastikan thumbnail gambar warkop, judul menarik, dan deskripsi muncul dengan sempurna.
 - [ ] **Native Web Share:** Klik tombol "Ajak Squad Nongkrong" di footer. Pastikan dialog native share perangkat terbuka (atau langsung mengarahkan ke WhatsApp dengan teks ajakan terisi).
-- [ ] **Manifest & Icon Integrity:** Cek file `/manifest.json` dan `/icon.svg`. Pastikan ikon tampil tajam di homescreen smartphone.
+- [ ] **Favicon Icon:** Pastikan tab browser menampilkan ikon logo cangkir kopi warkop dengan jelas.
 
 ---
 

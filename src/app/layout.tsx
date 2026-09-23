@@ -32,15 +32,9 @@ export const metadata: Metadata = {
     "warkop jakarta wifi kencang",
   ],
   authors: [{ name: "Warkop Sentosa" }],
-  manifest: "/manifest.json",
   icons: {
     icon: "/icon.svg",
     apple: "/icon.svg",
-  },
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "black-translucent",
-    title: "Warkop Sentosa",
   },
   openGraph: {
     title: "Warkop Sentosa | Tempat Nongkrong Asik di Senopati",

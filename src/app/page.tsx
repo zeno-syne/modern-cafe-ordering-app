@@ -8,7 +8,6 @@ import Testimonials from '@/components/testimonials';
 import LocationHours from '@/components/location-hours';
 import Footer from '@/components/footer';
 import CartDrawer from '@/components/cart-drawer';
-import PWAInstallBanner from '@/components/pwa-install-banner';
 import { useCart } from '@/context/cart-context';
 import { QrCode } from 'lucide-react';
 
@@ -60,9 +59,6 @@ export default function Home() {
 
       {/* 8. Interactive Cart Drawer & Floating Bar */}
       <CartDrawer />
-
-      {/* 9. PWA Install Prompt Banner */}
-      <PWAInstallBanner />
     </main>
   );
 }
