@@ -1,13 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { Coffee, Menu, X, MapPin, UtensilsCrossed } from 'lucide-react';
+import { Coffee, Menu, X, MapPin, UtensilsCrossed, ShoppingBag } from 'lucide-react';
 import { CAFE_INFO } from '@/data/coffee-menu';
+import { useCart } from '@/context/cart-context';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { totalItems, setIsCartOpen } = useCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -79,8 +80,22 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* Desktop Right CTAs: Button-in-Button Trailing Icon */}
+          {/* Desktop Right CTAs */}
           <div className="hidden sm:flex items-center gap-2">
+            {/* Cart Button */}
+            <button
+              onClick={() => setIsCartOpen(true)}
+              className="relative inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-bold text-[#F5EDE4]/90 hover:text-white bg-[#221B16] hover:bg-[#2C231D] border border-stone-800 hover:border-[#EA580C]/50 active:scale-95 transition-all cursor-pointer"
+            >
+              <ShoppingBag className="w-3.5 h-3.5 text-[#EA580C]" />
+              <span>Pesanan</span>
+              {totalItems > 0 && (
+                <span className="w-4 h-4 rounded-full bg-[#EA580C] text-white font-mono text-[10px] font-black flex items-center justify-center">
+                  {totalItems}
+                </span>
+              )}
+            </button>
+
             <a
               href="#menu"
               onClick={(e) => handleSmoothScroll(e, '#menu')}
@@ -102,14 +117,29 @@ export default function Navbar() {
             </a>
           </div>
 
-          {/* Mobile Menu Button with Active Scale */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 rounded-xl bg-[#201A16] text-[#F5EDE4] border border-stone-800 hover:border-[#EA580C]/50 active:scale-90 transition-all cursor-pointer"
-            aria-label="Toggle navigation"
-          >
-            {mobileMenuOpen ? <X className="w-5 h-5 text-[#EA580C]" /> : <Menu className="w-5 h-5" />}
-          </button>
+          {/* Mobile Right Controls: Cart Icon & Hamburger Button */}
+          <div className="flex items-center gap-2 sm:hidden">
+            <button
+              onClick={() => setIsCartOpen(true)}
+              className="relative p-2 rounded-xl bg-[#201A16] text-[#F5EDE4] border border-stone-800 hover:border-[#EA580C]/50 active:scale-90 transition-all cursor-pointer"
+              aria-label="Buka Keranjang Pesanan"
+            >
+              <ShoppingBag className="w-4 h-4 text-[#EA580C]" />
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#EA580C] text-white font-mono text-[9px] font-bold flex items-center justify-center">
+                  {totalItems}
+                </span>
+              )}
+            </button>
+
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 rounded-xl bg-[#201A16] text-[#F5EDE4] border border-stone-800 hover:border-[#EA580C]/50 active:scale-90 transition-all cursor-pointer"
+              aria-label="Toggle navigation"
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5 text-[#EA580C]" /> : <Menu className="w-5 h-5 text-[#F5EDE4]" />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Dropdown Panel */}

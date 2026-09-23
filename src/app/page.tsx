@@ -7,8 +7,13 @@ import MenuPreview from '@/components/menu-preview';
 import Testimonials from '@/components/testimonials';
 import LocationHours from '@/components/location-hours';
 import Footer from '@/components/footer';
+import CartDrawer from '@/components/cart-drawer';
+import { useCart } from '@/context/cart-context';
+import { QrCode } from 'lucide-react';
 
 export default function Home() {
+  const { qrDetectedTable } = useCart();
+
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
@@ -17,53 +22,43 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-[#14110E] text-stone-100 selection:bg-amber-500 selection:text-stone-950 font-sans">
-      {/* 1. Navbar: Clean warkop branding, nav links, CTA Lihat Menu & Lokasi */}
+    <main className="min-h-screen bg-[#14110E] text-stone-100 selection:bg-amber-500 selection:text-stone-950 font-sans relative">
+      {/* Table QR Mode Notification Banner */}
+      {qrDetectedTable && (
+        <div className="fixed top-20 sm:top-24 left-1/2 -translate-x-1/2 z-40 max-w-sm w-[92%] sm:w-auto px-4 py-2 rounded-full bg-emerald-950/90 border border-emerald-500/40 text-emerald-200 text-xs font-medium shadow-xl flex items-center justify-center gap-2 backdrop-blur-md animate-in fade-in slide-in-from-top-2">
+          <QrCode className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
+          <span>
+            Mode Nongkrong Aktif: <strong>Meja {qrDetectedTable}</strong>
+          </span>
+        </div>
+      )}
+
+      {/* 1. Navbar with Brand & Cart Counter */}
       <Navbar />
 
-      {/* 2. Hero Section:
-          - Bright warm tone warkop photo background
-          - Kicker: Tempat Nongkrong Asik di Senopati
-          - Headline: Kopi Enak, WiFi Kencang, Nongkrong Sampai Pagi.
-          - Sub-headline: Tempat pelarian paling pas buat nugas, mabar, atau sekadar ngobrol ngalor-ngidul sama teman. Harga merakyat, rasa tetap pejabat.
-          - CTAs: "Lihat Menu" & "Lokasi Kita"
-      */}
+      {/* 2. Hero Section */}
       <Hero
         onScrollToMenu={() => scrollTo('menu')}
         onScrollToLocation={() => scrollTo('lokasi')}
       />
 
-      {/* 3. Kenapa Nongkrong di Sini? / Fasilitas Warkop Sentosa:
-          - WiFi Dewa & Colokan Dimana-mana
-          - Area Lesehan & Smoking Luas
-          - Buka Sampai Tengah Malam (s/d 01.00 WIB)
-          - Candid youth hangout photo
-      */}
+      {/* 3. Fasilitas Warkop Sentosa */}
       <Story />
 
-      {/* 4. Menu Warkop Kekinian:
-          - Es Kopi Susu Sentosa (Rp 20.000)
-          - Indomie Telur Kornet / Internet (Rp 18.000)
-          - Roti Bakar Coklat Keju (Rp 15.000)
-          - Mendoan Anget (Rp 12.000)
-          - Organic vibrant labels: BEST SELLER, GORENGAN DADAKAN, PAKET AKHIR BULAN
-      */}
+      {/* 4. Menu Warkop Kekinian with Multi-Item Cart */}
       <MenuPreview />
 
-      {/* 5. Ulasan Google Maps Asli:
-          - Budi, Mahasiswa ("Pewe banget buat nugas akhir pekan...")
-          - Dimas, Karyawan ("Sering mabar Mobile Legends di sini...")
-          - Siti, Mahasiswi & Rian, Freelancer
-      */}
+      {/* 5. Ulasan Google Maps Asli */}
       <Testimonials />
 
-      {/* 6. Lokasi & Jam Buka:
-          - Senopati location, parkiran motor luas, Google Maps & WhatsApp
-      */}
+      {/* 6. Lokasi & Jam Buka */}
       <LocationHours />
 
       {/* 7. Footer */}
       <Footer />
+
+      {/* 8. Interactive Cart Drawer & Floating Bar */}
+      <CartDrawer />
     </main>
   );
 }

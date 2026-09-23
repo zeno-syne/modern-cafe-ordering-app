@@ -2,17 +2,32 @@
 
 import { useState } from 'react';
 import { MENU_CATEGORIES, MENU_ITEMS, MenuItem } from '@/data/coffee-menu';
-import { Flame, X, Plus, Minus, Send, Sparkles, ArrowRight, MessageCircle } from 'lucide-react';
+import { useCart } from '@/context/cart-context';
+import {
+  Flame,
+  X,
+  Plus,
+  Minus,
+  ShoppingBag,
+  Sparkles,
+  ArrowRight,
+  MessageCircle,
+  Check,
+} from 'lucide-react';
 
 export default function MenuPreview() {
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [selectedOrderItem, setSelectedOrderItem] = useState<MenuItem | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
-  const [orderConfirmedToast, setOrderConfirmedToast] = useState<string | null>(null);
+  const [orderNote, setOrderNote] = useState<string>('');
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  const filteredItems = activeCategory === 'all'
-    ? MENU_ITEMS
-    : MENU_ITEMS.filter((item) => item.category === activeCategory);
+  const { addItem, getItemQuantity, setIsCartOpen, totalItems } = useCart();
+
+  const filteredItems =
+    activeCategory === 'all'
+      ? MENU_ITEMS
+      : MENU_ITEMS.filter((item) => item.category === activeCategory);
 
   const formatRupiah = (amount: number) => {
     return new Intl.NumberFormat('id-ID', {
@@ -26,28 +41,39 @@ export default function MenuPreview() {
   const handleOpenOrder = (item: MenuItem) => {
     setSelectedOrderItem(item);
     setQuantity(1);
+    setOrderNote('');
   };
 
-  const handleConfirmOrder = () => {
+  const handleAddToCart = () => {
+    if (!selectedOrderItem) return;
+
+    addItem(selectedOrderItem, quantity, orderNote);
+    const itemName = selectedOrderItem.name;
+    const addedQty = quantity;
+    setSelectedOrderItem(null);
+
+    setToastMessage(`${addedQty}x ${itemName} masuk ke keranjang!`);
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 3500);
+  };
+
+  const handleDirectBuyWhatsApp = () => {
     if (!selectedOrderItem) return;
 
     const total = selectedOrderItem.price * quantity;
+    const noteText = orderNote.trim() ? `\nCatatan: ${orderNote.trim()}` : '';
     const message = encodeURIComponent(
-      `*PESANAN WARKOP SENTOSA*\n\n` +
+      `*PESANAN LANGSUNG WARKOP SENTOSA*\n\n` +
       `Item: *${selectedOrderItem.name}*\n` +
       `Jumlah: ${quantity} porsi\n` +
-      `Total: ${formatRupiah(total)}\n\n` +
+      `Total: ${formatRupiah(total)}${noteText}\n\n` +
       `Halo Kak, mau pesan ini ya. Apakah ready? Terima kasih!`
     );
 
-    setOrderConfirmedToast(`Pesanan ${quantity}x ${selectedOrderItem.name} siap dikirim ke WhatsApp!`);
     const targetUrl = `https://wa.me/6281289902026?text=${message}`;
     window.open(targetUrl, '_blank');
     setSelectedOrderItem(null);
-
-    setTimeout(() => {
-      setOrderConfirmedToast(null);
-    }, 3500);
   };
 
   // Helper for bold organic sticker badges
@@ -103,21 +129,26 @@ export default function MenuPreview() {
           ))}
         </div>
 
-        {/* 1-Column on Mobile, 2 on Tablet, 3 on Desktop (Broken Grid Layout) */}
+        {/* 1-Column on Mobile, 2 on Tablet, 3 on Desktop */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {filteredItems.map((item, index) => {
             const isFeatured = item.popular && index < 2;
+            const inCartQty = getItemQuantity(item.id);
 
             return (
               <div
                 key={item.id}
                 className="bezel-shell group active:scale-[0.99] transition-all"
               >
-                <div className={`bezel-core !p-5 sm:!p-6 ${isFeatured ? '!bg-[#221711] ring-1 ring-[#EA580C]/40' : ''}`}>
+                <div
+                  className={`bezel-core !p-5 sm:!p-6 ${
+                    isFeatured ? '!bg-[#221711] ring-1 ring-[#EA580C]/40' : ''
+                  }`}
+                >
                   <div>
                     {/* Organic Sticker Badge & Price Header */}
                     <div className="flex items-start justify-between gap-3 mb-3">
-                      <div>
+                      <div className="flex items-center gap-1.5 flex-wrap">
                         {item.badge ? (
                           <span
                             className={`inline-block px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-black tracking-wider uppercase transition-transform group-hover:scale-105 ${getBadgeStyle(
@@ -128,7 +159,18 @@ export default function MenuPreview() {
                           </span>
                         ) : (
                           <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-semibold text-stone-400 bg-stone-900 border border-stone-800">
-                            {item.category === 'kopi' ? 'Kopi' : item.category === 'makanan' ? 'Makanan' : 'Minuman'}
+                            {item.category === 'kopi'
+                              ? 'Kopi'
+                              : item.category === 'makanan'
+                              ? 'Makanan'
+                              : 'Minuman'}
+                          </span>
+                        )}
+
+                        {inCartQty > 0 && (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                            <Check className="w-2.5 h-2.5" />
+                            <span>{inCartQty} di Keranjang</span>
                           </span>
                         )}
                       </div>
@@ -151,17 +193,22 @@ export default function MenuPreview() {
                     </p>
                   </div>
 
-                  {/* Card Action Footer with Nested Button */}
+                  {/* Card Action Footer */}
                   <div className="mt-5 pt-3.5 border-t border-stone-800/90 flex items-center justify-between">
                     <span className="text-[11px] sm:text-xs text-stone-400 font-medium">
-                      {item.badge === 'BEST SELLER' ? '🔥 Paling Dicari' : item.badge === 'PAKET AKHIR BULAN' ? '💰 Hemat Banget' : '☕ Porsi Mantap'}
+                      {item.badge === 'BEST SELLER'
+                        ? '🔥 Paling Dicari'
+                        : item.badge === 'PAKET AKHIR BULAN'
+                        ? '💰 Hemat Banget'
+                        : '☕ Porsi Mantap'}
                     </span>
 
                     <button
                       onClick={() => handleOpenOrder(item)}
-                      className="group/btn inline-flex items-center gap-2 pl-3.5 pr-1.5 py-1.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white text-xs font-bold tracking-wide cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-md shadow-[#EA580C]/25"
+                      className="group/btn inline-flex items-center gap-1.5 pl-3.5 pr-2 py-1.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white text-xs font-bold tracking-wide cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-md shadow-[#EA580C]/25"
                     >
-                      <span>Pesan</span>
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>{inCartQty > 0 ? 'Tambah Lagi' : 'Pesan'}</span>
                       <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center transition-transform group-hover/btn:translate-x-0.5">
                         <ArrowRight className="w-3 h-3" />
                       </div>
@@ -181,7 +228,9 @@ export default function MenuPreview() {
             rel="noopener noreferrer"
             className="group inline-flex items-center justify-between sm:justify-center gap-3 pl-4 sm:pl-5 pr-2 py-2 rounded-full bg-[#1D1713] hover:bg-[#251D18] text-[#F5EDE4] hover:text-[#F59E0B] border border-stone-700/80 hover:border-[#EA580C]/50 text-xs sm:text-sm font-semibold transition-all shadow-lg active:scale-95"
           >
-            <span className="text-left sm:text-center">Mau pesan bawa pulang / tanya menu?</span>
+            <span className="text-left sm:text-center">
+              Mau tanya info menu atau booking tempat nongkrong?
+            </span>
             <div className="w-7 h-7 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center transition-transform group-hover:scale-110 flex-shrink-0">
               <MessageCircle className="w-4 h-4" />
             </div>
@@ -189,11 +238,10 @@ export default function MenuPreview() {
         </div>
       </div>
 
-      {/* Quick Order Pop-up Dialog */}
+      {/* Quick Order & Add to Cart Dialog */}
       {selectedOrderItem && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="relative w-full max-w-md rounded-3xl bg-[#1C1612] border border-[#EA580C]/40 p-5 sm:p-7 shadow-2xl space-y-4 sm:space-y-5">
-            
             {/* Close Button */}
             <button
               onClick={() => setSelectedOrderItem(null)}
@@ -205,7 +253,7 @@ export default function MenuPreview() {
             {/* Header */}
             <div>
               <span className="text-[10px] font-bold uppercase tracking-wider text-[#EA580C] bg-[#EA580C]/15 px-3 py-0.5 rounded-full border border-[#EA580C]/30">
-                Pesan Menu Warkop
+                Pilih Menu Warkop
               </span>
               <h3 className="text-lg sm:text-xl font-bold text-white font-display mt-2">
                 {selectedOrderItem.name}
@@ -217,7 +265,9 @@ export default function MenuPreview() {
 
             {/* Quantity Selector */}
             <div className="flex items-center justify-between p-3.5 rounded-2xl bg-[#14110E] border border-stone-800">
-              <span className="text-xs font-medium text-stone-300">Jumlah porsi:</span>
+              <span className="text-xs font-medium text-stone-300">
+                Jumlah porsi:
+              </span>
               <div className="flex items-center gap-3">
                 <button
                   type="button"
@@ -239,6 +289,20 @@ export default function MenuPreview() {
               </div>
             </div>
 
+            {/* Special Request / Note Input */}
+            <div>
+              <label className="text-xs font-medium text-stone-300 mb-1.5 block">
+                Catatan Khusus (Opsional):
+              </label>
+              <input
+                type="text"
+                placeholder="Misal: pedas rawit 5, es sedikit, manis sedang"
+                value={orderNote}
+                onChange={(e) => setOrderNote(e.target.value)}
+                className="w-full px-3.5 py-2.5 rounded-xl bg-[#14110E] border border-stone-800 focus:border-[#EA580C] text-white text-xs placeholder:text-stone-500 outline-none transition-colors"
+              />
+            </div>
+
             {/* Total Price */}
             <div className="flex justify-between items-center border-t border-stone-800 pt-3 text-sm font-bold text-white font-display">
               <span>Total Harga:</span>
@@ -247,23 +311,41 @@ export default function MenuPreview() {
               </span>
             </div>
 
-            {/* Submit to WhatsApp */}
-            <button
-              onClick={handleConfirmOrder}
-              className="w-full py-3.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-[#EA580C]/30 active:scale-95"
-            >
-              <Send className="w-3.5 h-3.5" />
-              <span>Lanjut Pesan ke WhatsApp</span>
-            </button>
+            {/* Action Buttons: Add to Multi-Item Cart vs Direct WA */}
+            <div className="space-y-2 pt-1">
+              <button
+                onClick={handleAddToCart}
+                className="w-full py-3.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-[#EA580C]/30 active:scale-95 transition-all"
+              >
+                <ShoppingBag className="w-4 h-4" />
+                <span>+ Masukkan ke Keranjang</span>
+              </button>
+
+              <button
+                onClick={handleDirectBuyWhatsApp}
+                className="w-full py-2.5 rounded-full bg-[#14110E] hover:bg-[#201A16] border border-stone-700/80 hover:border-emerald-500/50 text-stone-300 hover:text-emerald-400 font-semibold text-xs flex items-center justify-center gap-2 cursor-pointer active:scale-95 transition-all"
+              >
+                <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Beli Langsung via WhatsApp</span>
+              </button>
+            </div>
           </div>
         </div>
       )}
 
       {/* Toast Feedback */}
-      {orderConfirmedToast && (
-        <div className="fixed bottom-6 right-4 sm:right-6 left-4 sm:left-auto z-50 px-5 py-3 rounded-2xl bg-[#221B16] border border-[#EA580C]/40 text-[#F5EDE4] text-xs font-semibold shadow-2xl flex items-center justify-center sm:justify-start gap-2 animate-in slide-in-from-bottom-5">
-          <Sparkles className="w-4 h-4 text-[#EA580C] flex-shrink-0" />
-          <span>{orderConfirmedToast}</span>
+      {toastMessage && (
+        <div className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 left-4 sm:left-auto z-50 px-5 py-3 rounded-2xl bg-[#221B16] border border-[#EA580C]/40 text-[#F5EDE4] text-xs font-semibold shadow-2xl flex items-center justify-between sm:justify-start gap-3 animate-in slide-in-from-bottom-5">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-[#EA580C] flex-shrink-0" />
+            <span>{toastMessage}</span>
+          </div>
+          <button
+            onClick={() => setIsCartOpen(true)}
+            className="text-[11px] font-bold text-[#F59E0B] underline hover:text-white cursor-pointer ml-2"
+          >
+            Buka ({totalItems})
+          </button>
         </div>
       )}
     </section>
