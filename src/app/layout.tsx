@@ -1,44 +1,43 @@
 import type { Metadata, Viewport } from "next";
-import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
+import { Plus_Jakarta_Sans, Outfit } from "next/font/google";
 import "./globals.css";
-
-const outfit = Outfit({
-  variable: "--font-outfit",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-  display: "swap",
-});
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+});
+
+const outfit = Outfit({
+  variable: "--font-outfit",
+  subsets: ["latin"],
+  weight: ["500", "600", "700", "800", "900"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "Warkop Sentosa | Kopi Enak, WiFi Kencang, Nongkrong Sampai Pagi",
   description:
-    "Warkop modern paling asyik buat nugas, mabar, dan nongkrong santai. Harga ramah mahasiswa mulai Rp10 ribuan, colokan di tiap meja, WiFi 150 Mbps, board games gratis, dan buka sampai subuh!",
+    "Tempat nongkrong asik di Senopati. Pas buat nugas, mabar, atau sekadar ngobrol ngalor-ngidul sama teman. Harga merakyat, rasa tetap pejabat!",
   keywords: [
-    "warkop jakarta",
-    "tempat nugas jakarta selatan",
-    "cafe murah wifi kencang",
-    "warkop modern",
-    "tempat mabar jakarta",
-    "kopi susu murah",
-    "warkop 24 jam",
+    "warkop sentosa",
+    "warkop senopati",
+    "tempat nugas senopati",
+    "kopi susu murah jakarta",
+    "tempat mabar jakarta selatan",
+    "warkop murah senopati",
   ],
   openGraph: {
-    title: "Warkop Sentosa | Tempat Pelarian Paling Nyaman Buat Nugas & Mabar",
-    description: "Kopi Enak, WiFi Kencang, Colokan Melimpah, Buka Sampai Subuh!",
+    title: "Warkop Sentosa | Tempat Nongkrong Asik di Senopati",
+    description: "Kopi Enak, WiFi Kencang, Nongkrong Sampai Pagi. Harga Merakyat, Rasa Tetap Pejabat.",
     type: "website",
     locale: "id_ID",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#181411",
+  themeColor: "#1A1512",
 };
 
 export default function RootLayout({
@@ -49,9 +48,9 @@ export default function RootLayout({
   return (
     <html
       lang="id"
-      className={`${outfit.variable} ${jakarta.variable} h-full antialiased scroll-smooth`}
+      className={`${jakarta.variable} ${outfit.variable} h-full antialiased scroll-smooth`}
     >
-      <body className="min-h-full flex flex-col bg-[#14110E] text-[#F5EDE4] selection:bg-[#E07A2A] selection:text-white font-sans">
+      <body className="min-h-full flex flex-col bg-[#1A1512] text-[#F9F5F0] selection:bg-[#E65100] selection:text-white font-sans">
         {children}
       </body>
     </html>

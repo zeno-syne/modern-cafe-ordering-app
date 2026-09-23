@@ -1,156 +1,118 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
-import { Coffee, MessageCircle, MapPin, Send, Check, GraduationCap, Flame } from 'lucide-react';
+import { Coffee, MessageCircle, MapPin, Heart, Wifi, Zap, Clock } from 'lucide-react';
 import { CAFE_INFO } from '@/data/coffee-menu';
 
 export default function Footer() {
-  const [email, setEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    setSubscribed(true);
-    setTimeout(() => {
-      setEmail('');
-      setSubscribed(false);
-    }, 4000);
-  };
-
   return (
-    <footer className="bg-[#0E0C0A] border-t border-stone-800/80 pt-16 pb-12 relative overflow-hidden text-stone-400">
+    <footer className="bg-[#0D0A08] border-t border-stone-800/90 pt-16 pb-12 relative overflow-hidden text-stone-400">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-stone-800/80">
           
           {/* Brand Col */}
-          <div className="lg:col-span-4 space-y-4">
+          <div className="lg:col-span-5 space-y-4">
             <Link href="#beranda" className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#E07A2A] to-[#B8530C] flex items-center justify-center text-white shadow-md shadow-[#E07A2A]/20">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#EA580C] to-[#C2410C] flex items-center justify-center text-white shadow-md shadow-[#EA580C]/25">
                 <Coffee className="w-5 h-5 stroke-[2.5]" />
               </div>
-              <span className="text-xl font-bold tracking-tight text-white font-display">
+              <span className="text-xl font-extrabold tracking-tight text-white font-display">
                 {CAFE_INFO.name}
               </span>
             </Link>
 
-            <p className="text-xs sm:text-sm text-stone-400 font-light leading-relaxed max-w-sm">
-              Tempat nongkrong, nugas, dan mabar paling nyaman dan ramah kantong. Kopi mantap, WiFi kencang tanpa lemot, colokan melimpah, dan buka sampai subuh!
+            <p className="text-xs sm:text-sm text-stone-300 font-normal leading-relaxed max-w-sm">
+              Tempat pelarian paling pas buat nugas, mabar, atau sekadar ngobrol ngalor-ngidul sama teman. Harga merakyat, rasa tetap pejabat.
             </p>
 
-            <div className="flex items-center gap-2 pt-1 text-xs text-[#E07A2A] font-semibold">
-              <GraduationCap className="w-4 h-4" />
-              <span>Diskon Mahasiswa 10% Setiap Hari</span>
+            <div className="flex flex-wrap gap-4 pt-1 text-xs text-[#F59E0B] font-semibold">
+              <span className="flex items-center gap-1.5">
+                <Wifi className="w-3.5 h-3.5" />
+                WiFi Kencang
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Zap className="w-3.5 h-3.5" />
+                Colokan Melimpah
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5" />
+                Buka s/d 01.00 Pagi
+              </span>
             </div>
           </div>
 
           {/* Quick Links */}
-          <div className="lg:col-span-2 space-y-3">
+          <div className="lg:col-span-3 space-y-3">
             <h4 className="text-xs uppercase tracking-widest text-white font-bold font-mono">
-              Menu &amp; Promo
+              Navigasi Cepat
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <Link href="#menu" className="hover:text-[#E07A2A] transition-colors">
-                  Paket Combo Nugas
+                <Link href="#beranda" className="hover:text-[#F59E0B] transition-colors">
+                  Beranda
                 </Link>
               </li>
               <li>
-                <Link href="#menu" className="hover:text-[#E07A2A] transition-colors">
-                  Es Kopi Susu Aren
+                <Link href="#kenapa-kami" className="hover:text-[#F59E0B] transition-colors">
+                  Kenapa Nongkrong di Sini?
                 </Link>
               </li>
               <li>
-                <Link href="#menu" className="hover:text-[#E07A2A] transition-colors">
-                  Indomie &amp; Roti Bakar
+                <Link href="#menu" className="hover:text-[#F59E0B] transition-colors">
+                  Menu &amp; Harga Merakyat
                 </Link>
               </li>
               <li>
-                <Link href="#suasana" className="hover:text-[#E07A2A] transition-colors">
-                  Fasilitas &amp; Colokan
+                <Link href="#ulasan" className="hover:text-[#F59E0B] transition-colors">
+                  Ulasan Google Maps
                 </Link>
               </li>
               <li>
-                <Link href="#reservation" className="hover:text-[#E07A2A] transition-colors">
-                  Booking Meja
+                <Link href="#lokasi" className="hover:text-[#F59E0B] transition-colors">
+                  Lokasi &amp; Jam Operasional
                 </Link>
               </li>
             </ul>
           </div>
 
           {/* Contact & Hours */}
-          <div className="lg:col-span-3 space-y-3">
+          <div className="lg:col-span-4 space-y-3">
             <h4 className="text-xs uppercase tracking-widest text-white font-bold font-mono">
-              Lokasi &amp; Jam
+              Lokasi &amp; Kontak WhatsApp
             </h4>
             <div className="space-y-2 text-xs">
-              <p className="text-stone-300 font-light">
+              <p className="text-stone-300 font-normal">
                 {CAFE_INFO.address}
               </p>
               <p className="text-stone-400">
-                Weekdays: <span className="text-white font-mono">{CAFE_INFO.operatingHours.weekdays}</span>
+                Senin &ndash; Jumat: <span className="text-white font-mono">{CAFE_INFO.operatingHours.weekdays}</span>
               </p>
               <p className="text-stone-400">
-                Weekend: <span className="text-white font-mono">{CAFE_INFO.operatingHours.weekends}</span>
+                Sabtu &ndash; Minggu: <span className="text-white font-mono">{CAFE_INFO.operatingHours.weekends}</span>
               </p>
-              <p className="pt-1">
+              <div className="pt-2">
                 <a
                   href={CAFE_INFO.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-emerald-400 hover:text-emerald-300 font-semibold inline-flex items-center gap-1.5"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-700/30 hover:bg-emerald-700/50 text-emerald-400 border border-emerald-600/40 font-bold transition-all text-xs"
                 >
                   <MessageCircle className="w-3.5 h-3.5" />
                   <span>WhatsApp: {CAFE_INFO.phone}</span>
                 </a>
-              </p>
-            </div>
-          </div>
-
-          {/* Newsletter / Promo Updates */}
-          <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-xs uppercase tracking-widest text-white font-bold font-mono">
-              Info Promo &amp; Event
-            </h4>
-            <p className="text-xs text-stone-400 font-light leading-relaxed">
-              Daftar email kamu buat dapetin info promo paket diskon akhir bulan dan jadwal mini turnamen game/mabar!
-            </p>
-
-            <form onSubmit={handleSubscribe} className="space-y-2">
-              <div className="relative">
-                <input
-                  type="email"
-                  required
-                  placeholder="Ketik email kamu..."
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-full bg-[#1A1410] border border-stone-800 text-xs text-white placeholder-stone-600 focus:outline-none focus:border-[#E07A2A] transition-colors"
-                />
-                <button
-                  type="submit"
-                  className="absolute right-1 top-1 bottom-1 px-4 rounded-full button-warm text-[10px] font-bold uppercase tracking-wider cursor-pointer"
-                >
-                  {subscribed ? <Check className="w-3.5 h-3.5 text-white" /> : <span>Gabung</span>}
-                </button>
               </div>
-              {subscribed && (
-                <p className="text-[11px] text-emerald-400 font-medium">
-                  Sip! Kamu bakal dapet info promo pertama kali.
-                </p>
-              )}
-            </form>
+            </div>
           </div>
 
         </div>
 
         {/* Bottom */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 gap-4 text-center sm:text-left font-light">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 gap-4 text-center sm:text-left font-normal">
           <p>
-            &copy; {new Date().getFullYear()} {CAFE_INFO.name}. Tempat nongkrong asyik buat semua.
+            &copy; {new Date().getFullYear()} {CAFE_INFO.name}. Tempat Nongkrong Asik di Senopati.
           </p>
-          <p className="text-stone-400">
-            Kopi Enak, WiFi Kencang, Nongkrong Sampai Pagi.
+          <p className="text-stone-400 flex items-center justify-center sm:justify-end gap-1">
+            Dibuat untuk anak muda, mahasiswa &amp; teman se-tongkrongan.
           </p>
         </div>
       </div>

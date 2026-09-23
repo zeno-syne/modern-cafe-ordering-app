@@ -1,13 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #14110E;    /* Warm Deep Coffee Charcoal */
-  --foreground: #F5EDE4;    /* Warm Cream / Oat Milk */
-  --card-bg: rgba(30, 25, 21, 0.85);
-  --card-border: rgba(224, 122, 42, 0.2);
-  --primary-accent: #E07A2A; /* Toasted Warm Orange */
+  --background: #1A1512;    /* Warm Wood Charcoal */
+  --foreground: #F9F5F0;    /* Clean Warm Cream */
+  --card-bg: rgba(38, 31, 26, 0.85);
+  --primary: #EA580C;       /* Warm Energetic Orange */
   --primary-hover: #F97316;
-  --secondary-accent: #E29D52;
+  --accent-yellow: #F59E0B; /* Bright Friendly Yellow */
 }
 
 @theme inline {
@@ -29,62 +28,78 @@ body {
 }
 
 h1, h2, h3, h4, .font-display {
-  font-family: var(--font-outfit), sans-serif;
+  font-family: var(--font-outfit), var(--font-jakarta), sans-serif;
+  letter-spacing: -0.015em;
 }
 
-/* Warm Ambient Glows */
+/* Friendly Warm Ambient Glow */
 .ambient-glow-warm {
-  background: radial-gradient(circle, rgba(224, 122, 42, 0.16) 0%, rgba(20, 17, 14, 0) 70%);
+  background: radial-gradient(circle, rgba(234, 88, 12, 0.18) 0%, rgba(26, 21, 18, 0) 70%);
 }
 
-.ambient-glow-amber {
-  background: radial-gradient(circle, rgba(226, 157, 82, 0.14) 0%, rgba(20, 17, 14, 0) 70%);
+.ambient-glow-yellow {
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.14) 0%, rgba(26, 21, 18, 0) 70%);
 }
 
-/* Friendly Card Styling */
-.cozy-card {
-  background: rgba(32, 26, 22, 0.75);
+/* Warm, Accessible Cards */
+.warm-card {
+  background: rgba(38, 31, 26, 0.8);
+  border: 1px solid rgba(245, 158, 11, 0.15);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(224, 122, 42, 0.15);
 }
 
-.cozy-card-hover {
-  transition: all 0.25s ease-out;
+.warm-card-hover {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.cozy-card-hover:hover {
-  background: rgba(42, 34, 29, 0.9);
-  border-color: rgba(224, 122, 42, 0.45);
-  box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.5), 0 0 20px -5px rgba(224, 122, 42, 0.18);
+.warm-card-hover:hover {
+  background: rgba(48, 39, 33, 0.95);
+  border-color: rgba(249, 115, 22, 0.45);
+  box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.5), 0 0 16px -4px rgba(234, 88, 12, 0.2);
   transform: translateY(-2px);
 }
 
-.button-warm {
-  background: linear-gradient(135deg, #E07A2A 0%, #C46215 100%);
+/* Friendly Curved Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%);
   color: #FFFFFF;
-  box-shadow: 0 4px 18px rgba(224, 122, 42, 0.3);
-  transition: all 0.25s ease;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(234, 88, 12, 0.35);
+  transition: all 0.2s ease;
 }
 
-.button-warm:hover {
-  background: linear-gradient(135deg, #F97316 0%, #E07A2A 100%);
-  box-shadow: 0 6px 24px rgba(224, 122, 42, 0.45);
+.btn-primary:hover {
+  background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
+  box-shadow: 0 6px 20px rgba(234, 88, 12, 0.5);
   transform: translateY(-1px);
 }
 
-/* Custom Scrollbar */
+.btn-secondary {
+  background: rgba(48, 39, 33, 0.7);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #F9F5F0;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(60, 49, 41, 0.9);
+  border-color: #F97316;
+  color: #FFFFFF;
+}
+
+/* Smooth Rounded Scrollbar */
 ::-webkit-scrollbar {
   width: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #14110E;
+  background: #1A1512;
 }
 ::-webkit-scrollbar-thumb {
-  background: #2D241E;
+  background: #362C25;
   border-radius: 9999px;
-  border: 1px solid rgba(224, 122, 42, 0.15);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #44372E;
+  background: #4E4036;
 }
