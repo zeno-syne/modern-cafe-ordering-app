@@ -95,7 +95,8 @@ export default function Navbar() {
             {/* Cart Button */}
             <button
               onClick={() => setIsCartOpen(true)}
-              className="relative inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-bold text-[#F5EDE4]/90 hover:text-white bg-[#221B16] hover:bg-[#2C231D] border border-stone-800 hover:border-[#EA580C]/50 active:scale-95 transition-all cursor-pointer"
+              aria-label={`Buka Keranjang Pesanan (${totalItems} menu terpilih)`}
+              className="relative inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-bold text-[#F5EDE4]/90 hover:text-white bg-[#221B16] hover:bg-[#2C231D] border border-stone-800 hover:border-[#EA580C]/50 active:scale-95 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C] focus-visible:outline-none"
             >
               <ShoppingBag className="w-3.5 h-3.5 text-[#EA580C]" />
               <span>Pesanan</span>
@@ -109,7 +110,7 @@ export default function Navbar() {
             <a
               href="#menu"
               onClick={(e) => handleSmoothScroll(e, '#menu')}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-bold text-[#F5EDE4]/90 hover:text-white hover:bg-white/5 active:scale-95 transition-all"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-bold text-[#F5EDE4]/90 hover:text-white hover:bg-white/5 active:scale-95 transition-all focus-visible:ring-2 focus-visible:ring-[#EA580C]"
             >
               <UtensilsCrossed className="w-3.5 h-3.5 text-[#EA580C]" />
               <span>Lihat Menu</span>
@@ -118,7 +119,7 @@ export default function Navbar() {
             <a
               href="#lokasi"
               onClick={(e) => handleSmoothScroll(e, '#lokasi')}
-              className="group inline-flex items-center gap-2 pl-4 pr-1.5 py-1.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white text-xs font-bold uppercase tracking-wider shadow-md shadow-[#EA580C]/30 hover:scale-[1.03] active:scale-[0.97] transition-all"
+              className="group inline-flex items-center gap-2 pl-4 pr-1.5 py-1.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white text-xs font-bold uppercase tracking-wider shadow-md shadow-[#EA580C]/30 hover:scale-[1.03] active:scale-[0.97] transition-all focus-visible:ring-2 focus-visible:ring-white"
             >
               <span>Lokasi Kita</span>
               <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center transition-transform group-hover:translate-x-0.5">
@@ -131,8 +132,8 @@ export default function Navbar() {
           <div className="flex items-center gap-2 sm:hidden">
             <button
               onClick={() => setIsCartOpen(true)}
-              className="relative p-2 rounded-xl bg-[#201A16] text-[#F5EDE4] border border-stone-800 hover:border-[#EA580C]/50 active:scale-90 transition-all cursor-pointer"
-              aria-label="Buka Keranjang Pesanan"
+              className="relative min-w-[44px] min-h-[44px] rounded-xl bg-[#201A16] text-[#F5EDE4] border border-stone-800 hover:border-[#EA580C]/50 flex items-center justify-center active:scale-90 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C]"
+              aria-label={`Buka Keranjang Pesanan (${totalItems} menu terpilih)`}
             >
               <ShoppingBag className="w-4 h-4 text-[#EA580C]" />
               {totalItems > 0 && (
@@ -144,8 +145,9 @@ export default function Navbar() {
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-xl bg-[#201A16] text-[#F5EDE4] border border-stone-800 hover:border-[#EA580C]/50 active:scale-90 transition-all cursor-pointer"
-              aria-label="Toggle navigation"
+              className="min-w-[44px] min-h-[44px] rounded-xl bg-[#201A16] text-[#F5EDE4] border border-stone-800 hover:border-[#EA580C]/50 flex items-center justify-center active:scale-90 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C]"
+              aria-label={mobileMenuOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi'}
+              aria-expanded={mobileMenuOpen}
             >
               {mobileMenuOpen ? <X className="w-5 h-5 text-[#EA580C]" /> : <Menu className="w-5 h-5 text-[#F5EDE4]" />}
             </button>

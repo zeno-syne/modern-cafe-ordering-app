@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MENU_CATEGORIES, MENU_ITEMS, MenuItem } from '@/data/coffee-menu';
 import { useCart } from '@/context/cart-context';
 import {
@@ -26,6 +26,18 @@ export default function MenuPreview() {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const { addItem, getItemQuantity, setIsCartOpen, totalItems } = useCart();
+
+  // Close item order dialog on Escape key (WCAG Accessibility)
+  useEffect(() => {
+    if (!selectedOrderItem) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedOrderItem(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedOrderItem]);
 
   // Extended filter categories with Best Seller
   const extendedCategories = [
@@ -143,21 +155,23 @@ export default function MenuPreview() {
           </p>
         </div>
 
-        {/* Instant Search Bar */}
-        <div className="max-w-md mx-auto mb-6 px-2">
+        {/* Instant Search Bar with Accessible Label */}
+        <div className="max-w-md mx-auto mb-6 px-2" role="search">
           <div className="relative flex items-center">
-            <Search className="w-4 h-4 text-stone-400 absolute left-4 pointer-events-none" />
+            <Search className="w-4 h-4 text-stone-400 absolute left-4 pointer-events-none" aria-hidden="true" />
             <input
               type="text"
               placeholder="Cari kopi, indomie, mendoan, roti..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-11 pr-10 py-3 rounded-full bg-[#1C1612] border border-stone-800 focus:border-[#EA580C] text-white text-xs sm:text-sm placeholder:text-stone-500 shadow-lg outline-none transition-all focus:ring-1 focus:ring-[#EA580C]/40"
+              aria-label="Cari menu makanan dan minuman warkop"
+              className="w-full min-h-[44px] pl-11 pr-11 py-2.5 rounded-full bg-[#1C1612] border border-stone-800 focus:border-[#EA580C] focus-visible:ring-2 focus-visible:ring-[#EA580C] text-white text-xs sm:text-sm placeholder:text-stone-500 shadow-lg outline-none transition-all"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3.5 p-1 rounded-full text-stone-400 hover:text-white hover:bg-stone-800 transition-colors cursor-pointer"
+                className="absolute right-2.5 min-w-[36px] min-h-[36px] flex items-center justify-center rounded-full text-stone-400 hover:text-white hover:bg-stone-800 transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C]"
+                aria-label="Hapus kata kunci pencarian"
                 title="Hapus pencarian"
               >
                 <X className="w-3.5 h-3.5" />
@@ -166,13 +180,15 @@ export default function MenuPreview() {
           </div>
         </div>
 
-        {/* Category Filters: Floating Pill Buttons */}
-        <div className="flex items-center justify-center flex-wrap gap-2 sm:gap-2.5 mb-10 sm:mb-14">
+        {/* Category Filters: Floating Pill Buttons with aria-pressed */}
+        <div className="flex items-center justify-center flex-wrap gap-2 sm:gap-2.5 mb-10 sm:mb-14" role="tablist" aria-label="Filter kategori menu">
           {extendedCategories.map((cat) => (
             <button
               key={cat.id}
+              role="tab"
+              aria-selected={activeCategory === cat.id}
               onClick={() => setActiveCategory(cat.id)}
-              className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer active:scale-95 ${
+              className={`min-h-[40px] px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer active:scale-95 focus-visible:ring-2 focus-visible:ring-[#EA580C] focus-visible:outline-none ${
                 activeCategory === cat.id
                   ? 'bg-gradient-to-r from-[#EA580C] to-[#C2410C] text-white shadow-lg shadow-[#EA580C]/30 scale-105'
                   : 'bg-[#1D1713] hover:bg-[#271F1A] text-[#F5EDE4]/80 border border-stone-800 hover:border-[#EA580C]/40'
@@ -201,7 +217,7 @@ export default function MenuPreview() {
                 setSearchQuery('');
                 setActiveCategory('all');
               }}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#EA580C]/20 border border-[#EA580C]/40 text-[#F59E0B] hover:bg-[#EA580C]/30 text-xs font-bold transition-all cursor-pointer"
+              className="inline-flex min-h-[44px] items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#EA580C]/20 border border-[#EA580C]/40 text-[#F59E0B] hover:bg-[#EA580C]/30 text-xs font-bold transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C]"
             >
               <RotateCcw className="w-3 h-3" />
               <span>Reset Pencarian</span>
@@ -283,7 +299,8 @@ export default function MenuPreview() {
 
                       <button
                         onClick={() => handleOpenOrder(item)}
-                        className="group/btn inline-flex items-center gap-1.5 pl-3.5 pr-2 py-1.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white text-xs font-bold tracking-wide cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-md shadow-[#EA580C]/25"
+                        aria-label={`Pesan ${item.name} seharga ${formatRupiah(item.price)}`}
+                        className="group/btn inline-flex min-h-[40px] items-center gap-1.5 pl-3.5 pr-2 py-1.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white text-xs font-bold tracking-wide cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-md shadow-[#EA580C]/25 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
                       >
                         <Plus className="w-3.5 h-3.5" />
                         <span>{inCartQty > 0 ? 'Tambah Lagi' : 'Pesan'}</span>
@@ -305,7 +322,7 @@ export default function MenuPreview() {
             href="https://wa.me/6281289902026?text=Halo%20Warkop%20Sentosa,%20mau%20tanya%20menu%20dan%20pesan"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center justify-between sm:justify-center gap-3 pl-4 sm:pl-5 pr-2 py-2 rounded-full bg-[#1D1713] hover:bg-[#251D18] text-[#F5EDE4] hover:text-[#F59E0B] border border-stone-700/80 hover:border-[#EA580C]/50 text-xs sm:text-sm font-semibold transition-all shadow-lg active:scale-95"
+            className="group inline-flex min-h-[44px] items-center justify-between sm:justify-center gap-3 pl-4 sm:pl-5 pr-2 py-2 rounded-full bg-[#1D1713] hover:bg-[#251D18] text-[#F5EDE4] hover:text-[#F59E0B] border border-stone-700/80 hover:border-[#EA580C]/50 text-xs sm:text-sm font-semibold transition-all shadow-lg active:scale-95 focus-visible:ring-2 focus-visible:ring-[#EA580C]"
           >
             <span className="text-left sm:text-center">
               Mau tanya info menu atau booking tempat nongkrong?
@@ -317,14 +334,20 @@ export default function MenuPreview() {
         </div>
       </div>
 
-      {/* Quick Order & Add to Cart Dialog */}
+      {/* Quick Order & Add to Cart Dialog with Accessibility */}
       {selectedOrderItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="order-dialog-title"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
+        >
           <div className="relative w-full max-w-md rounded-3xl bg-[#1C1612] border border-[#EA580C]/40 p-5 sm:p-7 shadow-2xl space-y-4 sm:space-y-5">
             {/* Close Button */}
             <button
               onClick={() => setSelectedOrderItem(null)}
-              className="absolute top-4 right-4 p-2 rounded-full bg-stone-900 text-stone-400 hover:text-white border border-stone-800 transition-colors cursor-pointer active:scale-90"
+              className="absolute top-4 right-4 min-w-[40px] min-h-[40px] rounded-full bg-stone-900 text-stone-400 hover:text-white border border-stone-800 flex items-center justify-center transition-colors cursor-pointer active:scale-90 focus-visible:ring-2 focus-visible:ring-[#EA580C]"
+              aria-label="Tutup jendela pemilihan menu"
             >
               <X className="w-4 h-4" />
             </button>
@@ -334,7 +357,7 @@ export default function MenuPreview() {
               <span className="text-[10px] font-bold uppercase tracking-wider text-[#EA580C] bg-[#EA580C]/15 px-3 py-0.5 rounded-full border border-[#EA580C]/30">
                 Pilih Menu Warkop
               </span>
-              <h3 className="text-lg sm:text-xl font-bold text-white font-display mt-2">
+              <h3 id="order-dialog-title" className="text-lg sm:text-xl font-bold text-white font-display mt-2">
                 {selectedOrderItem.name}
               </h3>
               <p className="text-xs text-stone-300 mt-1 font-normal">
@@ -351,17 +374,19 @@ export default function MenuPreview() {
                 <button
                   type="button"
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="w-8 h-8 rounded-full bg-stone-800 hover:bg-stone-700 text-white flex items-center justify-center transition-colors cursor-pointer active:scale-90"
+                  className="min-w-[40px] min-h-[40px] rounded-full bg-stone-800 hover:bg-stone-700 text-white flex items-center justify-center transition-colors cursor-pointer active:scale-90 focus-visible:ring-2 focus-visible:ring-[#EA580C]"
+                  aria-label="Kurangi porsi"
                 >
                   <Minus className="w-3.5 h-3.5" />
                 </button>
-                <span className="text-base font-bold text-white font-mono w-6 text-center">
+                <span className="text-base font-bold text-white font-mono w-6 text-center" aria-live="polite">
                   {quantity}
                 </span>
                 <button
                   type="button"
                   onClick={() => setQuantity(quantity + 1)}
-                  className="w-8 h-8 rounded-full bg-stone-800 hover:bg-stone-700 text-white flex items-center justify-center transition-colors cursor-pointer active:scale-90"
+                  className="min-w-[40px] min-h-[40px] rounded-full bg-stone-800 hover:bg-stone-700 text-white flex items-center justify-center transition-colors cursor-pointer active:scale-90 focus-visible:ring-2 focus-visible:ring-[#EA580C]"
+                  aria-label="Tambah porsi"
                 >
                   <Plus className="w-3.5 h-3.5" />
                 </button>
@@ -370,15 +395,16 @@ export default function MenuPreview() {
 
             {/* Special Request / Note Input */}
             <div>
-              <label className="text-xs font-medium text-stone-300 mb-1.5 block">
+              <label htmlFor="order-dialog-note" className="text-xs font-medium text-stone-300 mb-1.5 block">
                 Catatan Khusus (Opsional):
               </label>
               <input
+                id="order-dialog-note"
                 type="text"
                 placeholder="Misal: pedas rawit 5, es sedikit, manis sedang"
                 value={orderNote}
                 onChange={(e) => setOrderNote(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-[#14110E] border border-stone-800 focus:border-[#EA580C] text-white text-xs placeholder:text-stone-500 outline-none transition-colors"
+                className="w-full min-h-[44px] px-3.5 py-2.5 rounded-xl bg-[#14110E] border border-stone-800 focus:border-[#EA580C] focus-visible:ring-2 focus-visible:ring-[#EA580C] text-white text-xs placeholder:text-stone-500 outline-none transition-colors"
               />
             </div>
 
@@ -394,7 +420,7 @@ export default function MenuPreview() {
             <div className="space-y-2 pt-1">
               <button
                 onClick={handleAddToCart}
-                className="w-full py-3.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-[#EA580C]/30 active:scale-95 transition-all"
+                className="w-full min-h-[48px] py-3.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-[#EA580C]/30 active:scale-95 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
               >
                 <ShoppingBag className="w-4 h-4" />
                 <span>+ Masukkan ke Keranjang</span>
@@ -402,7 +428,7 @@ export default function MenuPreview() {
 
               <button
                 onClick={handleDirectBuyWhatsApp}
-                className="w-full py-2.5 rounded-full bg-[#14110E] hover:bg-[#201A16] border border-stone-700/80 hover:border-emerald-500/50 text-stone-300 hover:text-emerald-400 font-semibold text-xs flex items-center justify-center gap-2 cursor-pointer active:scale-95 transition-all"
+                className="w-full min-h-[44px] py-2.5 rounded-full bg-[#14110E] hover:bg-[#201A16] border border-stone-700/80 hover:border-emerald-500/50 text-stone-300 hover:text-emerald-400 font-semibold text-xs flex items-center justify-center gap-2 cursor-pointer active:scale-95 transition-all focus-visible:ring-2 focus-visible:ring-emerald-400"
               >
                 <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />
                 <span>Beli Langsung via WhatsApp</span>
@@ -414,14 +440,19 @@ export default function MenuPreview() {
 
       {/* Toast Feedback */}
       {toastMessage && (
-        <div className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 left-4 sm:left-auto z-50 px-5 py-3 rounded-2xl bg-[#221B16] border border-[#EA580C]/40 text-[#F5EDE4] text-xs font-semibold shadow-2xl flex items-center justify-between sm:justify-start gap-3 animate-in slide-in-from-bottom-5">
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 left-4 sm:left-auto z-50 px-5 py-3 rounded-2xl bg-[#221B16] border border-[#EA580C]/40 text-[#F5EDE4] text-xs font-semibold shadow-2xl flex items-center justify-between sm:justify-start gap-3 animate-in slide-in-from-bottom-5"
+        >
           <div className="flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-[#EA580C] flex-shrink-0" />
             <span>{toastMessage}</span>
           </div>
           <button
             onClick={() => setIsCartOpen(true)}
-            className="text-[11px] font-bold text-[#F59E0B] underline hover:text-white cursor-pointer ml-2"
+            aria-label="Buka keranjang belanja"
+            className="text-[11px] font-bold text-[#F59E0B] underline hover:text-white cursor-pointer ml-2 min-h-[36px] flex items-center"
           >
             Buka ({totalItems})
           </button>

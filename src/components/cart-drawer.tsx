@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCart } from '@/context/cart-context';
 import {
   ShoppingBag,
@@ -15,7 +15,6 @@ import {
   QrCode,
   Edit3,
   CheckCircle2,
-  Sparkles,
 } from 'lucide-react';
 
 export default function CartDrawer() {
@@ -41,6 +40,18 @@ export default function CartDrawer() {
   const [activeNoteEditId, setActiveNoteEditId] = useState<string | null>(null);
   const [checkoutSuccessToast, setCheckoutSuccessToast] = useState(false);
 
+  // Close drawer on Escape key press (WCAG Keyboard Accessibility)
+  useEffect(() => {
+    if (!isCartOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsCartOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isCartOpen, setIsCartOpen]);
+
   const formatRupiah = (amount: number) => {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
@@ -56,6 +67,8 @@ export default function CartDrawer() {
     // Validate table number if dine-in
     if (orderType === 'dine-in' && !tableNumber.trim()) {
       alert('Mohon masukkan nomor meja tempat kamu nongkrong ya Kak!');
+      const tableInput = document.getElementById('cart-table-number');
+      if (tableInput) tableInput.focus();
       return;
     }
 
@@ -111,7 +124,8 @@ export default function CartDrawer() {
             {/* Left info: Icon & Total items + price */}
             <button
               onClick={() => setIsCartOpen(true)}
-              className="flex items-center gap-3 pl-3 text-left cursor-pointer group"
+              aria-label={`Buka keranjang pesanan: ${totalItems} menu, total ${formatRupiah(totalPrice)}`}
+              className="flex items-center gap-3 pl-3 text-left cursor-pointer group focus-visible:ring-2 focus-visible:ring-[#EA580C] focus-visible:outline-none rounded-full py-1 pr-2"
             >
               <div className="relative w-10 h-10 rounded-full bg-gradient-to-br from-[#EA580C] to-[#C2410C] flex items-center justify-center text-white shadow-md shadow-[#EA580C]/40 group-hover:scale-105 transition-transform">
                 <ShoppingBag className="w-5 h-5" />
@@ -132,7 +146,8 @@ export default function CartDrawer() {
             {/* Right action button */}
             <button
               onClick={() => setIsCartOpen(true)}
-              className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white text-xs sm:text-sm font-bold tracking-wide shadow-lg shadow-[#EA580C]/30 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+              aria-label="Buka ringkasan pesanan untuk checkout"
+              className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 min-h-[44px] rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white text-xs sm:text-sm font-bold tracking-wide shadow-lg shadow-[#EA580C]/30 hover:scale-105 active:scale-95 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
             >
               <span>Lihat Pesanan</span>
               <MessageCircle className="w-4 h-4 fill-white/10" />
@@ -143,12 +158,17 @@ export default function CartDrawer() {
 
       {/* 2. CART DRAWER MODAL / SLIDE-OVER */}
       {isCartOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end bg-black/75 backdrop-blur-sm animate-in fade-in duration-200">
-          
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="cart-drawer-title"
+          className="fixed inset-0 z-50 flex justify-end bg-black/75 backdrop-blur-sm animate-in fade-in duration-200"
+        >
           {/* Backdrop click to close */}
           <div
             className="absolute inset-0 cursor-pointer"
             onClick={() => setIsCartOpen(false)}
+            aria-hidden="true"
           />
 
           {/* Drawer Content */}
@@ -161,7 +181,7 @@ export default function CartDrawer() {
                   <ShoppingBag className="w-5 h-5" />
                 </div>
                 <div>
-                  <h2 className="text-base sm:text-lg font-bold text-white font-display">
+                  <h2 id="cart-drawer-title" className="text-base sm:text-lg font-bold text-white font-display">
                     Keranjang Warkop
                   </h2>
                   <span className="text-xs text-stone-400">
@@ -170,11 +190,12 @@ export default function CartDrawer() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1 sm:gap-2">
                 {items.length > 0 && (
                   <button
                     onClick={clearCart}
-                    className="p-2 rounded-xl text-stone-400 hover:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/30 transition-colors text-xs font-medium cursor-pointer"
+                    className="min-w-[44px] min-h-[44px] rounded-xl text-stone-400 hover:text-rose-400 hover:bg-rose-500/10 flex items-center justify-center transition-colors text-xs font-medium cursor-pointer focus-visible:ring-2 focus-visible:ring-rose-500 focus-visible:outline-none"
+                    aria-label="Kosongkan semua pesanan dalam keranjang"
                     title="Kosongkan Keranjang"
                   >
                     <Trash2 className="w-4 h-4" />
@@ -182,8 +203,8 @@ export default function CartDrawer() {
                 )}
                 <button
                   onClick={() => setIsCartOpen(false)}
-                  className="p-2 rounded-xl bg-stone-900 hover:bg-stone-800 text-stone-400 hover:text-white border border-stone-800 transition-colors cursor-pointer"
-                  aria-label="Tutup Keranjang"
+                  className="min-w-[44px] min-h-[44px] rounded-xl bg-stone-900 hover:bg-stone-800 text-stone-400 hover:text-white border border-stone-800 flex items-center justify-center transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C] focus-visible:outline-none"
+                  aria-label="Tutup keranjang pesanan"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -199,11 +220,13 @@ export default function CartDrawer() {
                   Pilihan Pemesanan:
                 </div>
                 
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label="Tipe Pemesanan">
                   <button
                     type="button"
+                    role="radio"
+                    aria-checked={orderType === 'dine-in'}
                     onClick={() => setOrderType('dine-in')}
-                    className={`py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 border transition-all cursor-pointer ${
+                    className={`min-h-[44px] py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 border transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C] focus-visible:outline-none ${
                       orderType === 'dine-in'
                         ? 'bg-[#EA580C]/20 border-[#EA580C] text-[#F59E0B]'
                         : 'bg-[#1C1612] border-stone-800 text-stone-400 hover:text-stone-200'
@@ -215,8 +238,10 @@ export default function CartDrawer() {
 
                   <button
                     type="button"
+                    role="radio"
+                    aria-checked={orderType === 'takeaway'}
                     onClick={() => setOrderType('takeaway')}
-                    className={`py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 border transition-all cursor-pointer ${
+                    className={`min-h-[44px] py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 border transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C] focus-visible:outline-none ${
                       orderType === 'takeaway'
                         ? 'bg-[#EA580C]/20 border-[#EA580C] text-[#F59E0B]'
                         : 'bg-[#1C1612] border-stone-800 text-stone-400 hover:text-stone-200'
@@ -231,7 +256,7 @@ export default function CartDrawer() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
                   {orderType === 'dine-in' && (
                     <div className="relative">
-                      <label className="text-[11px] font-medium text-stone-400 mb-1 flex items-center justify-between">
+                      <label htmlFor="cart-table-number" className="text-[11px] font-medium text-stone-400 mb-1 flex items-center justify-between">
                         <span>Nomor Meja *</span>
                         {qrDetectedTable && (
                           <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono font-bold flex items-center gap-1">
@@ -240,25 +265,29 @@ export default function CartDrawer() {
                         )}
                       </label>
                       <input
+                        id="cart-table-number"
                         type="text"
                         placeholder="Contoh: 04"
                         value={tableNumber}
                         onChange={(e) => setTableNumber(e.target.value)}
-                        className="w-full px-3 py-2 rounded-xl bg-[#1C1612] border border-stone-800 focus:border-[#EA580C] text-white text-xs placeholder:text-stone-500 outline-none transition-colors"
+                        required={orderType === 'dine-in'}
+                        aria-required={orderType === 'dine-in'}
+                        className="w-full min-h-[44px] px-3 py-2 rounded-xl bg-[#1C1612] border border-stone-800 focus:border-[#EA580C] focus-visible:ring-2 focus-visible:ring-[#EA580C] text-white text-xs placeholder:text-stone-500 outline-none transition-colors"
                       />
                     </div>
                   )}
 
                   <div className={orderType === 'dine-in' ? '' : 'sm:col-span-2'}>
-                    <label className="text-[11px] font-medium text-stone-400 mb-1 block">
+                    <label htmlFor="cart-customer-name" className="text-[11px] font-medium text-stone-400 mb-1 block">
                       Nama Pemesan (Opsional)
                     </label>
                     <input
+                      id="cart-customer-name"
                       type="text"
                       placeholder="Contoh: Dimas / Squad ML"
                       value={customerName}
                       onChange={(e) => setCustomerName(e.target.value)}
-                      className="w-full px-3 py-2 rounded-xl bg-[#1C1612] border border-stone-800 focus:border-[#EA580C] text-white text-xs placeholder:text-stone-500 outline-none transition-colors"
+                      className="w-full min-h-[44px] px-3 py-2 rounded-xl bg-[#1C1612] border border-stone-800 focus:border-[#EA580C] focus-visible:ring-2 focus-visible:ring-[#EA580C] text-white text-xs placeholder:text-stone-500 outline-none transition-colors"
                     />
                   </div>
                 </div>
@@ -278,7 +307,7 @@ export default function CartDrawer() {
                   </p>
                   <button
                     onClick={() => setIsCartOpen(false)}
-                    className="inline-flex px-5 py-2 rounded-full bg-[#EA580C]/20 border border-[#EA580C]/40 text-[#F59E0B] text-xs font-bold hover:bg-[#EA580C]/30 transition-all cursor-pointer"
+                    className="inline-flex min-h-[44px] items-center px-5 py-2 rounded-full bg-[#EA580C]/20 border border-[#EA580C]/40 text-[#F59E0B] text-xs font-bold hover:bg-[#EA580C]/30 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C] focus-visible:outline-none"
                   >
                     Kembali ke Menu
                   </button>
@@ -320,7 +349,11 @@ export default function CartDrawer() {
                         <div>
                           {isEditingNote ? (
                             <div className="flex items-center gap-1.5 mt-1">
+                              <label htmlFor={`note-${cartItem.item.id}`} className="sr-only">
+                                Catatan untuk {cartItem.item.name}
+                              </label>
                               <input
+                                id={`note-${cartItem.item.id}`}
                                 type="text"
                                 placeholder="Contoh: less sugar, mie setengah matang"
                                 value={cartItem.notes || ''}
@@ -328,11 +361,11 @@ export default function CartDrawer() {
                                   updateNotes(cartItem.item.id, e.target.value)
                                 }
                                 autoFocus
-                                className="flex-1 px-2.5 py-1.5 rounded-lg bg-[#14110E] border border-[#EA580C]/50 text-white text-xs placeholder:text-stone-600 outline-none"
+                                className="flex-1 min-h-[40px] px-2.5 py-1.5 rounded-lg bg-[#14110E] border border-[#EA580C]/50 text-white text-xs placeholder:text-stone-600 outline-none focus-visible:ring-1 focus-visible:ring-[#EA580C]"
                               />
                               <button
                                 onClick={() => setActiveNoteEditId(null)}
-                                className="px-2.5 py-1.5 rounded-lg bg-[#EA580C] text-white text-xs font-bold cursor-pointer"
+                                className="min-h-[40px] px-3 rounded-lg bg-[#EA580C] text-white text-xs font-bold cursor-pointer"
                               >
                                 Simpan
                               </button>
@@ -352,7 +385,8 @@ export default function CartDrawer() {
                                 onClick={() =>
                                   setActiveNoteEditId(cartItem.item.id)
                                 }
-                                className="text-[11px] text-[#EA580C] hover:text-[#F97316] font-semibold flex items-center gap-1 cursor-pointer"
+                                aria-label={`Ubah catatan khusus untuk ${cartItem.item.name}`}
+                                className="min-h-[36px] px-2 text-[11px] text-[#EA580C] hover:text-[#F97316] font-semibold flex items-center gap-1 cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C] rounded-lg"
                               >
                                 <Edit3 className="w-3 h-3" />
                                 <span>{cartItem.notes ? 'Ubah' : '+ Catatan'}</span>
@@ -365,10 +399,11 @@ export default function CartDrawer() {
                         <div className="flex items-center justify-between pt-2 border-t border-stone-800/60">
                           <button
                             onClick={() => removeItem(cartItem.item.id)}
-                            className="text-stone-500 hover:text-rose-400 p-1 transition-colors cursor-pointer"
+                            className="min-w-[40px] min-h-[40px] text-stone-500 hover:text-rose-400 flex items-center justify-center rounded-lg transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-rose-500"
+                            aria-label={`Hapus ${cartItem.item.name} dari keranjang`}
                             title="Hapus menu"
                           >
-                            <Trash2 className="w-3.5 h-3.5" />
+                            <Trash2 className="w-4 h-4" />
                           </button>
 
                           <div className="flex items-center gap-2">
@@ -379,11 +414,12 @@ export default function CartDrawer() {
                                   cartItem.quantity - 1
                                 )
                               }
-                              className="w-7 h-7 rounded-full bg-stone-800 hover:bg-stone-700 text-white flex items-center justify-center transition-colors cursor-pointer active:scale-90"
+                              className="min-w-[40px] min-h-[40px] rounded-full bg-stone-800 hover:bg-stone-700 text-white flex items-center justify-center transition-colors cursor-pointer active:scale-90 focus-visible:ring-2 focus-visible:ring-[#EA580C]"
+                              aria-label={`Kurangi 1 porsi ${cartItem.item.name}`}
                             >
-                              <Minus className="w-3 h-3" />
+                              <Minus className="w-3.5 h-3.5" />
                             </button>
-                            <span className="text-xs font-bold text-white font-mono w-6 text-center">
+                            <span className="text-xs font-bold text-white font-mono w-6 text-center" aria-live="polite">
                               {cartItem.quantity}
                             </span>
                             <button
@@ -393,9 +429,10 @@ export default function CartDrawer() {
                                   cartItem.quantity + 1
                                 )
                               }
-                              className="w-7 h-7 rounded-full bg-stone-800 hover:bg-stone-700 text-white flex items-center justify-center transition-colors cursor-pointer active:scale-90"
+                              className="min-w-[40px] min-h-[40px] rounded-full bg-stone-800 hover:bg-stone-700 text-white flex items-center justify-center transition-colors cursor-pointer active:scale-90 focus-visible:ring-2 focus-visible:ring-[#EA580C]"
+                              aria-label={`Tambah 1 porsi ${cartItem.item.name}`}
                             >
-                              <Plus className="w-3 h-3" />
+                              <Plus className="w-3.5 h-3.5" />
                             </button>
                           </div>
                         </div>
@@ -430,7 +467,7 @@ export default function CartDrawer() {
 
                 <button
                   onClick={handleCheckoutWhatsApp}
-                  className="w-full py-3.5 sm:py-4 rounded-full bg-gradient-to-r from-emerald-600 via-[#EA580C] to-[#C2410C] hover:opacity-95 text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2.5 shadow-xl shadow-[#EA580C]/25 cursor-pointer active:scale-95 transition-all"
+                  className="w-full min-h-[48px] py-3.5 sm:py-4 rounded-full bg-gradient-to-r from-emerald-600 via-[#EA580C] to-[#C2410C] hover:opacity-95 text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2.5 shadow-xl shadow-[#EA580C]/25 cursor-pointer active:scale-95 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
                 >
                   <Send className="w-4 h-4 fill-white/20" />
                   <span>Kirim Pesanan ke WhatsApp Kasir</span>
@@ -447,7 +484,11 @@ export default function CartDrawer() {
 
       {/* Checkout Success Feedback Toast */}
       {checkoutSuccessToast && (
-        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-2xl bg-emerald-950/95 border border-emerald-500/50 text-white text-xs font-semibold shadow-2xl flex items-center gap-2 animate-in fade-in slide-in-from-top-4">
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed top-6 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-2xl bg-emerald-950/95 border border-emerald-500/50 text-white text-xs font-semibold shadow-2xl flex items-center gap-2 animate-in fade-in slide-in-from-top-4"
+        >
           <CheckCircle2 className="w-4 h-4 text-emerald-400" />
           <span>Membuka WhatsApp untuk mengirim pesanan...</span>
         </div>
