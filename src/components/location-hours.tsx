@@ -7,7 +7,7 @@ import { useOperationalStatus } from '@/hooks/use-operational-status';
 export default function LocationHours() {
   const { isOpen, statusLabel, detailLabel, currentTimeWIB } = useOperationalStatus();
   return (
-    <section id="location" className="scroll-mt-24 py-20 sm:py-28 md:py-32 relative bg-[#14110E] border-t border-stone-800/80">
+    <section id="lokasi" className="scroll-mt-24 py-20 sm:py-28 md:py-32 relative bg-[#14110E] border-t border-stone-800/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -20,7 +20,7 @@ export default function LocationHours() {
             Location &amp; Operating Hours
           </h2>
           <p className="text-stone-300 text-xs sm:text-sm md:text-base font-normal leading-relaxed px-2">
-            Conveniently situated with secure on-site parking and late-night opening hours to fuel your work and meetups.
+            Conveniently situated in the Senopati district with secure on-site parking bays, late-night service, and seamless transport links.
           </p>
         </div>
 
@@ -38,15 +38,15 @@ export default function LocationHours() {
                   </div>
                   <div>
                     <h3 className="text-base sm:text-lg font-bold text-white font-display">
-                      Spacious &amp; Secure Parking
+                      Spacious On-Site Parking &amp; Security
                     </h3>
                     <p className="text-[10px] sm:text-[11px] text-[#F59E0B] font-semibold">
-                      Secure &bull; Ample vehicle capacity &bull; Attendant on duty
+                      Ample vehicle capacity &bull; Attendant on duty &bull; Well-lit area
                     </p>
                   </div>
                 </div>
                 <p className="text-xs sm:text-sm text-stone-300 leading-relaxed font-normal pt-1">
-                  Never worry about parking when visiting with your team or squad. Well-lit parking area directly in front of the cafe with constant supervision.
+                  Never stress about finding parking when arriving for your sprint sessions or squad dinners. Safe, dedicated parking located directly in front of the venue.
                 </p>
               </div>
             </div>
@@ -58,7 +58,7 @@ export default function LocationHours() {
                   <div className="flex items-center gap-2.5 sm:gap-3 text-[#EA580C]">
                     <Clock className="w-5 h-5" />
                     <h3 className="text-base sm:text-lg font-bold text-white font-display">
-                      Cafe Hours
+                      Operational Hours
                     </h3>
                   </div>
 
@@ -91,7 +91,7 @@ export default function LocationHours() {
                   </div>
                 </div>
                 <p className="text-[11px] text-stone-400 font-normal">
-                  *{detailLabel}. Hot kitchen, signature ramen, and handcrafted coffee served right up to closing!
+                  *{detailLabel}. Hot kitchen, signature noodles, and specialty espresso served right up to closing!
                 </p>
               </div>
             </div>
@@ -102,7 +102,7 @@ export default function LocationHours() {
                 <div className="flex items-center gap-2.5 sm:gap-3 text-[#EA580C]">
                   <MapPin className="w-5 h-5" />
                   <h3 className="text-base sm:text-lg font-bold text-white font-display">
-                    Full Address
+                    Venue Address
                   </h3>
                 </div>
                 
@@ -117,7 +117,7 @@ export default function LocationHours() {
                     rel="noopener noreferrer"
                     className="group inline-flex items-center justify-center sm:justify-between gap-2.5 pl-4 pr-2 py-2.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white text-xs font-bold tracking-wide transition-all shadow-md shadow-[#EA580C]/25 hover:scale-[1.02] active:scale-[0.96]"
                   >
-                    <span>Open Google Maps</span>
+                    <span>Open in Google Maps</span>
                     <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center transition-transform group-hover:translate-x-0.5">
                       <ExternalLink className="w-3 h-3" />
                     </div>
@@ -130,7 +130,7 @@ export default function LocationHours() {
                     className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-[#1A1410] hover:bg-[#251D18] text-stone-200 hover:text-white border border-stone-700 hover:border-[#EA580C] text-xs font-semibold active:scale-[0.96] transition-all"
                   >
                     <Send className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>Chat on WhatsApp</span>
+                    <span>Inquire via WhatsApp</span>
                   </a>
                 </div>
               </div>
@@ -146,28 +146,28 @@ export default function LocationHours() {
                   Comfort &amp; Productivity
                 </span>
                 <h3 className="text-xl sm:text-2xl font-extrabold text-white font-display">
-                  Hassle-Free Work &amp; Dine Space
+                  Purpose-Built Work &amp; Social Space
                 </h3>
                 <p className="text-xs sm:text-sm text-stone-300 font-normal leading-relaxed">
-                  Whether you are tackling remote sprints, finishing academic deadlines, or relaxing with friends &mdash; our space is equipped with everything you need for productive comfort.
+                  Whether you are tackling late-night software sprints, collaborating on product roadmaps, or catching up with friends &mdash; our diner provides the ideal setup for sustained focus.
                 </p>
 
                 <div className="space-y-2.5 sm:space-y-3 pt-2 sm:pt-3">
                   <div className="flex items-center gap-2.5 text-xs sm:text-sm text-stone-200">
                     <div className="w-2 h-2 rounded-full bg-[#EA580C] flex-shrink-0" />
-                    <span>Universal power outlets accessible from every table and corner</span>
+                    <span>Universal AC outlets &amp; USB ports accessible from every single table</span>
                   </div>
                   <div className="flex items-center gap-2.5 text-xs sm:text-sm text-stone-200">
                     <div className="w-2 h-2 rounded-full bg-[#EA580C] flex-shrink-0" />
-                    <span>High-speed dedicated Wi-Fi with zero bandwidth throttling</span>
+                    <span>High-throughput 150 Mbps dedicated fiber with low latency</span>
                   </div>
                   <div className="flex items-center gap-2.5 text-xs sm:text-sm text-stone-200">
                     <div className="w-2 h-2 rounded-full bg-[#EA580C] flex-shrink-0" />
-                    <span>Ergonomic work tables, cushioned chairs, and lounge seating</span>
+                    <span>Ergonomic work tables, cushioned booth banquettes, and lounge chairs</span>
                   </div>
                   <div className="flex items-center gap-2.5 text-xs sm:text-sm text-stone-200">
                     <div className="w-2 h-2 rounded-full bg-[#EA580C] flex-shrink-0" />
-                    <span>Fresh airflow with air-conditioned indoor &amp; designated smoking outdoor</span>
+                    <span>Climate-controlled indoor focus lounge &amp; breezy outdoor smoking patio</span>
                   </div>
                 </div>
               </div>
@@ -175,8 +175,8 @@ export default function LocationHours() {
               {/* Quick WhatsApp Bar with Nested Action Button */}
               <div className="pt-5 border-t border-stone-800 relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3.5 mt-5">
                 <div>
-                  <p className="text-xs font-bold text-white">Questions or want to check table availability?</p>
-                  <p className="text-[11px] text-stone-400 font-normal">Our team responds promptly on WhatsApp.</p>
+                  <p className="text-xs font-bold text-white">Questions or table availability inquiries?</p>
+                  <p className="text-[11px] text-stone-400 font-normal">Our concierge responds promptly via WhatsApp.</p>
                 </div>
 
                 <a

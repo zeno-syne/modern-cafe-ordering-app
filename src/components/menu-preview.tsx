@@ -42,7 +42,7 @@ export default function MenuPreview() {
   // Extended filter categories with Best Seller
   const extendedCategories = [
     { id: 'all', label: 'All Items' },
-    { id: 'bestseller', label: '🔥 Bestsellers' },
+    { id: 'bestseller', label: '🔥 Signatures & Bestsellers' },
     ...MENU_CATEGORIES.filter((c) => c.id !== 'all'),
   ];
 
@@ -53,7 +53,8 @@ export default function MenuPreview() {
       matchesCategory = Boolean(
         item.popular ||
           item.badge?.includes('BEST') ||
-          item.badge?.includes('FAVORIT')
+          item.badge?.includes('SPECIAL') ||
+          item.badge?.includes('FAVORITE')
       );
     } else if (activeCategory !== 'all') {
       matchesCategory = item.category === activeCategory;
@@ -95,7 +96,7 @@ export default function MenuPreview() {
     const addedQty = quantity;
     setSelectedOrderItem(null);
 
-    setToastMessage(`${addedQty}x ${itemName} added to cart!`);
+    setToastMessage(`${addedQty}x ${itemName} added to your order!`);
     setTimeout(() => {
       setToastMessage(null);
     }, 3500);
@@ -105,13 +106,13 @@ export default function MenuPreview() {
     if (!selectedOrderItem) return;
 
     const total = selectedOrderItem.price * quantity;
-    const noteText = orderNote.trim() ? `\nNote: ${orderNote.trim()}` : '';
+    const noteText = orderNote.trim() ? `\nKitchen Note: ${orderNote.trim()}` : '';
     const message = encodeURIComponent(
       `*DIRECT ORDER - SENTOSA CAFE*\n\n` +
       `Item: *${selectedOrderItem.name}*\n` +
       `Quantity: ${quantity} portion(s)\n` +
       `Total: ${formatRupiah(total)}${noteText}\n\n` +
-      `Hello Sentosa Cafe, I would like to place an order for this item. Is it available? Thank you!`
+      `Hello Sentosa Cafe team, I would like to order this item. Please confirm availability. Thank you!`
     );
 
     const targetUrl = `https://wa.me/6281289902026?text=${message}`;
@@ -145,13 +146,13 @@ export default function MenuPreview() {
         <div className="text-center max-w-2xl mx-auto space-y-3 mb-8 sm:mb-10">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#EA580C]/15 border border-[#EA580C]/35 text-[#F59E0B] text-xs font-bold tracking-wide">
             <Flame className="w-3.5 h-3.5 text-[#EA580C]" />
-            <span>Signature Cafe Menu</span>
+            <span>Curated Kitchen &amp; Espresso Bar</span>
           </div>
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white font-display">
-            Affordable Treats, Premium Flavor
+            Artisanal Quality, Everyday Value
           </h2>
           <p className="text-stone-300 text-xs sm:text-sm md:text-base leading-relaxed font-normal px-2">
-            Curated comfort food and specialty drinks to power study marathons, squad game nights, or relaxed late-night gatherings.
+            Handcrafted espresso, chef-inspired comfort plates, and refreshing coolers prepared fresh to order.
           </p>
         </div>
 
@@ -161,7 +162,7 @@ export default function MenuPreview() {
             <Search className="w-4 h-4 text-stone-400 absolute left-4 pointer-events-none" aria-hidden="true" />
             <input
               type="text"
-              placeholder="Search coffee, comfort food, bites, drinks..."
+              placeholder="Search coffee, noodles, toast, cold brews..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               aria-label="Search cafe food and beverage menu"
@@ -180,7 +181,7 @@ export default function MenuPreview() {
           </div>
         </div>
 
-        {/* Category Filters: Floating Pill Buttons with aria-pressed */}
+        {/* Category Filters: Floating Pill Buttons with aria-selected */}
         <div className="flex items-center justify-center flex-wrap gap-2 sm:gap-2.5 mb-10 sm:mb-14" role="tablist" aria-label="Filter menu categories">
           {extendedCategories.map((cat) => (
             <button
@@ -209,8 +210,8 @@ export default function MenuPreview() {
               No Menu Items Found
             </h3>
             <p className="text-xs text-stone-400 leading-relaxed">
-              No menu items match your search for &ldquo;<span className="text-[#F59E0B] font-semibold">{searchQuery}</span>&rdquo;.
-              Try searching for coffee, ramen, toast, or matcha.
+              No items match your search for &ldquo;<span className="text-[#F59E0B] font-semibold">{searchQuery}</span>&rdquo;.
+              Try searching for espresso, latte, noodles, or toast.
             </p>
             <button
               onClick={() => {
@@ -256,7 +257,7 @@ export default function MenuPreview() {
                               {item.category === 'kopi'
                                 ? 'Coffee'
                                 : item.category === 'makanan'
-                                ? 'Food'
+                                ? 'Kitchen'
                                 : 'Beverage'}
                             </span>
                           )}
@@ -264,7 +265,7 @@ export default function MenuPreview() {
                           {inCartQty > 0 && (
                             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
                               <Check className="w-2.5 h-2.5" />
-                              <span>{inCartQty} in Cart</span>
+                              <span>{inCartQty} in Order</span>
                             </span>
                           )}
                         </div>
@@ -290,11 +291,11 @@ export default function MenuPreview() {
                     {/* Card Action Footer */}
                     <div className="mt-5 pt-3.5 border-t border-stone-800/90 flex items-center justify-between">
                       <span className="text-[11px] sm:text-xs text-stone-400 font-medium">
-                        {item.badge === 'BEST SELLER'
+                        {item.popular
                           ? '🔥 Guest Favorite'
-                          : item.badge === 'BUDGET BUNDLE'
-                          ? '💰 Great Value'
-                          : '☕ Generous Portion'}
+                          : item.price <= 12000
+                          ? '💰 Everyday Value'
+                          : '⚡ Made Fresh'}
                       </span>
 
                       <button
@@ -325,7 +326,7 @@ export default function MenuPreview() {
             className="group inline-flex min-h-[44px] items-center justify-between sm:justify-center gap-3 pl-4 sm:pl-5 pr-2 py-2 rounded-full bg-[#1D1713] hover:bg-[#251D18] text-[#F5EDE4] hover:text-[#F59E0B] border border-stone-700/80 hover:border-[#EA580C]/50 text-xs sm:text-sm font-semibold transition-all shadow-lg active:scale-95 focus-visible:ring-2 focus-visible:ring-[#EA580C]"
           >
             <span className="text-left sm:text-center">
-              Questions about our menu or planning a squad meetup?
+              Questions about our menu or planning a team work session?
             </span>
             <div className="w-7 h-7 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center transition-transform group-hover:scale-110 flex-shrink-0">
               <MessageCircle className="w-4 h-4" />
@@ -401,7 +402,7 @@ export default function MenuPreview() {
               <input
                 id="order-dialog-note"
                 type="text"
-                placeholder="e.g. Less ice, extra spicy, oat milk preference"
+                placeholder="e.g. Less ice, oat milk substitution, extra spicy sambal"
                 value={orderNote}
                 onChange={(e) => setOrderNote(e.target.value)}
                 className="w-full min-h-[44px] px-3.5 py-2.5 rounded-xl bg-[#14110E] border border-stone-800 focus:border-[#EA580C] focus-visible:ring-2 focus-visible:ring-[#EA580C] text-white text-xs placeholder:text-stone-500 outline-none transition-colors"
@@ -410,7 +411,7 @@ export default function MenuPreview() {
 
             {/* Total Price */}
             <div className="flex justify-between items-center border-t border-stone-800 pt-3 text-sm font-bold text-white font-display">
-              <span>Total Price:</span>
+              <span>Item Total:</span>
               <span className="text-[#F59E0B] font-display text-lg">
                 {formatRupiah(selectedOrderItem.price * quantity)}
               </span>
@@ -423,7 +424,7 @@ export default function MenuPreview() {
                 className="w-full min-h-[48px] py-3.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-[#EA580C]/30 active:scale-95 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
               >
                 <ShoppingBag className="w-4 h-4" />
-                <span>+ Add to Cart</span>
+                <span>+ Add to Dining Order</span>
               </button>
 
               <button
@@ -431,7 +432,7 @@ export default function MenuPreview() {
                 className="w-full min-h-[44px] py-2.5 rounded-full bg-[#14110E] hover:bg-[#201A16] border border-stone-700/80 hover:border-emerald-500/50 text-stone-300 hover:text-emerald-400 font-semibold text-xs flex items-center justify-center gap-2 cursor-pointer active:scale-95 transition-all focus-visible:ring-2 focus-visible:ring-emerald-400"
               >
                 <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Order Directly via WhatsApp</span>
+                <span>Direct WhatsApp Order</span>
               </button>
             </div>
           </div>
@@ -454,7 +455,7 @@ export default function MenuPreview() {
             aria-label="Open cart drawer"
             className="text-[11px] font-bold text-[#F59E0B] underline hover:text-white cursor-pointer ml-2 min-h-[36px] flex items-center"
           >
-            View Cart ({totalItems})
+            Review Order ({totalItems})
           </button>
         </div>
       )}

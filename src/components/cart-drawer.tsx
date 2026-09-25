@@ -19,7 +19,6 @@ import {
   Users,
   Copy,
   Check,
-  CreditCard,
   Banknote,
   Receipt,
   Sparkles,
@@ -115,23 +114,23 @@ export default function CartDrawer() {
     const tableInfo =
       orderType === 'dine-in' && tableNumber.trim()
         ? `Table ${tableNumber.trim()}`
-        : 'Takeaway / To-Go';
+        : 'Takeaway Express';
 
     const menuLines = items
       .map((i) => `  • ${i.quantity}x ${i.item.name} (${formatRupiah(i.item.price * i.quantity)})`)
       .join('\n');
 
     const splitText =
-      `🍻 *FAIR-SHARE SPLIT BILL - SENTOSA CAFE* 🍻\n` +
+      `🍻 *FAIR-SHARE BILL SPLIT - SENTOSA CAFE* 🍻\n` +
       `==============================\n` +
-      `📍 Location: *${tableInfo}*\n` +
-      `👥 Diners: *${splitPeopleCount} Guests*\n` +
+      `📍 Dining: *${tableInfo}*\n` +
+      `👥 Guests: *${splitPeopleCount} Diners*\n` +
       `💰 Total Bill: *${formatRupiah(totalPrice)}*\n` +
       `👉 *PER-PERSON SHARE: ${formatRupiah(perPersonShare)}*\n` +
       `==============================\n` +
-      `📋 Order Items:\n${menuLines}\n` +
+      `📋 Order Breakdown:\n${menuLines}\n` +
       `==============================\n` +
-      `Please transfer your share or prepare exact change! 🙏`;
+      `Please transfer your share via mobile banking/QRIS or prepare cash! 🙏`;
 
     const success = await copyToClipboard(splitText);
     if (success) {
@@ -162,7 +161,7 @@ export default function CartDrawer() {
     const orderTypeLabel =
       orderType === 'dine-in'
         ? `Dine-In (Table ${tableNumber.trim()})`
-        : 'Takeaway / To-Go';
+        : 'Takeaway Express';
 
     const customerLine = customerName.trim()
       ? `👤 Guest Name: *${customerName.trim()}*\n`
@@ -181,16 +180,16 @@ export default function CartDrawer() {
       .map((i) => {
         let text = `• *${i.quantity}x ${i.item.name}* (${formatRupiah(i.item.price * i.quantity)})`;
         if (i.notes && i.notes.trim()) {
-          text += `\n  ↳ _Note: ${i.notes.trim()}_`;
+          text += `\n  ↳ _Kitchen Note: ${i.notes.trim()}_`;
         }
         return text;
       })
       .join('\n');
 
     const rawMessage =
-      `*SENTOSA CAFE ORDER*\n` +
+      `*SENTOSA CAFE - TABLE ORDER*\n` +
       `==============================\n` +
-      `📋 Type: *${orderTypeLabel}*\n` +
+      `📋 Service: *${orderTypeLabel}*\n` +
       customerLine +
       `💳 Payment: *${paymentLabel}*\n` +
       splitLine +
@@ -199,7 +198,7 @@ export default function CartDrawer() {
       `------------------------------\n` +
       `*Total: ${formatRupiah(totalPrice)}* (${totalItems} items)\n` +
       `==============================\n` +
-      `Hello Sentosa Cafe Cashier, I would like to place this order. Please prepare it. Thank you! 🙏`;
+      `Hello Sentosa Cafe team, I would like to place this dining order. Please prepare it for our table. Thank you! 🙏`;
 
     const encodedMessage = encodeURIComponent(rawMessage);
     const targetUrl = `https://wa.me/6281289902026?text=${encodedMessage}`;
@@ -214,7 +213,7 @@ export default function CartDrawer() {
 
   return (
     <>
-      {/* 1. FLOATING CART BAR (Muncul di layar saat ada item & drawer tertutup) */}
+      {/* 1. FLOATING ORDER BAR */}
       {totalItems > 0 && !isCartOpen && (
         <div className="fixed bottom-5 sm:bottom-6 left-0 right-0 z-40 px-3 sm:px-4 flex justify-center pointer-events-none animate-in slide-in-from-bottom-6 duration-300">
           <div className="pointer-events-auto w-full max-w-md bg-[#1C1612]/95 backdrop-blur-xl border border-[#EA580C]/40 p-2 sm:p-2.5 rounded-full shadow-2xl shadow-black/80 flex items-center justify-between ring-1 ring-white/10 hover:border-[#EA580C] transition-all">
@@ -233,7 +232,7 @@ export default function CartDrawer() {
               </div>
               <div>
                 <span className="text-[11px] text-stone-400 font-medium block">
-                  {orderType === 'dine-in' && tableNumber ? `Table ${tableNumber} • ` : ''}{totalItems} Items Selected
+                  {orderType === 'dine-in' && tableNumber ? `Table ${tableNumber} • ` : ''}{totalItems} Item(s) Selected
                 </span>
                 <span className="text-sm sm:text-base font-extrabold text-[#F59E0B] font-display">
                   {formatRupiah(totalPrice)}
@@ -247,7 +246,7 @@ export default function CartDrawer() {
               aria-label="Open order summary to checkout"
               className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 min-h-[44px] rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white text-xs sm:text-sm font-bold tracking-wide shadow-lg shadow-[#EA580C]/30 hover:scale-105 active:scale-95 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
             >
-              <span>View Order</span>
+              <span>Review Order</span>
               <MessageCircle className="w-4 h-4 fill-white/10" />
             </button>
           </div>
@@ -280,10 +279,10 @@ export default function CartDrawer() {
                 </div>
                 <div>
                   <h2 id="cart-drawer-title" className="text-base sm:text-lg font-bold text-white font-display">
-                    Dine-In Cart
+                    Dining Order &amp; Checkout
                   </h2>
                   <span className="text-xs text-stone-400">
-                    {totalItems} item(s) ready to order
+                    {totalItems} item(s) selected
                   </span>
                 </div>
               </div>
@@ -294,7 +293,7 @@ export default function CartDrawer() {
                     onClick={clearCart}
                     className="min-w-[44px] min-h-[44px] rounded-xl text-stone-400 hover:text-rose-400 hover:bg-rose-500/10 flex items-center justify-center transition-colors text-xs font-medium cursor-pointer focus-visible:ring-2 focus-visible:ring-rose-500 focus-visible:outline-none"
                     aria-label="Clear all items in cart"
-                    title="Clear Cart"
+                    title="Clear Order"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -302,7 +301,7 @@ export default function CartDrawer() {
                 <button
                   onClick={() => setIsCartOpen(false)}
                   className="min-w-[44px] min-h-[44px] rounded-xl bg-stone-900 hover:bg-stone-800 text-stone-400 hover:text-white border border-stone-800 flex items-center justify-center transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C] focus-visible:outline-none"
-                  aria-label="Close cart drawer"
+                  aria-label="Close order drawer"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -315,10 +314,10 @@ export default function CartDrawer() {
               {/* Order Options: Dine-in vs Takeaway */}
               <div className="p-3.5 rounded-2xl bg-[#14110E] border border-stone-800/90 space-y-3">
                 <div className="text-xs font-semibold text-stone-300">
-                  Dining Preference:
+                  Service Style:
                 </div>
                 
-                <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label="Dining Preference">
+                <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label="Dining Service Style">
                   <button
                     type="button"
                     role="radio"
@@ -331,7 +330,7 @@ export default function CartDrawer() {
                     }`}
                   >
                     <Utensils className="w-3.5 h-3.5" />
-                    <span>Dine-In</span>
+                    <span>Dine-In (Table)</span>
                   </button>
 
                   <button
@@ -346,7 +345,7 @@ export default function CartDrawer() {
                     }`}
                   >
                     <Package className="w-3.5 h-3.5" />
-                    <span>Takeaway / To-Go</span>
+                    <span>Takeaway Express</span>
                   </button>
                 </div>
 
@@ -358,14 +357,14 @@ export default function CartDrawer() {
                         <span>Table Number *</span>
                         {qrDetectedTable && (
                           <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono font-bold flex items-center gap-1">
-                            <QrCode className="w-2.5 h-2.5" /> QR Scanned
+                            <QrCode className="w-2.5 h-2.5" /> QR Linked
                           </span>
                         )}
                       </label>
                       <input
                         id="cart-table-number"
                         type="text"
-                        placeholder="e.g. 04"
+                        placeholder="e.g. 04 / VIP-1"
                         value={tableNumber}
                         onChange={(e) => setTableNumber(e.target.value)}
                         required={orderType === 'dine-in'}
@@ -377,12 +376,12 @@ export default function CartDrawer() {
 
                   <div className={orderType === 'dine-in' ? '' : 'sm:col-span-2'}>
                     <label htmlFor="cart-customer-name" className="text-[11px] font-medium text-stone-400 mb-1 block">
-                      Guest Name (Optional)
+                      Guest / Squad Name (Optional)
                     </label>
                     <input
                       id="cart-customer-name"
                       type="text"
-                      placeholder="e.g. Alex / Product Team"
+                      placeholder="e.g. Alex / Product Squad"
                       value={customerName}
                       onChange={(e) => setCustomerName(e.target.value)}
                       className="w-full min-h-[44px] px-3 py-2 rounded-xl bg-[#1C1612] border border-stone-800 focus:border-[#EA580C] focus-visible:ring-2 focus-visible:ring-[#EA580C] text-white text-xs placeholder:text-stone-500 outline-none transition-colors"
@@ -398,22 +397,22 @@ export default function CartDrawer() {
                     <ShoppingBag className="w-8 h-8 opacity-40" />
                   </div>
                   <h3 className="text-base font-bold text-white font-display">
-                    Your Cart is Empty
+                    Your Order is Empty
                   </h3>
                   <p className="text-xs text-stone-400 max-w-xs mx-auto">
-                    Browse our menu to add artisan coffee and comfort bites to your order!
+                    Browse our curated kitchen and coffee bar to add treats to your table!
                   </p>
                   <button
                     onClick={() => setIsCartOpen(false)}
                     className="inline-flex min-h-[44px] items-center px-5 py-2 rounded-full bg-[#EA580C]/20 border border-[#EA580C]/40 text-[#F59E0B] text-xs font-bold hover:bg-[#EA580C]/30 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C] focus-visible:outline-none"
                   >
-                    Back to Menu
+                    Explore Menu
                   </button>
                 </div>
               ) : (
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-xs text-stone-400 font-semibold px-1">
-                    <span>Ordered Items</span>
+                    <span>Selected Items</span>
                     <span>Subtotal</span>
                   </div>
 
@@ -448,12 +447,12 @@ export default function CartDrawer() {
                           {isEditingNote ? (
                             <div className="flex items-center gap-1.5 mt-1">
                               <label htmlFor={`note-${cartItem.item.id}`} className="sr-only">
-                                Special note for {cartItem.item.name}
+                                Kitchen note for {cartItem.item.name}
                               </label>
                               <input
                                 id={`note-${cartItem.item.id}`}
                                 type="text"
-                                placeholder="e.g. Less sweet, extra spicy, oat milk"
+                                placeholder="e.g. Less sweet, extra sambal, oat milk"
                                 value={cartItem.notes || ''}
                                 onChange={(e) =>
                                   updateNotes(cartItem.item.id, e.target.value)
@@ -476,7 +475,7 @@ export default function CartDrawer() {
                                 </p>
                               ) : (
                                 <span className="text-[11px] text-stone-500">
-                                  No special notes
+                                  No special requests
                                 </span>
                               )}
                               <button
@@ -498,7 +497,7 @@ export default function CartDrawer() {
                           <button
                             onClick={() => removeItem(cartItem.item.id)}
                             className="min-w-[40px] min-h-[40px] text-stone-500 hover:text-rose-400 flex items-center justify-center rounded-lg transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-rose-500"
-                            aria-label={`Remove ${cartItem.item.name} from cart`}
+                            aria-label={`Remove ${cartItem.item.name} from order`}
                             title="Remove item"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -550,13 +549,13 @@ export default function CartDrawer() {
                       </div>
                       <div>
                         <h3 className="text-xs font-bold text-white flex items-center gap-1.5">
-                          Fair-Share Calculator
+                          Fair-Share Bill Splitter
                           <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 font-normal">
-                            Split Bill
+                            Group Dining
                           </span>
                         </h3>
                         <p className="text-[10px] text-stone-400">
-                          Equally divide the bill among your squad
+                          Evenly distribute total among your squad
                         </p>
                       </div>
                     </div>
@@ -569,7 +568,7 @@ export default function CartDrawer() {
                       }`}
                       role="switch"
                       aria-checked={splitBillEnabled}
-                      aria-label="Toggle split bill calculator"
+                      aria-label="Toggle fair-share bill splitter"
                     >
                       <span
                         className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
@@ -659,7 +658,7 @@ export default function CartDrawer() {
                       Payment Method:
                     </span>
                     <span className="text-[10px] text-emerald-400 flex items-center gap-1 font-medium">
-                      <Sparkles className="w-3 h-3" /> No Surcharge
+                      <Sparkles className="w-3 h-3" /> Zero Surcharge
                     </span>
                   </div>
 
@@ -694,7 +693,7 @@ export default function CartDrawer() {
                       }`}
                     >
                       <QrCode className="w-4 h-4" />
-                      <span>QRIS (Scan Counter)</span>
+                      <span>QRIS (Instant Pay)</span>
                     </button>
                   </div>
 
@@ -705,7 +704,7 @@ export default function CartDrawer() {
                           QRIS
                         </div>
                         <div className="text-[11px] text-stone-300">
-                          BCA, GoPay, OVO, ShopeePay, Dana, etc.
+                          Supports all mobile banks &amp; digital wallets
                         </div>
                       </div>
                       <button
@@ -713,7 +712,7 @@ export default function CartDrawer() {
                         onClick={() => setShowQrisModal(true)}
                         className="px-2.5 py-1.5 rounded-lg bg-[#EA580C]/20 hover:bg-[#EA580C]/30 text-[#F59E0B] font-bold text-[11px] border border-[#EA580C]/40 transition-colors cursor-pointer"
                       >
-                        View QRIS
+                        View QR Code
                       </button>
                     </div>
                   )}
@@ -734,12 +733,12 @@ export default function CartDrawer() {
                   <div className="flex justify-between text-stone-400">
                     <span>Payment Method</span>
                     <span className="text-amber-400 font-semibold font-mono">
-                      {paymentMethod === 'qris' ? 'Counter QRIS' : 'Cash at Counter'}
+                      {paymentMethod === 'qris' ? 'Counter QRIS Scan' : 'Cash at Counter'}
                     </span>
                   </div>
                   {splitBillEnabled && (
                     <div className="flex justify-between text-stone-400">
-                      <span>Split Bill ({splitPeopleCount} guests)</span>
+                      <span>Split Bill ({splitPeopleCount} diners)</span>
                       <span className="text-amber-300 font-semibold font-mono">
                         @{formatRupiah(perPersonShare)}
                       </span>
@@ -770,12 +769,12 @@ export default function CartDrawer() {
                     className="flex-1 min-h-[48px] py-3.5 sm:py-4 px-4 rounded-full bg-gradient-to-r from-emerald-600 via-[#EA580C] to-[#C2410C] hover:opacity-95 text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-xl shadow-[#EA580C]/25 cursor-pointer active:scale-95 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
                   >
                     <Send className="w-4 h-4 fill-white/20 flex-shrink-0" />
-                    <span className="truncate">Send Order to WA</span>
+                    <span className="truncate">Send Order via WhatsApp</span>
                   </button>
                 </div>
 
                 <p className="text-[10px] text-center text-stone-400">
-                  ⚡ Order is structured cleanly and forwarded directly to the cashier.
+                  ⚡ Order is cleanly formatted and forwarded directly to the barista &amp; cashier.
                 </p>
               </div>
             )}
@@ -814,7 +813,7 @@ export default function CartDrawer() {
                 NATIONAL QRIS STANDARD
               </div>
               <h3 id="qris-modal-title" className="text-lg font-black tracking-tight text-stone-900">
-                SENTOSA CAFE
+                SENTOSA CAFE &amp; DINER
               </h3>
               <p className="text-[11px] text-stone-500 font-mono">
                 NMID: ID102003928172901 • A01
@@ -902,7 +901,7 @@ export default function CartDrawer() {
 
               {/* Supported apps */}
               <p className="text-[10px] text-stone-500 font-medium text-center">
-                Supports all banks &amp; digital wallets with QRIS standard
+                Compatible with all banking apps &amp; mobile e-wallets
               </p>
             </div>
 
@@ -910,7 +909,7 @@ export default function CartDrawer() {
             <div className="p-3 bg-stone-100 rounded-2xl flex items-center justify-between">
               <div>
                 <span className="text-[10px] font-bold text-stone-500 uppercase tracking-wider block">
-                  Payment Amount:
+                  Total Payable:
                 </span>
                 <span className="text-base sm:text-lg font-black text-stone-900 font-mono">
                   {formatRupiah(totalPrice)}
@@ -939,14 +938,14 @@ export default function CartDrawer() {
             {/* Instruction */}
             <div className="space-y-1.5 text-center">
               <p className="text-[11px] text-stone-600 leading-relaxed">
-                Scan the code above using your m-Banking or e-wallet app, then show payment confirmation to the cashier or send via WhatsApp.
+                Scan the dynamic QR code above with your mobile banking or e-wallet app, then show payment confirmation to the barista or cashier.
               </p>
               <button
                 type="button"
                 onClick={() => setShowQrisModal(false)}
                 className="w-full py-2.5 rounded-xl bg-[#EA580C] hover:bg-[#F97316] text-white font-bold text-xs cursor-pointer transition-colors"
               >
-                I Understand / Ready to Pay
+                Done / Return to Order
               </button>
             </div>
           </div>

@@ -12,14 +12,14 @@ export interface OperationalStatus {
 export function useOperationalStatus(): OperationalStatus {
   const [status, setStatus] = useState<OperationalStatus>({
     isOpen: true,
-    statusLabel: 'Open for Dine-In',
-    detailLabel: 'Closes at 01:00 AM WIB',
+    statusLabel: 'Open for Dine-In & Takeaway',
+    detailLabel: 'Closes at 1:00 AM (GMT+7)',
     currentTimeWIB: '',
   });
 
   useEffect(() => {
     const calculateStatus = () => {
-      // Get current date/time converted to Asia/Jakarta (WIB)
+      // Get current date/time converted to Asia/Jakarta (GMT+7)
       const now = new Date();
       const options: Intl.DateTimeFormatOptions = {
         timeZone: 'Asia/Jakarta',
@@ -50,33 +50,33 @@ export function useOperationalStatus(): OperationalStatus {
       // Weekdays: 09:00 - 01:00 next morning
       // Weekends: 09:00 - 02:00 next morning
       let isOpen = false;
-      let statusLabel = 'Closed • Rest Hours';
-      let detailLabel = 'Opens at 09:00 AM WIB';
+      let statusLabel = 'Closed • Resting';
+      let detailLabel = 'Opens at 9:00 AM (GMT+7)';
 
       if (hour >= 9) {
         // Evening / night of current day
         isOpen = true;
-        const closingHour = isWeekendDay ? '02:00 AM' : '01:00 AM';
-        statusLabel = 'Open for Dine-In';
-        detailLabel = `Closes at ${closingHour} WIB`;
+        const closingHour = isWeekendDay ? '2:00 AM' : '1:00 AM';
+        statusLabel = 'Open for Dine-In & Takeaway';
+        detailLabel = `Closes at ${closingHour} (GMT+7)`;
       } else {
         // Early morning hours (00:00 - 08:59)
-        // Check if yesterday's session is still active
+        // Check if yesterday's late-night session is still active
         const isLateWeekendSession = weekdayStr === 'Sat' || weekdayStr === 'Sun';
         const lateClosingHour = isLateWeekendSession ? 2 : 1;
 
         if (hour < lateClosingHour) {
           isOpen = true;
-          statusLabel = 'Open for Dine-In';
-          detailLabel = `Closes at 0${lateClosingHour}:00 AM WIB`;
+          statusLabel = 'Open for Dine-In & Takeaway';
+          detailLabel = `Closes at ${lateClosingHour}:00 AM (GMT+7)`;
         } else {
           isOpen = false;
-          statusLabel = 'Closed • Rest Hours';
-          detailLabel = 'Reopens at 09:00 AM WIB';
+          statusLabel = 'Closed • Resting';
+          detailLabel = 'Reopens at 9:00 AM (GMT+7)';
         }
       }
 
-      const timeFormatted = `${hourStr.padStart(2, '0')}:${minuteStr.padStart(2, '0')} WIB`;
+      const timeFormatted = `${hourStr.padStart(2, '0')}:${minuteStr.padStart(2, '0')} GMT+7`;
 
       setStatus({
         isOpen,

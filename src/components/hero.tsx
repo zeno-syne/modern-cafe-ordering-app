@@ -69,7 +69,7 @@ export default function Hero({ onScrollToMenu, onScrollToLocation }: HeroProps) 
 
         {/* Headline */}
         <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white font-display leading-[1.18] sm:leading-[1.1] max-w-4xl mx-auto drop-shadow-sm px-1">
-          Artisan Coffee, Fast Wi-Fi,{' '}
+          Artisanal Brews, Fast Fiber,{' '}
           <span className="bg-gradient-to-r from-[#FDE047] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">
             Open Till Late.
           </span>
@@ -86,7 +86,7 @@ export default function Hero({ onScrollToMenu, onScrollToLocation }: HeroProps) 
             onClick={() => onScrollToMenu ? onScrollToMenu() : scrollTo('menu')}
             className="group w-full sm:w-auto inline-flex items-center justify-between gap-4 pl-7 pr-2.5 py-3 sm:py-2.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white font-black text-sm tracking-wide shadow-xl shadow-[#EA580C]/30 hover:scale-[1.03] active:scale-[0.96] transition-all duration-200 cursor-pointer"
           >
-            <span>Explore Menu</span>
+            <span>Explore Menu &amp; Order</span>
             <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/20 flex items-center justify-center transition-transform duration-200 group-hover:translate-y-0.5">
               <ArrowDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
             </div>
@@ -96,7 +96,7 @@ export default function Hero({ onScrollToMenu, onScrollToLocation }: HeroProps) 
             onClick={() => onScrollToLocation ? onScrollToLocation() : scrollTo('location')}
             className="group w-full sm:w-auto inline-flex items-center justify-between gap-4 pl-6 pr-2.5 py-3 sm:py-2.5 rounded-full bg-[#201914]/90 hover:bg-[#2A211B] text-[#F5EDE4] hover:text-[#F59E0B] border border-stone-700/90 hover:border-[#EA580C]/50 text-sm font-bold tracking-wide shadow-md hover:scale-[1.03] active:scale-[0.96] transition-all duration-200 cursor-pointer"
           >
-            <span>Find Location</span>
+            <span>Location &amp; Hours</span>
             <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-stone-800/90 border border-stone-700 flex items-center justify-center transition-transform duration-200 group-hover:translate-x-0.5">
               <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#EA580C]" />
             </div>
@@ -111,7 +111,7 @@ export default function Hero({ onScrollToMenu, onScrollToLocation }: HeroProps) 
                 <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#EA580C]/20 flex items-center justify-center text-[#F59E0B]">
                   <Wifi className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 </div>
-                <span>150 Mbps Fiber Wi-Fi</span>
+                <span>150 Mbps Dedicated Fiber</span>
               </div>
 
               <div className="hidden sm:block w-px h-4 bg-stone-800" />
@@ -120,7 +120,7 @@ export default function Hero({ onScrollToMenu, onScrollToLocation }: HeroProps) 
                 <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#EA580C]/20 flex items-center justify-center text-[#F59E0B]">
                   <Zap className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 </div>
-                <span>Outlets at Every Table</span>
+                <span>Power Outlets at Every Booth</span>
               </div>
 
               <div className="hidden sm:block w-px h-4 bg-stone-800" />
@@ -129,7 +129,7 @@ export default function Hero({ onScrollToMenu, onScrollToLocation }: HeroProps) 
                 <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#EA580C]/20 flex items-center justify-center text-[#F59E0B]">
                   <Clock className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 </div>
-                <span>{isOpen ? detailLabel : 'Opens at 09:00 AM'}</span>
+                <span>{isOpen ? detailLabel : 'Opens at 9:00 AM'}</span>
               </div>
 
               <div className="hidden md:block w-px h-4 bg-stone-800" />

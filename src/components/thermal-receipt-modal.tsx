@@ -34,25 +34,25 @@ export default function ThermalReceiptModal({
   perPersonShare,
 }: ThermalReceiptModalProps) {
   const [copied, setCopied] = useState(false);
-  const [receiptNumber, setReceiptNumber] = useState('WS-20260923-01');
+  const [receiptNumber, setReceiptNumber] = useState('WS-20260925-01');
   const [transactionTime, setTransactionTime] = useState('');
 
   useEffect(() => {
     if (isOpen) {
       const now = new Date();
-      const dateStr = now.toLocaleDateString('id-ID', {
+      const options: Intl.DateTimeFormatOptions = {
+        timeZone: 'Asia/Jakarta',
         day: '2-digit',
-        month: '2-digit',
+        month: 'short',
         year: 'numeric',
-      });
-      const timeStr = now.toLocaleTimeString('id-ID', {
         hour: '2-digit',
         minute: '2-digit',
-      });
-      setTransactionTime(`${dateStr} ${timeStr} WIB`);
+        hour12: false,
+      };
+      setTransactionTime(`${now.toLocaleDateString('en-US', options)} GMT+7`);
 
       const randomSuffix = Math.floor(1000 + Math.random() * 9000);
-      const tablePart = tableNumber ? `M${tableNumber.padStart(2, '0')}` : 'TA';
+      const tablePart = tableNumber ? `T${tableNumber.padStart(2, '0')}` : 'TA';
       setReceiptNumber(`WS-${tablePart}-${randomSuffix}`);
     }
   }, [isOpen, tableNumber]);
@@ -86,7 +86,7 @@ export default function ThermalReceiptModal({
     const tableInfo =
       orderType === 'dine-in'
         ? `Dine-In (Table ${tableNumber.trim() || '-'})`
-        : 'Takeaway / To-Go';
+        : 'Takeaway Express';
 
     const itemsText = items
       .map((i) => {
@@ -101,29 +101,29 @@ export default function ThermalReceiptModal({
       : '';
 
     return (
-      `            SENTOSA CAFE            \n` +
-      `  Jl. Senopati Raya No. 42, Jaksel  \n` +
-      `        Tel: 0812-8990-2026         \n` +
+      `            SENTOSA CAFE & DINER          \n` +
+      `     Jl. Senopati Raya No. 42, Jaksel     \n` +
+      `           Tel: +62 812-8990-2026         \n` +
       `${divider}\n` +
       `Receipt No: ${receiptNumber}\n` +
       `Timestamp : ${transactionTime}\n` +
-      `Cashier   : Zeno (POS-01)\n` +
+      `Operator  : Zeno (POS-01)\n` +
       `Service   : ${tableInfo}\n` +
       `Guest     : ${customerName.trim() || 'Valued Guest'}\n` +
       `${doubleDivider}\n` +
       `${itemsText}\n` +
       `${divider}\n` +
       `Total Items    : ${totalItems} Portions\n` +
-      `Table & Tax    : IDR 0 (INCLUDED)\n` +
-      `TOTAL BILL     : ${formatRupiah(totalPrice)}\n` +
+      `Service Charge : IDR 0 (INCLUDED)\n` +
+      `TOTAL PAYABLE  : ${formatRupiah(totalPrice)}\n` +
       `${splitInfo}\n` +
       `${doubleDivider}\n` +
       `Payment Method : ${paymentMethod === 'qris' ? 'COUNTER QRIS' : 'CASH AT COUNTER'}\n` +
-      `Payment Status : AWAITING CASHIER VERIFICATION\n` +
+      `Payment Status : PENDING CASHIER CONFIRMATION\n` +
       `${divider}\n` +
       `WIFI PASSWORD  : sentosajuara2026\n` +
-      ` Thank You for Dining with Us!\n` +
-      `  Artisan Coffee, Warm Food, Great Vibes \n`
+      `  Thank You for Dining at Sentosa Cafe!  \n` +
+      `   Artisanal Brews • Great Vibes • 24/7   \n`
     );
   };
 
@@ -238,12 +238,12 @@ export default function ThermalReceiptModal({
           {/* Receipt Store Header */}
           <div className="text-center space-y-1 pb-3 border-b border-dashed border-stone-400">
             <h3 className="text-base sm:text-lg font-black tracking-wider text-stone-950 uppercase font-mono">
-              SENTOSA CAFE
+              SENTOSA CAFE &amp; DINER
             </h3>
             <p className="text-[11px] text-stone-600 leading-tight">
-              Jl. Senopati Raya No. 42, Kebayoran Baru
+              Jl. Senopati Raya No. 42, Senopati Arts District
               <br />
-              Jakarta Selatan &bull; 0812-8990-2026
+              South Jakarta &bull; +62 812-8990-2026
             </p>
           </div>
 
@@ -262,11 +262,11 @@ export default function ThermalReceiptModal({
               <span className="font-semibold text-stone-800">Zeno (POS-01)</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-stone-500">Order Type</span>
+              <span className="text-stone-500">Service</span>
               <span className="font-bold text-stone-900">
                 {orderType === 'dine-in'
                   ? `Dine-In (Table ${tableNumber.trim() || '-'})`
-                  : 'Takeaway / To-Go'}
+                  : 'Takeaway Express'}
               </span>
             </div>
             {customerName.trim() && (
@@ -280,7 +280,7 @@ export default function ThermalReceiptModal({
           {/* Items Breakdown */}
           <div className="py-3 border-b border-dashed border-stone-400 space-y-2">
             <div className="flex justify-between text-[10px] font-bold text-stone-500 uppercase tracking-wider pb-1">
-              <span>Item Name</span>
+              <span>Item Description</span>
               <span>Subtotal</span>
             </div>
 
@@ -311,11 +311,11 @@ export default function ThermalReceiptModal({
               <span>{formatRupiah(totalPrice)}</span>
             </div>
             <div className="flex justify-between text-stone-700">
-              <span>Table &amp; Service Charge</span>
+              <span>Service Charge &amp; Tax</span>
               <span className="text-emerald-700 font-bold">IDR 0 (INCLUDED)</span>
             </div>
             <div className="flex justify-between items-center text-sm font-black pt-1.5 border-t border-stone-300 text-stone-950">
-              <span>TOTAL BILL</span>
+              <span>TOTAL PAYABLE</span>
               <span className="text-base font-black">{formatRupiah(totalPrice)}</span>
             </div>
           </div>
@@ -341,7 +341,7 @@ export default function ThermalReceiptModal({
             <div className="flex justify-between">
               <span className="text-stone-500">Payment Status</span>
               <span className="px-1.5 py-0.5 bg-stone-200 text-stone-800 text-[10px] font-bold rounded">
-                AWAITING CASHIER VERIFICATION
+                PENDING CASHIER CONFIRMATION
               </span>
             </div>
           </div>
@@ -372,7 +372,7 @@ export default function ThermalReceiptModal({
                 Thank You for Dining with Us!
               </p>
               <p className="text-[10px] text-stone-500">
-                Artisan Coffee &bull; Comfort Bites &bull; Good Conversations
+                Artisanal Brews &bull; Comfort Bites &bull; High-Speed Work Sanctuary
               </p>
             </div>
           </div>

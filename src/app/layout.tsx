@@ -21,17 +21,21 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://modern-cafe-ordering-app.vercel.app"),
   title: "Sentosa Cafe & Diner | Modern QR Table Ordering & Digital POS",
   description:
-    "Modern digital dining and QR table ordering experience. Fast local Wi-Fi, artisan coffee, split-bill calculator, and instant cashier checkout.",
+    "Next-generation digital dining and contactless QR table ordering experience. High-speed fiber Wi-Fi, handcrafted specialty coffee, fair-share bill splitting, and instant POS checkout.",
   keywords: [
     "sentosa cafe",
-    "digital dining ordering",
-    "qr table ordering system",
+    "digital dining ordering system",
+    "qr table ordering web app",
     "cafe pos software",
-    "split bill calculator",
-    "modern coffee shop web app",
-    "restaurant pos web ordering",
+    "fair share split bill calculator",
+    "specialty coffee shop web app",
+    "restaurant table ordering ux",
   ],
-  authors: [{ name: "Sentosa Cafe & Diner" }],
+  authors: [
+    { name: "Zeno - Product Builder & QA Specialist", url: "https://github.com/zeno-syne" },
+    { name: "Sentosa Cafe & Diner" },
+  ],
+  creator: "Zeno",
   icons: {
     icon: "/icon.svg",
     apple: "/icon.svg",
@@ -39,7 +43,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Sentosa Cafe & Diner | Modern QR Table Ordering & Digital POS",
     description:
-      "Order straight from your table, split bills with friends, and enjoy zero-wait cashier checkout.",
+      "Order seamlessly straight from your table, split bills with your team, and enjoy zero-wait checkout.",
     url: "https://modern-cafe-ordering-app.vercel.app",
     siteName: "Sentosa Cafe & Diner",
     images: [
@@ -47,7 +51,7 @@ export const metadata: Metadata = {
         url: "/warkop-hero.jpg",
         width: 1200,
         height: 630,
-        alt: "Sentosa Cafe & Diner",
+        alt: "Sentosa Cafe & Diner Ambiance and Digital Ordering",
       },
     ],
     type: "website",
@@ -57,7 +61,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Sentosa Cafe & Diner | Modern QR Table Ordering & Digital POS",
     description:
-      "Order straight from your table, split bills with friends, and enjoy zero-wait cashier checkout.",
+      "Order seamlessly straight from your table, split bills with your team, and enjoy zero-wait checkout.",
     images: ["/warkop-hero.jpg"],
   },
 };

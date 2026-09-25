@@ -5,7 +5,7 @@ import { REVIEWS } from '@/data/coffee-menu';
 
 export default function Testimonials() {
   return (
-    <section id="reviews" className="scroll-mt-24 py-20 sm:py-28 md:py-32 relative bg-[#14110E] border-t border-stone-800/80">
+    <section id="ulasan" className="scroll-mt-24 py-20 sm:py-28 md:py-32 relative bg-[#14110E] border-t border-stone-800/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
@@ -16,11 +16,11 @@ export default function Testimonials() {
           </div>
 
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white font-display">
-            What Our Regulars Say
+            Loved by Builders &amp; Night Owls
           </h2>
 
           <p className="text-stone-300 text-xs sm:text-sm md:text-base font-normal leading-relaxed px-2">
-            Genuine feedback from remote workers, students, and night owls who made Sentosa Cafe their favorite spot.
+            Real feedback from remote founders, engineers, designers, and creatives who made Sentosa Cafe their everyday focus sanctuary.
           </p>
 
           {/* Aggregate Rating Pill */}

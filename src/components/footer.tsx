@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Coffee, MessageCircle, Wifi, Zap, Clock, Share2, Sparkles, Printer } from 'lucide-react';
+import { Coffee, MessageCircle, Wifi, Zap, Clock, Share2, Printer } from 'lucide-react';
 import { CAFE_INFO } from '@/data/coffee-menu';
 import TableQrGeneratorModal from '@/components/table-qr-generator-modal';
 
@@ -19,8 +19,8 @@ export default function Footer() {
 
   const handleShareSquad = async () => {
     const shareData = {
-      title: 'Sentosa Cafe - Artisan Coffee & Work Sanctuary in Senopati',
-      text: 'Check out Sentosa Cafe! Artisan coffee, 150 Mbps high-speed Wi-Fi, open until 1:00 AM. View menu & location:',
+      title: 'Sentosa Cafe & Diner - Artisanal Coffee & Work Haven in Senopati',
+      text: 'Check out Sentosa Cafe! Handcrafted coffee, 150 Mbps high-speed fiber Wi-Fi, open late until 1:00 AM. Explore the live menu & digital table ordering:',
       url: typeof window !== 'undefined' ? window.location.origin : 'https://modern-cafe-ordering-app.vercel.app',
     };
 
@@ -35,9 +35,9 @@ export default function Footer() {
 
     const shareUrl = typeof window !== 'undefined' ? window.location.origin : 'https://modern-cafe-ordering-app.vercel.app';
     const waText = encodeURIComponent(
-      `*Join us at Sentosa Cafe!*\n\n` +
-      `Great coffee, 150 Mbps Wi-Fi, power outlets at every desk, and open until 1:00 AM in Senopati.\n\n` +
-      `Check the live menu & location here: ${shareUrl}`
+      `*Meet up at Sentosa Cafe & Diner!*\n\n` +
+      `Great artisanal coffee, 150 Mbps dedicated fiber Wi-Fi, power outlets at every desk, and open late until 1:00 AM in Senopati.\n\n` +
+      `Check out their live menu & location: ${shareUrl}`
     );
     window.open(`https://wa.me/?text=${waText}`, '_blank');
   };
@@ -50,8 +50,8 @@ export default function Footer() {
           {/* Brand Col */}
           <div className="lg:col-span-5 space-y-4">
             <a
-              href="#home"
-              onClick={(e) => handleSmoothScroll(e, '#home')}
+              href="#beranda"
+              onClick={(e) => handleSmoothScroll(e, '#beranda')}
               className="flex items-center gap-3 active:scale-95 transition-transform"
             >
               <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#EA580C] to-[#C2410C] flex items-center justify-center text-white shadow-md shadow-[#EA580C]/25">
@@ -63,17 +63,17 @@ export default function Footer() {
             </a>
 
             <p className="text-xs sm:text-sm text-stone-300 font-normal leading-relaxed max-w-sm">
-              The ultimate spot for deep work, squad meetups, and late-night unwinding. Premium taste at everyday honest prices.
+              The premier neighborhood destination for deep work, team sprints, and late-night unwinding. Premium taste at everyday honest prices.
             </p>
 
             <div className="flex flex-wrap gap-3 sm:gap-4 pt-1 text-xs text-[#F59E0B] font-semibold">
               <span className="flex items-center gap-1.5">
                 <Wifi className="w-3.5 h-3.5" />
-                150 Mbps Wi-Fi
+                150 Mbps Fiber
               </span>
               <span className="flex items-center gap-1.5">
                 <Zap className="w-3.5 h-3.5" />
-                Power Outlets
+                Charging Bays
               </span>
               <span className="flex items-center gap-1.5">
                 <Clock className="w-3.5 h-3.5" />
@@ -89,7 +89,7 @@ export default function Footer() {
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#1C1612] hover:bg-[#251D18] border border-stone-700 hover:border-[#EA580C]/50 text-stone-200 hover:text-[#F59E0B] text-xs font-bold transition-all shadow-md active:scale-95 cursor-pointer"
               >
                 <Share2 className="w-3.5 h-3.5 text-[#EA580C]" />
-                <span>Invite Squad (Share via WhatsApp)</span>
+                <span>Invite Team (Share via WhatsApp)</span>
               </button>
             </div>
           </div>
@@ -102,8 +102,8 @@ export default function Footer() {
             <ul className="space-y-2 text-xs sm:text-sm">
               <li>
                 <a
-                  href="#home"
-                  onClick={(e) => handleSmoothScroll(e, '#home')}
+                  href="#beranda"
+                  onClick={(e) => handleSmoothScroll(e, '#beranda')}
                   className="hover:text-[#F59E0B] transition-colors active:text-white"
                 >
                   Home
@@ -111,8 +111,8 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="#story"
-                  onClick={(e) => handleSmoothScroll(e, '#story')}
+                  href="#kenapa-kami"
+                  onClick={(e) => handleSmoothScroll(e, '#kenapa-kami')}
                   className="hover:text-[#F59E0B] transition-colors active:text-white"
                 >
                   Why Sentosa
@@ -124,13 +124,13 @@ export default function Footer() {
                   onClick={(e) => handleSmoothScroll(e, '#menu')}
                   className="hover:text-[#F59E0B] transition-colors active:text-white"
                 >
-                  Menu &amp; Prices
+                  Menu &amp; Ordering
                 </a>
               </li>
               <li>
                 <a
-                  href="#reviews"
-                  onClick={(e) => handleSmoothScroll(e, '#reviews')}
+                  href="#ulasan"
+                  onClick={(e) => handleSmoothScroll(e, '#ulasan')}
                   className="hover:text-[#F59E0B] transition-colors active:text-white"
                 >
                   Guest Reviews
@@ -138,8 +138,8 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="#location"
-                  onClick={(e) => handleSmoothScroll(e, '#location')}
+                  href="#lokasi"
+                  onClick={(e) => handleSmoothScroll(e, '#lokasi')}
                   className="hover:text-[#F59E0B] transition-colors active:text-white"
                 >
                   Location &amp; Hours
@@ -152,7 +152,7 @@ export default function Footer() {
                   className="hover:text-[#F59E0B] transition-colors active:text-white flex items-center gap-1.5 text-xs text-stone-400 hover:underline cursor-pointer"
                 >
                   <Printer className="w-3.5 h-3.5 text-[#EA580C]" />
-                  <span>Print Table Tent QR (Store Owner)</span>
+                  <span>Print Table Stand QR (Store Tool)</span>
                 </button>
               </li>
             </ul>
@@ -161,7 +161,7 @@ export default function Footer() {
           {/* Contact & Hours */}
           <div className="lg:col-span-4 space-y-3">
             <h4 className="text-xs uppercase tracking-widest text-white font-bold font-mono">
-              Location &amp; WhatsApp Contact
+              Location &amp; WhatsApp Concierge
             </h4>
             <div className="space-y-2 text-xs sm:text-sm">
               <p className="text-stone-300 font-normal">
@@ -181,7 +181,7 @@ export default function Footer() {
                   className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-emerald-700/30 hover:bg-emerald-700/50 text-emerald-400 border border-emerald-600/40 font-bold active:scale-95 transition-all text-xs"
                 >
                   <MessageCircle className="w-3.5 h-3.5" />
-                  <span>WhatsApp: {CAFE_INFO.phone}</span>
+                  <span>WhatsApp Concierge: {CAFE_INFO.phone}</span>
                 </a>
               </div>
             </div>
@@ -192,7 +192,7 @@ export default function Footer() {
         {/* Bottom */}
         <div className="pt-8 border-t border-stone-800/60 mt-4 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 gap-3 text-center sm:text-left font-normal">
           <p>
-            &copy; {new Date().getFullYear()} {CAFE_INFO.name}. Senopati&apos;s Premier Neighborhood Work Cafe.
+            &copy; {new Date().getFullYear()} {CAFE_INFO.name}. Senopati&apos;s Premier Neighborhood Work Cafe &amp; Diner.
           </p>
           <p className="text-stone-400 flex items-center justify-center sm:justify-end gap-1.5">
             <span>Crafted with precision by</span>

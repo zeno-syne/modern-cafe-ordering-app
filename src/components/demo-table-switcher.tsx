@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useCart } from '@/context/cart-context';
-import { QrCode, ChevronDown, Check, X, Sparkles, Utensils, Package, Printer } from 'lucide-react';
+import { QrCode, ChevronDown, Check, X, Sparkles, Package, Printer } from 'lucide-react';
 import TableQrGeneratorModal from '@/components/table-qr-generator-modal';
 
 export default function DemoTableSwitcher() {
@@ -11,7 +11,7 @@ export default function DemoTableSwitcher() {
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
   const [customInput, setCustomInput] = useState('');
 
-  const quickTables = ['01', '04', '08', '12', '15'];
+  const quickTables = ['01', '04', '08', '12', 'VIP-1'];
 
   const handleSelectTable = (num: string) => {
     setTableNumber(num);
@@ -70,10 +70,10 @@ export default function DemoTableSwitcher() {
             <div>
               <div className="flex items-center gap-1.5 text-xs font-bold text-[#F59E0B]">
                 <Sparkles className="w-3.5 h-3.5 text-[#EA580C]" />
-                <span>QR Table Simulator (Client Demo)</span>
+                <span>QR Table Simulator (Interactive Demo)</span>
               </div>
               <p className="text-[11px] text-stone-400 mt-0.5 leading-snug">
-                Test QR table ordering behavior without a physical printed stand:
+                Simulate QR table dining behavior without a physical stand:
               </p>
             </div>
             <button
@@ -87,7 +87,7 @@ export default function DemoTableSwitcher() {
           {/* Quick Table Buttons */}
           <div className="space-y-1.5">
             <span className="text-[10px] font-semibold uppercase tracking-wider text-stone-400">
-              Quick Table Selection:
+              Quick Table Switcher:
             </span>
             <div className="grid grid-cols-5 gap-1.5">
               {quickTables.map((t) => {
@@ -122,7 +122,7 @@ export default function DemoTableSwitcher() {
           >
             <div className="flex items-center gap-2">
               <Package className="w-3.5 h-3.5" />
-              <span>Simulate Takeaway / To-Go</span>
+              <span>Simulate Takeaway Express</span>
             </div>
             {orderType === 'takeaway' && <Check className="w-3.5 h-3.5 text-[#F59E0B]" />}
           </button>
@@ -131,42 +131,42 @@ export default function DemoTableSwitcher() {
           <form onSubmit={handleApplyCustom} className="pt-1 flex gap-1.5">
             <input
               type="text"
-              placeholder="Enter Table (e.g. 09/VIP)"
+              placeholder="Custom Table (e.g. VIP-2)"
               value={customInput}
               onChange={(e) => setCustomInput(e.target.value)}
               className="flex-1 px-3 py-1.5 rounded-xl bg-[#14110E] border border-stone-800 focus:border-[#EA580C] text-white text-xs outline-none"
             />
             <button
               type="submit"
-              className="px-3 py-1.5 rounded-xl bg-stone-800 hover:bg-[#EA580C] text-white text-xs font-bold transition-colors cursor-pointer"
+              className="px-3 py-1.5 rounded-xl bg-[#EA580C] hover:bg-[#F97316] text-white text-xs font-bold transition-colors cursor-pointer"
             >
               Apply
             </button>
           </form>
 
-          {/* Print Acrylic Table Tent CTA */}
-          <div className="pt-2 border-t border-stone-800">
+          {/* Print Table Stand Modal Launcher */}
+          <div className="pt-2 border-t border-stone-800 flex justify-between items-center">
             <button
               type="button"
               onClick={() => {
-                setIsQrModalOpen(true);
                 setIsOpen(false);
+                setIsQrModalOpen(true);
               }}
-              className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-600/30 to-[#EA580C]/30 hover:from-amber-600/50 hover:to-[#EA580C]/50 border border-amber-500/40 text-amber-300 hover:text-white text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md"
+              className="w-full py-2 rounded-xl bg-stone-900 hover:bg-stone-800 border border-stone-750 text-stone-300 hover:text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer"
             >
-              <Printer className="w-3.5 h-3.5 text-[#F59E0B]" />
-              <span>Print Acrylic Table Tent (QR)</span>
+              <Printer className="w-3.5 h-3.5 text-[#EA580C]" />
+              <span>Print Acrylic Table Tent</span>
             </button>
           </div>
         </div>
       )}
 
-        {/* Modal Generator Stand Meja QR */}
-        <TableQrGeneratorModal
-          isOpen={isQrModalOpen}
-          onClose={() => setIsQrModalOpen(false)}
-          initialTable={tableNumber || '04'}
-        />
-      </div>
-    );
-  }
+      {/* Stand Generator Modal */}
+      <TableQrGeneratorModal
+        isOpen={isQrModalOpen}
+        onClose={() => setIsQrModalOpen(false)}
+        initialTable={tableNumber || '04'}
+      />
+    </div>
+  );
+}

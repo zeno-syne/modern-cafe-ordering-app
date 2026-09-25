@@ -119,10 +119,10 @@ export default function TableQrGeneratorModal({
               </div>
               <div>
                 <h2 id="qr-generator-title" className="text-base sm:text-lg font-bold text-white font-display">
-                  Acrylic Table Tent QR Generator
+                  Acrylic Table Stand QR Generator
                 </h2>
                 <p className="text-xs text-stone-400">
-                  Generate printable QR cards to place inside acrylic table stands
+                  Generate print-ready QR cards to display in acrylic table stands for contactless dining
                 </p>
               </div>
             </div>
@@ -139,7 +139,7 @@ export default function TableQrGeneratorModal({
           {/* Table Selector Pills */}
           <div className="space-y-2 pt-1 border-t border-stone-800/80">
             <label className="text-xs font-semibold text-stone-300 block">
-              Select Table Number:
+              Select Table Designation:
             </label>
             <div className="flex flex-wrap gap-1.5 sm:gap-2">
               {PRESET_TABLES.map((t) => (
@@ -160,10 +160,10 @@ export default function TableQrGeneratorModal({
               {/* Custom table input */}
               <input
                 type="text"
-                placeholder="Custom (e.g. 99B)"
+                placeholder="Custom (e.g. VIP-3)"
                 value={customTableInput}
                 onChange={(e) => handleCustomInput(e.target.value)}
-                className="min-h-[38px] w-32 px-3 rounded-xl bg-[#14110E] border border-stone-800 focus:border-[#EA580C] text-xs font-mono text-white placeholder:text-stone-600 outline-none"
+                className="min-h-[38px] w-36 px-3 rounded-xl bg-[#14110E] border border-stone-800 focus:border-[#EA580C] text-xs font-mono text-white placeholder:text-stone-600 outline-none"
               />
             </div>
           </div>
@@ -171,7 +171,7 @@ export default function TableQrGeneratorModal({
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 border-t border-stone-800/80">
             <div className="text-[11px] text-stone-400 font-mono truncate max-w-xs">
-              Link: <span className="text-amber-400">{targetUrl}</span>
+              Direct URL: <span className="text-amber-400">{targetUrl}</span>
             </div>
 
             <div className="flex items-center gap-2 w-full sm:w-auto">
@@ -179,10 +179,10 @@ export default function TableQrGeneratorModal({
                 type="button"
                 onClick={handleTestOpen}
                 className="flex-1 sm:flex-initial min-h-[44px] px-4 rounded-xl bg-stone-900 hover:bg-stone-800 border border-stone-750 text-stone-200 hover:text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer"
-                title="Open table URL in new tab for demo"
+                title="Open simulated table URL in new tab"
               >
                 <ExternalLink className="w-3.5 h-3.5 text-sky-400" />
-                <span>Test Open Table</span>
+                <span>Simulate Table Link</span>
               </button>
 
               <button
@@ -191,7 +191,7 @@ export default function TableQrGeneratorModal({
                 className="flex-1 sm:flex-initial min-h-[44px] px-5 rounded-xl bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white text-xs font-extrabold flex items-center justify-center gap-2 shadow-lg shadow-[#EA580C]/30 transition-all cursor-pointer active:scale-95"
               >
                 <Printer className="w-4 h-4" />
-                <span>Print Table Tent (A6)</span>
+                <span>Print Table Card (A6)</span>
               </button>
             </div>
           </div>
@@ -213,13 +213,13 @@ export default function TableQrGeneratorModal({
             <div className="space-y-1 pt-1">
               <div className="inline-flex items-center justify-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-[#F59E0B] text-[11px] font-bold tracking-wider uppercase">
                 <Coffee className="w-3.5 h-3.5 text-[#EA580C]" />
-                <span>SENTOSA CAFE</span>
+                <span>SENTOSA CAFE &amp; DINER</span>
               </div>
               <h3 className="text-xl sm:text-2xl font-black tracking-tight text-white font-display">
-                Order From Your Table
+                Order Straight From Your Table
               </h3>
               <p className="text-[11px] text-stone-400">
-                Skip the Counter Line &bull; Artisan Coffee, Fast Wi-Fi
+                Skip the Counter Queue &bull; Fast Fiber Wi-Fi &bull; Open Late
               </p>
             </div>
 
@@ -333,7 +333,7 @@ export default function TableQrGeneratorModal({
                 <div className="w-6 h-6 mx-auto rounded-full bg-amber-500/20 text-[#F59E0B] flex items-center justify-center">
                   <Sparkles className="w-3.5 h-3.5" />
                 </div>
-                <div className="text-[10px] font-bold text-white">3. We Deliver</div>
+                <div className="text-[10px] font-bold text-white">3. Fast Service</div>
                 <div className="text-[9px] text-stone-400 leading-tight">Relax at table</div>
               </div>
             </div>
@@ -345,7 +345,7 @@ export default function TableQrGeneratorModal({
                 <span>WiFi Password: <strong className="text-white font-mono">sentosajuara2026</strong></span>
               </div>
               <p className="text-[9px] text-stone-500 pt-0.5">
-                Sentosa Cafe Digital Ordering &bull; Developed by Zeno
+                Sentosa Cafe &amp; Diner Digital Ordering &bull; Crafted by Zeno
               </p>
             </div>
           </div>
