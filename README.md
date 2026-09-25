@@ -6,130 +6,136 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 [![WCAG 2.2 AA](https://img.shields.io/badge/Accessibility-WCAG_2.2_AA-emerald?style=for-the-badge)](https://www.w3.org/WAI/standards-guidelines/wcag/)
 
-> **Live Production URL:** [https://warkop-modern-app.vercel.app](https://warkop-modern-app.vercel.app)  
-> **Product Builder & QA:** Zeno  
+> **Live Production Demo:** [https://warkop-modern-app.vercel.app](https://warkop-modern-app.vercel.app)  
+> **Product Builder & QA Lead:** Zeno  
 
 ---
 
-## 📌 Business Overview & Problem Statement
+## 📌 Executive Summary & Problem Statement
 
-Di industri F&B kasual Indonesia (khususnya warkop modern dan kedai kopi tongkrongan), tantangan operasional terbesar adalah:
-1. **Antrean Kasir & Catatan Manual yang Rawan Salah:** Barista dan kasir sering kewalahan saat jam sibuk (*rush hour* malam), menyebabkan salah antar meja atau salah racik pesanan khusus (*misal: "kopi less sugar", "mie setengah matang cabai rawit 5"*).
-2. **Biaya Langganan POS Mahal:** Sistem POS/mesin kasir cloud komersial umumnya membebankan biaya langganan bulanan (Rp 300.000 – Rp 1.000.000+/bulan) yang membebani margin laba UMKM.
-3. **Friksi Pelanggan:** Pelanggan enggan mengunduh aplikasi native hanya untuk memesan 1-2 menu saat nongkrong.
+In the fast-paced casual F&B industry (coffee shops, casual diners, and Indonesian warkop hangouts), brick-and-mortar operators face recurring operational bottlenecks:
+1. **Queue Bottlenecks & Manual Order Mistakes:** Cashiers and baristas struggle during evening rush hours, resulting in incorrect table deliveries or missed kitchen customizations (*e.g., "half-sweet coffee", "soft-boiled noodles with 5 bird-eye chilies"*).
+2. **Expensive SaaS POS Subscriptions:** Commercial cloud POS systems charge recurring monthly fees ($25 to $70+/month per outlet), heavily eating into small business profit margins.
+3. **Customer App-Install Fatigue:** Diners refuse to download dedicated mobile apps or go through tedious sign-ups just to order a snack and iced coffee.
 
-### 💡 Solusi Produk:
-**Warkop Sentosa Modern App** adalah platform web ordering yang **ringan, instan tanpa registrasi, dan mobile-first**:
-* Pelanggan cukup memindai stiker QR di meja menggunakan kamera smartphone biasa.
-* Memilih menu dengan catatan khusus, subtotal dihitung otomatis.
-* Mengirimkan rekap pesanan siap proses langsung ke WhatsApp kasir/barista dalam format nota digital yang rapi.
-* **Nol Biaya Langganan Bulanan (Zero SaaS Fee)** untuk pemilik usaha.
+### 💡 Product Solution:
+**Warkop Sentosa Modern App** is an ultra-fast, zero-friction, mobile-first web ordering platform requiring **no app installation and no account registration**:
+* **Instant Table Locking:** Diners simply scan an acrylic QR code stand on their table using their phone camera.
+* **Smart Cart & Customization:** Select items with custom kitchen notes, calculate quantities, and compute split-bill totals in real time.
+* **WhatsApp POS Integration:** Direct formatted digital receipt dispatch to the cashier's WhatsApp terminal for immediate fulfillment.
+* **Zero Monthly SaaS Overhead:** Completely self-hosted on modern serverless edge architecture.
 
 ---
 
-## 🚀 Fitur Unggulan & Arsitektur Teknis
+## 🚀 Key Features & Technical Architecture
 
 ### 1. Smart QR Table Detection (`?meja=XX`)
-* **Dine-in Tracking:** Sistem membaca parameter URL (contoh: `?meja=05`) dan otomatis mengunci nomor meja pelanggan ke dalam state pemesanan.
-* **Interactive Client Demo Switcher:** Dilengkapi widget pengalih nomor meja (`DemoTableSwitcher`) agar calon klien/investor dapat langsung menguji simulasi pergantian meja dari laptop maupun smartphone.
+* **Dynamic Table Binding:** URL query parameter auto-detection (e.g., `?meja=05`) binds table numbers directly to the state machine, displaying a sticky table banner.
+* **Interactive Client Demo Switcher:** Built-in floating widget (`DemoTableSwitcher`) allowing prospective clients and stakeholders to test table hopping and takeaway modes in one click without physical QR codes.
 
 ### 2. Multi-Item Cart & State Persistence
-* Menggunakan **React Context API** (`CartContext`) dengan sinkronisasi cerdas ke `localStorage`.
-* Pesanan pelanggan tidak akan hilang meskipun browser tidak sengaja di-refresh atau kuota internet sempat terputus.
+* Architected with **React 19 Context API** (`CartContext`) paired with resilient `localStorage` synchronization.
+* Customer carts persist seamlessly across browser refreshes, tab closures, and unstable mobile network drops.
 
-### 3. POS-Ready WhatsApp Order Generator
-* Menghasilkan struktur payload pesan teks berstandar nota kasir:
-  * Tipe pesanan (Makan di Tempat / Bungkus).
-  * Nomor meja & nama pemesan.
-  * Rincian menu, kuantitas, harga, dan instruksi racikan (*custom cooking instructions*).
-  * Total tagihan yang akurat tanpa celah salah hitung manual.
+### 3. POS-Ready WhatsApp Order Payload Generator
+* Compiles clean, human-readable receipts formatted directly into WhatsApp URL schema:
+  * Order type (Dine-In Table No. vs. Takeaway).
+  * Customer name & table identifier.
+  * Line-item breakdown with item notes and quantities.
+  * Payment method indicator and split-bill summary.
+  * 100% accurate total calculation to prevent manual cashier calculation errors.
 
-### 4. Real-Time Operational Logic (WIB Timezone)
-* Algoritma `useOperationalStatus` menghitung waktu operasional berdasarkan zona waktu lokal `Asia/Jakarta`:
-  * **Senin – Jumat:** 09.00 s/d 01.00 WIB dini hari.
-  * **Sabtu – Minggu:** 09.00 s/d 02.00 WIB dini hari.
-* Otomatis memperbarui indikator status di Header, Navbar, dan Jam Buka tanpa perlu update manual dari pemilik toko.
+### 4. Real-Time Operational Logic (Asia/Jakarta Timezone)
+* Custom hook `useOperationalStatus` deterministically calculates operating status based on WIB (`Asia/Jakarta`) hours:
+  * **Weekdays (Mon–Fri):** 09:00 AM to 01:00 AM WIB (Midnight).
+  * **Weekends (Sat–Sun):** 09:00 AM to 02:00 AM WIB (Midnight).
+* Automatically shifts UI indicators between *"🟢 Open for Dine-In"* and *"🔴 Closed / Rest Hours"* without manual merchant intervention.
 
 ### 5. Sub-Second Instant Search & Category Filtering
-* Filter pencarian instan sisi klien (*zero-latency search*) yang mencocokkan kata kunci pada nama menu, komposisi, rasa, dan badge promo.
+* Client-side zero-latency search engine that matches keywords across item titles, ingredients, flavor profiles, and promotional badges with an interactive empty state.
 
-### 6. Kalkulator Patungan (Split Bill Warkop)
-* **Real-Time Fair Share:** Pengunjung dapat membagi tagihan secara merata untuk 2 hingga 20 orang teman nongkrong dengan pembulatan matematis aman (`Math.ceil`).
-* **WhatsApp Group Broadcast:** Tombol satu kali klik untuk menyalin pesan breakdown patungan yang ramah siap sebar ke grup obrolan.
+### 6. Fair-Share Split Bill Calculator
+* Real-time bill splitter tailored for squad dining (2 to 20 people) using integer ceil rounding (`Math.ceil`) to prevent fractional currency losses.
+* Single-click **"Copy Split Summary"** button to share an instant payment breakdown to group chats.
 
 ### 7. Dual Payment Gateway & Interactive QRIS Modal
-* Pilihan pembayaran fleksibel: **💵 Tunai di Kasir** vs **📲 QRIS (Scan Kasir)**.
-* Pop-up modal QRIS berstandar nasional (ASPI/BI style) dengan vector barcode tajam, nama merchant **WARKOP SENTOSA**, NMID, serta tombol salin nominal cepat.
+* Flexible tender selection: **💵 Cash at Counter** vs. **📲 QRIS Digital Payment**.
+* Authentic national QRIS modal with vector SVG mockups, merchant identification (`WARKOP SENTOSA`), and a one-click **"Copy Nominal"** utility for banking app pasting.
 
-### 8. Struk Kasir Digital (Thermal Paper POS Receipt)
-* Pratinjau struk kasir bergaya kertas thermal dot-matrix dengan tepi gerigi (*serrated tear edge*), barcode nota unik, rincian menu, metode bayar, dan info WiFi.
-* Dilengkapi fungsi cetak native (`window.print()`) berformat print CSS bersih serta tombol salin teks nota ke clipboard.
+### 8. Digital Thermal Paper POS Receipt
+* Authentic 58mm/80mm thermal receipt popover styled with dot-matrix typography, serrated paper tear edges, order timestamp, and store WiFi credentials (`sentosajuara2026`).
+* Optimized with clean `@media print` CSS rules for direct thermal printer hardware compatibility.
 
-### 9. Generator Stand Meja QR Siap Cetak (Acrylic Table Tent)
-* Alat operasional instan untuk pemilik warkop/kafe: generate kartu stand akrilik standar A6 untuk Meja 01 s/d 12, VIP, atau kustom.
-* Terhubung ke URL aktif meja (`?meja=XX`), dilengkapi petunjuk 3 langkah ramah pelanggan, dan siap cetak langsung (*Print-Ready*) ke printer fisik.
+### 9. Printable Acrylic Table Tent QR Generator
+* Operational utility for cafe owners: generates high-resolution, print-ready A6 acrylic table tent inserts for Tables 01 to 12, VIP booths, or custom tables.
+* Equipped with customer 3-step onboarding instructions and a **"Test Open Table"** simulation shortcut.
 
 ### 10. Accessibility & Mobile Ergonomics (WCAG 2.2 AA)
-* **Keyboard Flow:** Drawer, modal QRIS, modal struk, dan modal QR meja dapat ditutup seketika dengan tombol `Escape`.
-* **Touch Target Standard:** Mematuhi pedoman Apple HIG & Android WCAG 2.5.5 dengan target sentuh tombol minimal 44x44px untuk kenyamanan navigasi satu tangan di smartphone.
-* **Semantic ARIA:** Dilengkapi atribut `role="dialog"`, `aria-modal="true"`, dan label screen reader lengkap.
+* **Keyboard Navigation:** Full `Escape` key listeners to dismiss all modals and drawers hierarchically.
+* **Touch Target Standards:** 100% compliance with Apple HIG & Android WCAG 2.5.5 touch target sizing (minimum 44x44px interactive regions).
+* **Semantic ARIA:** Explicit ARIA roles, dialog modal tags, screen-reader labels, and focus rings.
 
 ---
 
-## 🛡️ Jaminan Kualitas & QA Verification
+## 🛡️ Quality Assurance & Test.io Rigor
 
-Sebagai bukti komitmen terhadap reliabilitas software tingkat produksi, proyek ini dilengkapi dengan dokumen pengujian eksplorasi sistematis berstandar **test.io**:
+This project adheres to the rigorous QA exploratory standards practiced on crowdsourced testing platforms like **test.io**:
 
-📄 **[Lihat Checklist QA Lengkap (TESTING_CHECKLIST.md)](./TESTING_CHECKLIST.md)**
-* **Priority 1:** Core Cart, WhatsApp URL Encoding, QR Dine-in Sync.
-* **Priority 2:** Boundary Values, Extreme Character Notes (`!@#$%^&*()_+`), subuh session tracking.
-* **Priority 3:** Mobile Ergonomics (iPhone SE 375px hingga layar lebar) & Zero Horizontal Overflow.
-* **Priority 4:** OpenGraph WhatsApp Card Preview & Web Share API.
-* **Priority 5:** Accessibility, Focus Trapping, Screen Reader VoiceOver/TalkBack.
+📄 **[View Full QA Exploratory Checklist (TESTING_CHECKLIST.md)](./TESTING_CHECKLIST.md)**
+* **Priority 1 (Core Functional):** Cart state mutations, WhatsApp URL encoding, QR parameter binding.
+* **Priority 2 (Edge Cases & Boundaries):** Extreme characters in notes (`!@#$%^&*()_+`), boundary quantity counters, midnight operational rollover.
+* **Priority 3 (Mobile Responsiveness):** Viewports from 375px (iPhone SE) to 4K displays, zero horizontal overflow.
+* **Priority 4 (Social Metadata):** OpenGraph previews, Web Share API, SVG vector favicon.
+* **Priority 5 (Accessibility):** VoiceOver/TalkBack labels, keyboard tab order, focus containment.
 
 ---
 
-## 🛠️ Tech Stack & Library
+## 🛠️ Technology Stack & Engineering Rationale
 
-| Layer | Teknologi | Alasan Pemilihan |
+| Architecture Layer | Technology | Engineering Rationale |
 |---|---|---|
-| **Framework** | Next.js 16 (App Router) | Server-side rendering, performa tinggi, zero-bundle overhead |
-| **UI Library** | React 19 | State management modern, hooks native |
-| **Styling** | Tailwind CSS v4 | Utility-first, performa CSS engine super cepat, responsif |
-| **Icons** | Lucide React | Ikon modern, tajam, dan ringan |
-| **Deployment** | Vercel Edge Network | CDN global berkecepatan tinggi dengan auto-deployment CI/CD |
+| **Framework** | Next.js 16 (App Router) | Server-side rendering, zero-bundle overhead, modern Turbopack compilation |
+| **UI Library** | React 19 | Modern concurrent features, native hooks, efficient component lifecycle |
+| **Styling** | Tailwind CSS v4 | High-performance CSS engine, responsive token utility system |
+| **Icons** | Lucide React | Lightweight, tree-shakable, accessible vector icons |
+| **Deployment** | Vercel Edge Network | Low-latency global CDN with automated CI/CD branch preview deployments |
 
 ---
 
-## 💻 Menjalankan Proyek Secara Lokal
+## 💻 Running Locally
 
-1. **Clone repository:**
+1. **Clone the repository:**
    ```bash
    git clone https://github.com/zeno-syne/warkop-modern-app.git
    cd warkop-modern-app
    ```
 
-2. **Install dependensi:**
+2. **Install dependencies:**
    ```bash
    npm install
    ```
 
-3. **Jalankan development server:**
+3. **Start development server:**
    ```bash
    npm run dev
    ```
 
-4. **Buka di browser:**
+4. **Open in browser:**
    ```text
    http://localhost:3000
+   ```
+
+5. **Run production build verification:**
+   ```bash
+   npm run build
    ```
 
 ---
 
 ## 👤 Product Builder & Contact
 
-Dikembangkan dengan dedikasi tinggi oleh:
-* **Nama:** Zeno
-* **Spesialisasi:** Product Builder, Frontend Engineer & QA Specialist (Freelance Tester di test.io)
-* **GitHub:** [@zeno-syne](https://github.com/zeno-syne)
-* **Demo Aplikasi:** [warkop-modern-app.vercel.app](https://warkop-modern-app.vercel.app)
+Crafted with dedication by:
+* **Lead Engineer & QA:** Zeno
+* **Specialization:** Product Builder, Frontend Engineer & QA Specialist (Freelance Tester at test.io)
+* **GitHub Profile:** [@zeno-syne](https://github.com/zeno-syne)
+* **Live Application:** [warkop-modern-app.vercel.app](https://warkop-modern-app.vercel.app)
