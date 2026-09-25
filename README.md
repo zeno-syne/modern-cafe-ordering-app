@@ -65,8 +65,12 @@ Di industri F&B kasual Indonesia (khususnya warkop modern dan kedai kopi tongkro
 * Pratinjau struk kasir bergaya kertas thermal dot-matrix dengan tepi gerigi (*serrated tear edge*), barcode nota unik, rincian menu, metode bayar, dan info WiFi.
 * Dilengkapi fungsi cetak native (`window.print()`) berformat print CSS bersih serta tombol salin teks nota ke clipboard.
 
-### 9. Accessibility & Mobile Ergonomics (WCAG 2.2 AA)
-* **Keyboard Flow:** Drawer, modal QRIS, dan modal struk dapat ditutup seketika dengan tombol `Escape`.
+### 9. Generator Stand Meja QR Siap Cetak (Acrylic Table Tent)
+* Alat operasional instan untuk pemilik warkop/kafe: generate kartu stand akrilik standar A6 untuk Meja 01 s/d 12, VIP, atau kustom.
+* Terhubung ke URL aktif meja (`?meja=XX`), dilengkapi petunjuk 3 langkah ramah pelanggan, dan siap cetak langsung (*Print-Ready*) ke printer fisik.
+
+### 10. Accessibility & Mobile Ergonomics (WCAG 2.2 AA)
+* **Keyboard Flow:** Drawer, modal QRIS, modal struk, dan modal QR meja dapat ditutup seketika dengan tombol `Escape`.
 * **Touch Target Standard:** Mematuhi pedoman Apple HIG & Android WCAG 2.5.5 dengan target sentuh tombol minimal 44x44px untuk kenyamanan navigasi satu tangan di smartphone.
 * **Semantic ARIA:** Dilengkapi atribut `role="dialog"`, `aria-modal="true"`, dan label screen reader lengkap.
 

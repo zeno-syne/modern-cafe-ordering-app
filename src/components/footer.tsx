@@ -1,9 +1,13 @@
 'use client';
 
-import { Coffee, MessageCircle, Wifi, Zap, Clock, Share2, Sparkles } from 'lucide-react';
+import React, { useState } from 'react';
+import { Coffee, MessageCircle, Wifi, Zap, Clock, Share2, Sparkles, Printer } from 'lucide-react';
 import { CAFE_INFO } from '@/data/coffee-menu';
+import TableQrGeneratorModal from '@/components/table-qr-generator-modal';
 
 export default function Footer() {
+  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
+
   const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     const targetId = href.replace('#', '');
@@ -141,6 +145,16 @@ export default function Footer() {
                   Lokasi &amp; Jam Operasional
                 </a>
               </li>
+              <li className="pt-1">
+                <button
+                  type="button"
+                  onClick={() => setIsQrModalOpen(true)}
+                  className="hover:text-[#F59E0B] transition-colors active:text-white flex items-center gap-1.5 text-xs text-stone-400 hover:underline cursor-pointer"
+                >
+                  <Printer className="w-3.5 h-3.5 text-[#EA580C]" />
+                  <span>Cetak Stand Meja QR (Khusus Pemilik)</span>
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -187,6 +201,12 @@ export default function Footer() {
           </p>
         </div>
       </div>
+
+      {/* Modal Generator Stand Meja QR (Khusus Pemilik) */}
+      <TableQrGeneratorModal
+        isOpen={isQrModalOpen}
+        onClose={() => setIsQrModalOpen(false)}
+      />
     </footer>
   );
 }

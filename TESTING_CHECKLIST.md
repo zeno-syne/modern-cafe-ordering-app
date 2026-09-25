@@ -54,6 +54,18 @@
 - [ ] **Fungsi Cetak Native (Print):** Klik tombol "Print". Pastikan dialog print browser (`window.print()`) terbuka. Pada mode cetak, pastikan hanya kertas struk yang ter-print tanpa elemen latar belakang yang berantakan. ★
 - [ ] **Aksesibilitas Tombol Escape:** Tekan tombol `Escape` saat modal struk terbuka. Pastikan modal struk tertutup kembali ke drawer keranjang dengan mulus.
 
+### 1.6 Generator Stand Meja QR Siap Cetak (Acrylic Table Tent) Flow
+- [ ] **Aksesibilitas Generator Meja:**
+  - Klik tombol "Cetak Stand Akrilik Meja (QR)" di widget demo (`DemoTableSwitcher`). Pastikan modal generator terbuka seketika.
+  - Klik tautan "Cetak Stand Meja QR (Khusus Pemilik)" di Footer. Pastikan modal generator juga terbuka dengan benar.
+- [ ] **Interaktivitas Pemilihan Meja:**
+  - Klik nomor preset meja (misal: 01, 08, 12, VIP-1). Pastikan nomor meja pada kartu stand langsung ter-update secara real-time.
+  - Masukkan nomor meja kustom (misal: "VIP-99"). Pastikan kartu meja langsung menampilkan "VIP-99".
+- [ ] **Akurasi URL Target:** Pastikan keterangan URL target menampilkan alamat dengan query parameter meja yang sesuai (contoh: `https://.../?meja=08`).
+- [ ] **Fungsi Tombol "Tes Buka Meja":** Klik tombol "Tes Buka Meja". Pastikan browser membuka tab baru dengan URL meja tersebut dan banner deteksi meja aktif ("Mode Nongkrong Aktif: Meja XX") muncul di atas layar. ★
+- [ ] **Fungsi Print Stand Meja:** Klik tombol "Cetak Stand Meja (Print A6)". Pastikan dialog print browser terbuka dan hanya kartu stand akrilik yang dicetak dalam layout A6 rapi tanpa latar belakang website. ★
+- [ ] **Aksesibilitas Keyboard:** Tekan tombol `Escape`. Pastikan modal tertutup kembali dengan lancar.
+
 ---
 
 ## 🔢 Priority 2 — Edge Cases & Boundary Conditions (High Bug Bounty Potential ★)

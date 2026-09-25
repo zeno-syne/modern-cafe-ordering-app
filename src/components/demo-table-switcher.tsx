@@ -2,11 +2,13 @@
 
 import React, { useState } from 'react';
 import { useCart } from '@/context/cart-context';
-import { QrCode, ChevronDown, Check, X, Sparkles, Utensils, Package } from 'lucide-react';
+import { QrCode, ChevronDown, Check, X, Sparkles, Utensils, Package, Printer } from 'lucide-react';
+import TableQrGeneratorModal from '@/components/table-qr-generator-modal';
 
 export default function DemoTableSwitcher() {
   const { tableNumber, setTableNumber, orderType, setOrderType } = useCart();
   const [isOpen, setIsOpen] = useState(false);
+  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
   const [customInput, setCustomInput] = useState('');
 
   const quickTables = ['01', '04', '08', '12', '15'];
@@ -124,24 +126,46 @@ export default function DemoTableSwitcher() {
             {orderType === 'takeaway' && <Check className="w-3.5 h-3.5 text-[#F59E0B]" />}
           </button>
 
-          {/* Custom Input */}
-          <form onSubmit={handleApplyCustom} className="pt-1 flex gap-1.5">
-            <input
-              type="text"
-              placeholder="Ketik Meja (mis: 09/VIP)"
-              value={customInput}
-              onChange={(e) => setCustomInput(e.target.value)}
-              className="flex-1 px-3 py-1.5 rounded-xl bg-[#14110E] border border-stone-800 focus:border-[#EA580C] text-white text-xs outline-none"
-            />
-            <button
-              type="submit"
-              className="px-3 py-1.5 rounded-xl bg-stone-800 hover:bg-[#EA580C] text-white text-xs font-bold transition-colors cursor-pointer"
-            >
-              Terapkan
-            </button>
-          </form>
-        </div>
-      )}
-    </div>
-  );
-}
+            {/* Custom Input */}
+            <form onSubmit={handleApplyCustom} className="pt-1 flex gap-1.5">
+              <input
+                type="text"
+                placeholder="Ketik Meja (mis: 09/VIP)"
+                value={customInput}
+                onChange={(e) => setCustomInput(e.target.value)}
+                className="flex-1 px-3 py-1.5 rounded-xl bg-[#14110E] border border-stone-800 focus:border-[#EA580C] text-white text-xs outline-none"
+              />
+              <button
+                type="submit"
+                className="px-3 py-1.5 rounded-xl bg-stone-800 hover:bg-[#EA580C] text-white text-xs font-bold transition-colors cursor-pointer"
+              >
+                Terapkan
+              </button>
+            </form>
+
+            {/* Print Acrylic Table Tent CTA */}
+            <div className="pt-2 border-t border-stone-800">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsQrModalOpen(true);
+                  setIsOpen(false);
+                }}
+                className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-600/30 to-[#EA580C]/30 hover:from-amber-600/50 hover:to-[#EA580C]/50 border border-amber-500/40 text-amber-300 hover:text-white text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md"
+              >
+                <Printer className="w-3.5 h-3.5 text-[#F59E0B]" />
+                <span>Cetak Stand Akrilik Meja (QR)</span>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Modal Generator Stand Meja QR */}
+        <TableQrGeneratorModal
+          isOpen={isQrModalOpen}
+          onClose={() => setIsQrModalOpen(false)}
+          initialTable={tableNumber || '04'}
+        />
+      </div>
+    );
+  }
