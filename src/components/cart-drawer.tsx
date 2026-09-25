@@ -114,24 +114,24 @@ export default function CartDrawer() {
   const handleCopySplitBill = async () => {
     const tableInfo =
       orderType === 'dine-in' && tableNumber.trim()
-        ? `Meja ${tableNumber.trim()}`
-        : 'Take Away / Nongkrong';
+        ? `Table ${tableNumber.trim()}`
+        : 'Takeaway / To-Go';
 
     const menuLines = items
       .map((i) => `  • ${i.quantity}x ${i.item.name} (${formatRupiah(i.item.price * i.quantity)})`)
       .join('\n');
 
     const splitText =
-      `🍻 *RINCIAN PATUNGAN WARKOP SENTOSA* 🍻\n` +
+      `🍻 *FAIR-SHARE SPLIT BILL - SENTOSA CAFE* 🍻\n` +
       `==============================\n` +
-      `📍 Tempat: *${tableInfo}*\n` +
-      `👥 Jumlah: *${splitPeopleCount} Orang*\n` +
-      `💰 Total Tagihan: *${formatRupiah(totalPrice)}*\n` +
-      `👉 *BAYAR PER ORANG: ${formatRupiah(perPersonShare)}*\n` +
+      `📍 Location: *${tableInfo}*\n` +
+      `👥 Diners: *${splitPeopleCount} Guests*\n` +
+      `💰 Total Bill: *${formatRupiah(totalPrice)}*\n` +
+      `👉 *PER-PERSON SHARE: ${formatRupiah(perPersonShare)}*\n` +
       `==============================\n` +
-      `📋 Menu:\n${menuLines}\n` +
+      `📋 Order Items:\n${menuLines}\n` +
       `==============================\n` +
-      `Yuk langsung transfer / siapin uang pas ya! 🙏`;
+      `Please transfer your share or prepare exact change! 🙏`;
 
     const success = await copyToClipboard(splitText);
     if (success) {
@@ -153,7 +153,7 @@ export default function CartDrawer() {
 
     // Validate table number if dine-in
     if (orderType === 'dine-in' && !tableNumber.trim()) {
-      alert('Mohon masukkan nomor meja tempat kamu nongkrong ya Kak!');
+      alert('Please enter your table number for dine-in service!');
       const tableInput = document.getElementById('cart-table-number');
       if (tableInput) tableInput.focus();
       return;
@@ -161,45 +161,45 @@ export default function CartDrawer() {
 
     const orderTypeLabel =
       orderType === 'dine-in'
-        ? `Makan di Tempat (Meja ${tableNumber.trim()})`
-        : 'Bungkus / Take Away';
+        ? `Dine-In (Table ${tableNumber.trim()})`
+        : 'Takeaway / To-Go';
 
     const customerLine = customerName.trim()
-      ? `👤 Atas Nama: *${customerName.trim()}*\n`
+      ? `👤 Guest Name: *${customerName.trim()}*\n`
       : '';
 
     const paymentLabel =
       paymentMethod === 'qris'
-        ? 'Scan QRIS Kasir (Non-Tunai)'
-        : 'Bayar Tunai di Kasir';
+        ? 'Counter QRIS Scan (Cashless)'
+        : 'Cash at Counter';
 
     const splitLine = splitBillEnabled
-      ? `👥 Patungan: *${splitPeopleCount} Orang* (@ *${formatRupiah(perPersonShare)}*/orang)\n`
+      ? `👥 Split Bill: *${splitPeopleCount} Guests* (@ *${formatRupiah(perPersonShare)}*/person)\n`
       : '';
 
     const itemsList = items
       .map((i) => {
         let text = `• *${i.quantity}x ${i.item.name}* (${formatRupiah(i.item.price * i.quantity)})`;
         if (i.notes && i.notes.trim()) {
-          text += `\n  ↳ _Catatan: ${i.notes.trim()}_`;
+          text += `\n  ↳ _Note: ${i.notes.trim()}_`;
         }
         return text;
       })
       .join('\n');
 
     const rawMessage =
-      `*PESANAN WARKOP SENTOSA*\n` +
+      `*SENTOSA CAFE ORDER*\n` +
       `==============================\n` +
-      `📋 Tipe: *${orderTypeLabel}*\n` +
+      `📋 Type: *${orderTypeLabel}*\n` +
       customerLine +
-      `💳 Pembayaran: *${paymentLabel}*\n` +
+      `💳 Payment: *${paymentLabel}*\n` +
       splitLine +
-      `\n*Daftar Pesanan:*\n` +
+      `\n*Order Summary:*\n` +
       `${itemsList}\n` +
       `------------------------------\n` +
-      `*Total: ${formatRupiah(totalPrice)}* (${totalItems} porsi)\n` +
+      `*Total: ${formatRupiah(totalPrice)}* (${totalItems} items)\n` +
       `==============================\n` +
-      `Halo Kasir Warkop Sentosa, mau pesan ini ya. Mohon segera diproses. Terima kasih! 🙏`;
+      `Hello Sentosa Cafe Cashier, I would like to place this order. Please prepare it. Thank you! 🙏`;
 
     const encodedMessage = encodeURIComponent(rawMessage);
     const targetUrl = `https://wa.me/6281289902026?text=${encodedMessage}`;
@@ -222,7 +222,7 @@ export default function CartDrawer() {
             {/* Left info: Icon & Total items + price */}
             <button
               onClick={() => setIsCartOpen(true)}
-              aria-label={`Buka keranjang pesanan: ${totalItems} menu, total ${formatRupiah(totalPrice)}`}
+              aria-label={`Open order cart: ${totalItems} items, total ${formatRupiah(totalPrice)}`}
               className="flex items-center gap-3 pl-3 text-left cursor-pointer group focus-visible:ring-2 focus-visible:ring-[#EA580C] focus-visible:outline-none rounded-full py-1 pr-2"
             >
               <div className="relative w-10 h-10 rounded-full bg-gradient-to-br from-[#EA580C] to-[#C2410C] flex items-center justify-center text-white shadow-md shadow-[#EA580C]/40 group-hover:scale-105 transition-transform">
@@ -233,7 +233,7 @@ export default function CartDrawer() {
               </div>
               <div>
                 <span className="text-[11px] text-stone-400 font-medium block">
-                  {orderType === 'dine-in' && tableNumber ? `Meja ${tableNumber} • ` : ''}{totalItems} Menu Dipilih
+                  {orderType === 'dine-in' && tableNumber ? `Table ${tableNumber} • ` : ''}{totalItems} Items Selected
                 </span>
                 <span className="text-sm sm:text-base font-extrabold text-[#F59E0B] font-display">
                   {formatRupiah(totalPrice)}
@@ -244,10 +244,10 @@ export default function CartDrawer() {
             {/* Right action button */}
             <button
               onClick={() => setIsCartOpen(true)}
-              aria-label="Buka ringkasan pesanan untuk checkout"
+              aria-label="Open order summary to checkout"
               className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 min-h-[44px] rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white text-xs sm:text-sm font-bold tracking-wide shadow-lg shadow-[#EA580C]/30 hover:scale-105 active:scale-95 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
             >
-              <span>Lihat Pesanan</span>
+              <span>View Order</span>
               <MessageCircle className="w-4 h-4 fill-white/10" />
             </button>
           </div>
@@ -280,10 +280,10 @@ export default function CartDrawer() {
                 </div>
                 <div>
                   <h2 id="cart-drawer-title" className="text-base sm:text-lg font-bold text-white font-display">
-                    Keranjang Warkop
+                    Dine-In Cart
                   </h2>
                   <span className="text-xs text-stone-400">
-                    {totalItems} item siap diproses
+                    {totalItems} item(s) ready to order
                   </span>
                 </div>
               </div>
@@ -293,8 +293,8 @@ export default function CartDrawer() {
                   <button
                     onClick={clearCart}
                     className="min-w-[44px] min-h-[44px] rounded-xl text-stone-400 hover:text-rose-400 hover:bg-rose-500/10 flex items-center justify-center transition-colors text-xs font-medium cursor-pointer focus-visible:ring-2 focus-visible:ring-rose-500 focus-visible:outline-none"
-                    aria-label="Kosongkan semua pesanan dalam keranjang"
-                    title="Kosongkan Keranjang"
+                    aria-label="Clear all items in cart"
+                    title="Clear Cart"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -302,7 +302,7 @@ export default function CartDrawer() {
                 <button
                   onClick={() => setIsCartOpen(false)}
                   className="min-w-[44px] min-h-[44px] rounded-xl bg-stone-900 hover:bg-stone-800 text-stone-400 hover:text-white border border-stone-800 flex items-center justify-center transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C] focus-visible:outline-none"
-                  aria-label="Tutup keranjang pesanan"
+                  aria-label="Close cart drawer"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -315,10 +315,10 @@ export default function CartDrawer() {
               {/* Order Options: Dine-in vs Takeaway */}
               <div className="p-3.5 rounded-2xl bg-[#14110E] border border-stone-800/90 space-y-3">
                 <div className="text-xs font-semibold text-stone-300">
-                  Pilihan Pemesanan:
+                  Dining Preference:
                 </div>
                 
-                <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label="Tipe Pemesanan">
+                <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label="Dining Preference">
                   <button
                     type="button"
                     role="radio"
@@ -331,7 +331,7 @@ export default function CartDrawer() {
                     }`}
                   >
                     <Utensils className="w-3.5 h-3.5" />
-                    <span>Makan di Tempat</span>
+                    <span>Dine-In</span>
                   </button>
 
                   <button
@@ -346,7 +346,7 @@ export default function CartDrawer() {
                     }`}
                   >
                     <Package className="w-3.5 h-3.5" />
-                    <span>Bungkus / Take Away</span>
+                    <span>Takeaway / To-Go</span>
                   </button>
                 </div>
 
@@ -355,17 +355,17 @@ export default function CartDrawer() {
                   {orderType === 'dine-in' && (
                     <div className="relative">
                       <label htmlFor="cart-table-number" className="text-[11px] font-medium text-stone-400 mb-1 flex items-center justify-between">
-                        <span>Nomor Meja *</span>
+                        <span>Table Number *</span>
                         {qrDetectedTable && (
                           <span className="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono font-bold flex items-center gap-1">
-                            <QrCode className="w-2.5 h-2.5" /> QR Scan
+                            <QrCode className="w-2.5 h-2.5" /> QR Scanned
                           </span>
                         )}
                       </label>
                       <input
                         id="cart-table-number"
                         type="text"
-                        placeholder="Contoh: 04"
+                        placeholder="e.g. 04"
                         value={tableNumber}
                         onChange={(e) => setTableNumber(e.target.value)}
                         required={orderType === 'dine-in'}
@@ -377,12 +377,12 @@ export default function CartDrawer() {
 
                   <div className={orderType === 'dine-in' ? '' : 'sm:col-span-2'}>
                     <label htmlFor="cart-customer-name" className="text-[11px] font-medium text-stone-400 mb-1 block">
-                      Nama Pemesan (Opsional)
+                      Guest Name (Optional)
                     </label>
                     <input
                       id="cart-customer-name"
                       type="text"
-                      placeholder="Contoh: Dimas / Squad ML"
+                      placeholder="e.g. Alex / Product Team"
                       value={customerName}
                       onChange={(e) => setCustomerName(e.target.value)}
                       className="w-full min-h-[44px] px-3 py-2 rounded-xl bg-[#1C1612] border border-stone-800 focus:border-[#EA580C] focus-visible:ring-2 focus-visible:ring-[#EA580C] text-white text-xs placeholder:text-stone-500 outline-none transition-colors"
@@ -398,22 +398,22 @@ export default function CartDrawer() {
                     <ShoppingBag className="w-8 h-8 opacity-40" />
                   </div>
                   <h3 className="text-base font-bold text-white font-display">
-                    Keranjang Masih Kosong
+                    Your Cart is Empty
                   </h3>
                   <p className="text-xs text-stone-400 max-w-xs mx-auto">
-                    Yuk pilih menu favoritmu di katalog Warkop Sentosa, kopi mantap dan Indomie anget sudah menanti!
+                    Browse our menu to add artisan coffee and comfort bites to your order!
                   </p>
                   <button
                     onClick={() => setIsCartOpen(false)}
                     className="inline-flex min-h-[44px] items-center px-5 py-2 rounded-full bg-[#EA580C]/20 border border-[#EA580C]/40 text-[#F59E0B] text-xs font-bold hover:bg-[#EA580C]/30 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C] focus-visible:outline-none"
                   >
-                    Kembali ke Menu
+                    Back to Menu
                   </button>
                 </div>
               ) : (
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-xs text-stone-400 font-semibold px-1">
-                    <span>Menu yang Dipesan</span>
+                    <span>Ordered Items</span>
                     <span>Subtotal</span>
                   </div>
 
@@ -448,12 +448,12 @@ export default function CartDrawer() {
                           {isEditingNote ? (
                             <div className="flex items-center gap-1.5 mt-1">
                               <label htmlFor={`note-${cartItem.item.id}`} className="sr-only">
-                                Catatan untuk {cartItem.item.name}
+                                Special note for {cartItem.item.name}
                               </label>
                               <input
                                 id={`note-${cartItem.item.id}`}
                                 type="text"
-                                placeholder="Contoh: less sugar, mie setengah matang"
+                                placeholder="e.g. Less sweet, extra spicy, oat milk"
                                 value={cartItem.notes || ''}
                                 onChange={(e) =>
                                   updateNotes(cartItem.item.id, e.target.value)
@@ -465,29 +465,29 @@ export default function CartDrawer() {
                                 onClick={() => setActiveNoteEditId(null)}
                                 className="min-h-[40px] px-3 rounded-lg bg-[#EA580C] text-white text-xs font-bold cursor-pointer"
                               >
-                                Simpan
+                                Save
                               </button>
                             </div>
                           ) : (
                             <div className="flex items-center justify-between text-xs">
                               {cartItem.notes ? (
                                 <p className="text-[11px] text-amber-200/90 italic bg-amber-950/30 border border-amber-900/50 rounded-lg px-2 py-1 max-w-[80%] truncate">
-                                  Catatan: &ldquo;{cartItem.notes}&rdquo;
+                                  Note: &ldquo;{cartItem.notes}&rdquo;
                                 </p>
                               ) : (
                                 <span className="text-[11px] text-stone-500">
-                                  Tanpa catatan khusus
+                                  No special notes
                                 </span>
                               )}
                               <button
                                 onClick={() =>
                                   setActiveNoteEditId(cartItem.item.id)
                                 }
-                                aria-label={`Ubah catatan khusus untuk ${cartItem.item.name}`}
+                                aria-label={`Edit special notes for ${cartItem.item.name}`}
                                 className="min-h-[36px] px-2 text-[11px] text-[#EA580C] hover:text-[#F97316] font-semibold flex items-center gap-1 cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C] rounded-lg"
                               >
                                 <Edit3 className="w-3 h-3" />
-                                <span>{cartItem.notes ? 'Ubah' : '+ Catatan'}</span>
+                                <span>{cartItem.notes ? 'Edit' : '+ Note'}</span>
                               </button>
                             </div>
                           )}
@@ -498,8 +498,8 @@ export default function CartDrawer() {
                           <button
                             onClick={() => removeItem(cartItem.item.id)}
                             className="min-w-[40px] min-h-[40px] text-stone-500 hover:text-rose-400 flex items-center justify-center rounded-lg transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-rose-500"
-                            aria-label={`Hapus ${cartItem.item.name} dari keranjang`}
-                            title="Hapus menu"
+                            aria-label={`Remove ${cartItem.item.name} from cart`}
+                            title="Remove item"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
@@ -513,7 +513,7 @@ export default function CartDrawer() {
                                 )
                               }
                               className="min-w-[40px] min-h-[40px] rounded-full bg-stone-800 hover:bg-stone-700 text-white flex items-center justify-center transition-colors cursor-pointer active:scale-90 focus-visible:ring-2 focus-visible:ring-[#EA580C]"
-                              aria-label={`Kurangi 1 porsi ${cartItem.item.name}`}
+                              aria-label={`Decrease quantity of ${cartItem.item.name}`}
                             >
                               <Minus className="w-3.5 h-3.5" />
                             </button>
@@ -528,7 +528,7 @@ export default function CartDrawer() {
                                 )
                               }
                               className="min-w-[40px] min-h-[40px] rounded-full bg-stone-800 hover:bg-stone-700 text-white flex items-center justify-center transition-colors cursor-pointer active:scale-90 focus-visible:ring-2 focus-visible:ring-[#EA580C]"
-                              aria-label={`Tambah 1 porsi ${cartItem.item.name}`}
+                              aria-label={`Increase quantity of ${cartItem.item.name}`}
                             >
                               <Plus className="w-3.5 h-3.5" />
                             </button>
@@ -540,7 +540,7 @@ export default function CartDrawer() {
                 </div>
               )}
 
-              {/* 3. FEATURE: KALKULATOR PATUNGAN (SPLIT BILL) */}
+              {/* 3. FEATURE: FAIR-SHARE SPLIT BILL */}
               {items.length > 0 && (
                 <div className="p-3.5 rounded-2xl bg-gradient-to-br from-[#1C1612] to-[#251A14] border border-amber-900/40 space-y-3">
                   <div className="flex items-center justify-between">
@@ -550,13 +550,13 @@ export default function CartDrawer() {
                       </div>
                       <div>
                         <h3 className="text-xs font-bold text-white flex items-center gap-1.5">
-                          Kalkulator Patungan
+                          Fair-Share Calculator
                           <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 font-normal">
                             Split Bill
                           </span>
                         </h3>
                         <p className="text-[10px] text-stone-400">
-                          Bagi rata tagihan nongkrong bareng teman
+                          Equally divide the bill among your squad
                         </p>
                       </div>
                     </div>
@@ -569,7 +569,7 @@ export default function CartDrawer() {
                       }`}
                       role="switch"
                       aria-checked={splitBillEnabled}
-                      aria-label="Aktifkan kalkulator patungan"
+                      aria-label="Toggle split bill calculator"
                     >
                       <span
                         className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
@@ -583,7 +583,7 @@ export default function CartDrawer() {
                     <div className="pt-2 border-t border-stone-800/80 space-y-3 animate-in fade-in slide-in-from-top-2 duration-200">
                       <div className="flex items-center justify-between">
                         <span className="text-xs text-stone-300 font-medium">
-                          Jumlah Orang Nongkrong:
+                          Number of Diners:
                         </span>
                         
                         <div className="flex items-center gap-2 bg-[#14110E] p-1 rounded-xl border border-stone-800">
@@ -593,7 +593,7 @@ export default function CartDrawer() {
                               setSplitPeopleCount((prev) => Math.max(2, prev - 1))
                             }
                             disabled={splitPeopleCount <= 2}
-                            aria-label="Kurangi jumlah orang patungan"
+                            aria-label="Decrease number of diners"
                             className="w-7 h-7 rounded-lg bg-stone-800 hover:bg-stone-700 disabled:opacity-30 disabled:cursor-not-allowed text-white flex items-center justify-center transition-colors cursor-pointer"
                           >
                             <Minus className="w-3 h-3" />
@@ -609,7 +609,7 @@ export default function CartDrawer() {
                               setSplitPeopleCount((prev) => Math.min(20, prev + 1))
                             }
                             disabled={splitPeopleCount >= 20}
-                            aria-label="Tambah jumlah orang patungan"
+                            aria-label="Increase number of diners"
                             className="w-7 h-7 rounded-lg bg-stone-800 hover:bg-stone-700 disabled:opacity-30 disabled:cursor-not-allowed text-white flex items-center justify-center transition-colors cursor-pointer"
                           >
                             <Plus className="w-3 h-3" />
@@ -621,7 +621,7 @@ export default function CartDrawer() {
                       <div className="p-3 rounded-xl bg-[#14110E] border border-amber-500/30 flex items-center justify-between">
                         <div>
                           <span className="text-[10px] text-stone-400 uppercase tracking-wider block font-semibold">
-                            Bayar Per Orang:
+                            Pay Per Person:
                           </span>
                           <span className="text-base sm:text-lg font-black text-[#F59E0B] font-mono">
                             {formatRupiah(perPersonShare)}
@@ -636,12 +636,12 @@ export default function CartDrawer() {
                           {splitCopiedToast ? (
                             <>
                               <Check className="w-3.5 h-3.5 text-emerald-400" />
-                              <span className="text-emerald-400">Tersalin!</span>
+                              <span className="text-emerald-400">Copied!</span>
                             </>
                           ) : (
                             <>
                               <Copy className="w-3.5 h-3.5" />
-                              <span>Salin ke Grup WA</span>
+                              <span>Copy to Group Chat</span>
                             </>
                           )}
                         </button>
@@ -651,19 +651,19 @@ export default function CartDrawer() {
                 </div>
               )}
 
-              {/* 4. FEATURE: METODE PEMBAYARAN (TUNAI VS QRIS) */}
+              {/* 4. FEATURE: PAYMENT METHOD (CASH VS QRIS) */}
               {items.length > 0 && (
                 <div className="p-3.5 rounded-2xl bg-[#14110E] border border-stone-800/90 space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-semibold text-stone-300">
-                      Metode Pembayaran:
+                      Payment Method:
                     </span>
                     <span className="text-[10px] text-emerald-400 flex items-center gap-1 font-medium">
-                      <Sparkles className="w-3 h-3" /> Bebas Biaya Admin
+                      <Sparkles className="w-3 h-3" /> No Surcharge
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label="Metode Pembayaran">
+                  <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label="Payment Method">
                     <button
                       type="button"
                       role="radio"
@@ -676,7 +676,7 @@ export default function CartDrawer() {
                       }`}
                     >
                       <Banknote className="w-4 h-4" />
-                      <span>Tunai di Kasir</span>
+                      <span>Cash at Counter</span>
                     </button>
 
                     <button
@@ -694,7 +694,7 @@ export default function CartDrawer() {
                       }`}
                     >
                       <QrCode className="w-4 h-4" />
-                      <span>QRIS (Scan Kasir)</span>
+                      <span>QRIS (Scan Counter)</span>
                     </button>
                   </div>
 
@@ -705,7 +705,7 @@ export default function CartDrawer() {
                           QRIS
                         </div>
                         <div className="text-[11px] text-stone-300">
-                          BCA, GoPay, OVO, ShopeePay, Dana, dll.
+                          BCA, GoPay, OVO, ShopeePay, Dana, etc.
                         </div>
                       </div>
                       <button
@@ -713,7 +713,7 @@ export default function CartDrawer() {
                         onClick={() => setShowQrisModal(true)}
                         className="px-2.5 py-1.5 rounded-lg bg-[#EA580C]/20 hover:bg-[#EA580C]/30 text-[#F59E0B] font-bold text-[11px] border border-[#EA580C]/40 transition-colors cursor-pointer"
                       >
-                        Lihat QRIS
+                        View QRIS
                       </button>
                     </div>
                   )}
@@ -726,27 +726,27 @@ export default function CartDrawer() {
               <div className="p-4 sm:p-5 border-t border-stone-800/80 bg-[#1C1612] space-y-3">
                 <div className="space-y-1.5 text-xs text-stone-300">
                   <div className="flex justify-between">
-                    <span>Total Porsi ({totalItems} item)</span>
+                    <span>Total Items ({totalItems} portions)</span>
                     <span className="font-mono text-stone-200">
                       {formatRupiah(totalPrice)}
                     </span>
                   </div>
                   <div className="flex justify-between text-stone-400">
-                    <span>Metode Pembayaran</span>
+                    <span>Payment Method</span>
                     <span className="text-amber-400 font-semibold font-mono">
-                      {paymentMethod === 'qris' ? 'QRIS Kasir' : 'Tunai Kasir'}
+                      {paymentMethod === 'qris' ? 'Counter QRIS' : 'Cash at Counter'}
                     </span>
                   </div>
                   {splitBillEnabled && (
                     <div className="flex justify-between text-stone-400">
-                      <span>Patungan ({splitPeopleCount} orang)</span>
+                      <span>Split Bill ({splitPeopleCount} guests)</span>
                       <span className="text-amber-300 font-semibold font-mono">
                         @{formatRupiah(perPersonShare)}
                       </span>
                     </div>
                   )}
                   <div className="flex justify-between items-center text-sm sm:text-base font-extrabold text-white pt-2 border-t border-stone-800 font-display">
-                    <span>Total Tagihan:</span>
+                    <span>Total Bill:</span>
                     <span className="text-[#F59E0B] text-lg sm:text-xl font-mono">
                       {formatRupiah(totalPrice)}
                     </span>
@@ -758,11 +758,11 @@ export default function CartDrawer() {
                     type="button"
                     onClick={() => setShowReceiptModal(true)}
                     className="min-h-[48px] px-3.5 sm:px-4 rounded-full bg-stone-900 hover:bg-stone-800 border border-stone-750 hover:border-amber-500/50 text-stone-200 hover:text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C] flex-shrink-0"
-                    aria-label="Lihat pratinjau struk kasir digital"
-                    title="Pratinjau Struk Kasir"
+                    aria-label="Preview digital POS receipt"
+                    title="Digital Receipt Preview"
                   >
                     <Receipt className="w-4 h-4 text-[#EA580C]" />
-                    <span className="hidden xs:inline sm:inline">Struk</span>
+                    <span className="hidden xs:inline sm:inline">Receipt</span>
                   </button>
 
                   <button
@@ -770,12 +770,12 @@ export default function CartDrawer() {
                     className="flex-1 min-h-[48px] py-3.5 sm:py-4 px-4 rounded-full bg-gradient-to-r from-emerald-600 via-[#EA580C] to-[#C2410C] hover:opacity-95 text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-xl shadow-[#EA580C]/25 cursor-pointer active:scale-95 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
                   >
                     <Send className="w-4 h-4 fill-white/20 flex-shrink-0" />
-                    <span className="truncate">Kirim Pesanan ke WA</span>
+                    <span className="truncate">Send Order to WA</span>
                   </button>
                 </div>
 
                 <p className="text-[10px] text-center text-stone-400">
-                  ⚡ Pesanan otomatis terformat rapi dan langsung diteruskan ke kasir warkop.
+                  ⚡ Order is structured cleanly and forwarded directly to the cashier.
                 </p>
               </div>
             )}
@@ -783,7 +783,7 @@ export default function CartDrawer() {
         </div>
       )}
 
-      {/* 5. MODAL INTERAKTIF QRIS KASIR */}
+      {/* 5. INTERACTIVE QRIS MODAL */}
       {showQrisModal && (
         <div
           role="dialog"
@@ -801,7 +801,7 @@ export default function CartDrawer() {
             {/* Close button */}
             <button
               onClick={() => setShowQrisModal(false)}
-              aria-label="Tutup popup QRIS"
+              aria-label="Close QRIS modal"
               className="absolute top-4 right-4 min-w-[36px] min-h-[36px] rounded-full bg-stone-100 hover:bg-stone-200 text-stone-600 flex items-center justify-center transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C]"
             >
               <X className="w-4 h-4" />
@@ -811,10 +811,10 @@ export default function CartDrawer() {
             <div className="text-center space-y-1">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-50 text-red-600 font-extrabold text-xs tracking-wider border border-red-200">
                 <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
-                QRIS STANDAR NASIONAL
+                NATIONAL QRIS STANDARD
               </div>
               <h3 id="qris-modal-title" className="text-lg font-black tracking-tight text-stone-900">
-                WARKOP SENTOSA
+                SENTOSA CAFE
               </h3>
               <p className="text-[11px] text-stone-500 font-mono">
                 NMID: ID102003928172901 • A01
@@ -828,7 +828,7 @@ export default function CartDrawer() {
                   viewBox="0 0 200 200"
                   className="w-48 h-48 sm:w-52 sm:h-52 text-stone-900 fill-current"
                   role="img"
-                  aria-label="QR Code QRIS Warkop Sentosa"
+                  aria-label="Sentosa Cafe National QRIS Code"
                 >
                   {/* Top-Left Finder */}
                   <rect x="10" y="10" width="50" height="50" rx="6" fill="#18130F" />
@@ -902,7 +902,7 @@ export default function CartDrawer() {
 
               {/* Supported apps */}
               <p className="text-[10px] text-stone-500 font-medium text-center">
-                Mendukung semua bank & e-wallet berstandar QRIS
+                Supports all banks &amp; digital wallets with QRIS standard
               </p>
             </div>
 
@@ -910,7 +910,7 @@ export default function CartDrawer() {
             <div className="p-3 bg-stone-100 rounded-2xl flex items-center justify-between">
               <div>
                 <span className="text-[10px] font-bold text-stone-500 uppercase tracking-wider block">
-                  Nominal Pembayaran:
+                  Payment Amount:
                 </span>
                 <span className="text-base sm:text-lg font-black text-stone-900 font-mono">
                   {formatRupiah(totalPrice)}
@@ -925,12 +925,12 @@ export default function CartDrawer() {
                 {amountCopiedToast ? (
                   <>
                     <Check className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>Tersalin!</span>
+                    <span>Copied!</span>
                   </>
                 ) : (
                   <>
                     <Copy className="w-3.5 h-3.5" />
-                    <span>Salin Nominal</span>
+                    <span>Copy Amount</span>
                   </>
                 )}
               </button>
@@ -939,21 +939,21 @@ export default function CartDrawer() {
             {/* Instruction */}
             <div className="space-y-1.5 text-center">
               <p className="text-[11px] text-stone-600 leading-relaxed">
-                Scan kode di atas menggunakan m-Banking atau e-wallet kamu, lalu tunjukkan bukti bayar ke kasir atau kirim via WhatsApp.
+                Scan the code above using your m-Banking or e-wallet app, then show payment confirmation to the cashier or send via WhatsApp.
               </p>
               <button
                 type="button"
                 onClick={() => setShowQrisModal(false)}
                 className="w-full py-2.5 rounded-xl bg-[#EA580C] hover:bg-[#F97316] text-white font-bold text-xs cursor-pointer transition-colors"
               >
-                Saya Sudah Paham / Siap Bayar
+                I Understand / Ready to Pay
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* 6. MODAL INTERAKTIF STRUK KASIR DIGITAL */}
+      {/* 6. DIGITAL POS RECEIPT MODAL */}
       <ThermalReceiptModal
         isOpen={showReceiptModal}
         onClose={() => setShowReceiptModal(false)}
@@ -977,7 +977,7 @@ export default function CartDrawer() {
           className="fixed top-6 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-2xl bg-emerald-950/95 border border-emerald-500/50 text-white text-xs font-semibold shadow-2xl flex items-center gap-2 animate-in fade-in slide-in-from-top-4"
         >
           <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-          <span>Membuka WhatsApp untuk mengirim pesanan...</span>
+          <span>Opening WhatsApp to submit your order...</span>
         </div>
       )}
     </>

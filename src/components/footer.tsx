@@ -19,9 +19,9 @@ export default function Footer() {
 
   const handleShareSquad = async () => {
     const shareData = {
-      title: 'Warkop Sentosa - Tempat Nongkrong Asik di Senopati',
-      text: 'Yuk nongkrong di Warkop Sentosa! Kopi enak, WiFi kencang 150 Mbps, buka sampai pagi. Cek menu & lokasinya di sini:',
-      url: typeof window !== 'undefined' ? window.location.origin : 'https://warkop-modern-app.vercel.app',
+      title: 'Sentosa Cafe - Artisan Coffee & Work Sanctuary in Senopati',
+      text: 'Check out Sentosa Cafe! Artisan coffee, 150 Mbps high-speed Wi-Fi, open until 1:00 AM. View menu & location:',
+      url: typeof window !== 'undefined' ? window.location.origin : 'https://modern-cafe-ordering-app.vercel.app',
     };
 
     if (typeof navigator !== 'undefined' && navigator.share) {
@@ -33,11 +33,11 @@ export default function Footer() {
       }
     }
 
-    const shareUrl = typeof window !== 'undefined' ? window.location.origin : 'https://warkop-modern-app.vercel.app';
+    const shareUrl = typeof window !== 'undefined' ? window.location.origin : 'https://modern-cafe-ordering-app.vercel.app';
     const waText = encodeURIComponent(
-      `*Yuk nongkrong di Warkop Sentosa!*\n\n` +
-      `Kopi enak, WiFi kencang 150 Mbps, colokan melimpah, dan buka sampai jam 1 pagi di Senopati.\n\n` +
-      `Cek menu & lokasinya di sini: ${shareUrl}`
+      `*Join us at Sentosa Cafe!*\n\n` +
+      `Great coffee, 150 Mbps Wi-Fi, power outlets at every desk, and open until 1:00 AM in Senopati.\n\n` +
+      `Check the live menu & location here: ${shareUrl}`
     );
     window.open(`https://wa.me/?text=${waText}`, '_blank');
   };
@@ -50,8 +50,8 @@ export default function Footer() {
           {/* Brand Col */}
           <div className="lg:col-span-5 space-y-4">
             <a
-              href="#beranda"
-              onClick={(e) => handleSmoothScroll(e, '#beranda')}
+              href="#home"
+              onClick={(e) => handleSmoothScroll(e, '#home')}
               className="flex items-center gap-3 active:scale-95 transition-transform"
             >
               <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#EA580C] to-[#C2410C] flex items-center justify-center text-white shadow-md shadow-[#EA580C]/25">
@@ -63,21 +63,21 @@ export default function Footer() {
             </a>
 
             <p className="text-xs sm:text-sm text-stone-300 font-normal leading-relaxed max-w-sm">
-              Tempat pelarian paling pas buat nugas, mabar, atau sekadar ngobrol ngalor-ngidul sama teman. Harga merakyat, rasa tetap pejabat.
+              The ultimate spot for deep work, squad meetups, and late-night unwinding. Premium taste at everyday honest prices.
             </p>
 
             <div className="flex flex-wrap gap-3 sm:gap-4 pt-1 text-xs text-[#F59E0B] font-semibold">
               <span className="flex items-center gap-1.5">
                 <Wifi className="w-3.5 h-3.5" />
-                WiFi Kencang
+                150 Mbps Wi-Fi
               </span>
               <span className="flex items-center gap-1.5">
                 <Zap className="w-3.5 h-3.5" />
-                Colokan Melimpah
+                Power Outlets
               </span>
               <span className="flex items-center gap-1.5">
                 <Clock className="w-3.5 h-3.5" />
-                s/d 01.00 Pagi
+                Open Till 1:00 AM
               </span>
             </div>
 
@@ -89,7 +89,7 @@ export default function Footer() {
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#1C1612] hover:bg-[#251D18] border border-stone-700 hover:border-[#EA580C]/50 text-stone-200 hover:text-[#F59E0B] text-xs font-bold transition-all shadow-md active:scale-95 cursor-pointer"
               >
                 <Share2 className="w-3.5 h-3.5 text-[#EA580C]" />
-                <span>Ajak Squad Nongkrong (Share ke WhatsApp)</span>
+                <span>Invite Squad (Share via WhatsApp)</span>
               </button>
             </div>
           </div>
@@ -97,25 +97,25 @@ export default function Footer() {
           {/* Quick Links */}
           <div className="lg:col-span-3 space-y-3">
             <h4 className="text-xs uppercase tracking-widest text-white font-bold font-mono">
-              Navigasi Cepat
+              Quick Navigation
             </h4>
             <ul className="space-y-2 text-xs sm:text-sm">
               <li>
                 <a
-                  href="#beranda"
-                  onClick={(e) => handleSmoothScroll(e, '#beranda')}
+                  href="#home"
+                  onClick={(e) => handleSmoothScroll(e, '#home')}
                   className="hover:text-[#F59E0B] transition-colors active:text-white"
                 >
-                  Beranda
+                  Home
                 </a>
               </li>
               <li>
                 <a
-                  href="#kenapa-kami"
-                  onClick={(e) => handleSmoothScroll(e, '#kenapa-kami')}
+                  href="#story"
+                  onClick={(e) => handleSmoothScroll(e, '#story')}
                   className="hover:text-[#F59E0B] transition-colors active:text-white"
                 >
-                  Kenapa Nongkrong di Sini?
+                  Why Sentosa
                 </a>
               </li>
               <li>
@@ -124,25 +124,25 @@ export default function Footer() {
                   onClick={(e) => handleSmoothScroll(e, '#menu')}
                   className="hover:text-[#F59E0B] transition-colors active:text-white"
                 >
-                  Menu &amp; Harga Merakyat
+                  Menu &amp; Prices
                 </a>
               </li>
               <li>
                 <a
-                  href="#ulasan"
-                  onClick={(e) => handleSmoothScroll(e, '#ulasan')}
+                  href="#reviews"
+                  onClick={(e) => handleSmoothScroll(e, '#reviews')}
                   className="hover:text-[#F59E0B] transition-colors active:text-white"
                 >
-                  Ulasan Google Maps
+                  Guest Reviews
                 </a>
               </li>
               <li>
                 <a
-                  href="#lokasi"
-                  onClick={(e) => handleSmoothScroll(e, '#lokasi')}
+                  href="#location"
+                  onClick={(e) => handleSmoothScroll(e, '#location')}
                   className="hover:text-[#F59E0B] transition-colors active:text-white"
                 >
-                  Lokasi &amp; Jam Operasional
+                  Location &amp; Hours
                 </a>
               </li>
               <li className="pt-1">
@@ -152,7 +152,7 @@ export default function Footer() {
                   className="hover:text-[#F59E0B] transition-colors active:text-white flex items-center gap-1.5 text-xs text-stone-400 hover:underline cursor-pointer"
                 >
                   <Printer className="w-3.5 h-3.5 text-[#EA580C]" />
-                  <span>Cetak Stand Meja QR (Khusus Pemilik)</span>
+                  <span>Print Table Tent QR (Store Owner)</span>
                 </button>
               </li>
             </ul>
@@ -161,17 +161,17 @@ export default function Footer() {
           {/* Contact & Hours */}
           <div className="lg:col-span-4 space-y-3">
             <h4 className="text-xs uppercase tracking-widest text-white font-bold font-mono">
-              Lokasi &amp; Kontak WhatsApp
+              Location &amp; WhatsApp Contact
             </h4>
             <div className="space-y-2 text-xs sm:text-sm">
               <p className="text-stone-300 font-normal">
                 {CAFE_INFO.address}
               </p>
               <p className="text-stone-400">
-                Senin &ndash; Jumat: <span className="text-white font-mono">{CAFE_INFO.operatingHours.weekdays}</span>
+                Monday &ndash; Friday: <span className="text-white font-mono">{CAFE_INFO.operatingHours.weekdays}</span>
               </p>
               <p className="text-stone-400">
-                Sabtu &ndash; Minggu: <span className="text-white font-mono">{CAFE_INFO.operatingHours.weekends}</span>
+                Saturday &ndash; Sunday: <span className="text-white font-mono">{CAFE_INFO.operatingHours.weekends}</span>
               </p>
               <div className="pt-2">
                 <a
@@ -192,7 +192,7 @@ export default function Footer() {
         {/* Bottom */}
         <div className="pt-8 border-t border-stone-800/60 mt-4 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 gap-3 text-center sm:text-left font-normal">
           <p>
-            &copy; {new Date().getFullYear()} {CAFE_INFO.name}. Tempat Nongkrong Asik di Senopati.
+            &copy; {new Date().getFullYear()} {CAFE_INFO.name}. Senopati&apos;s Premier Neighborhood Work Cafe.
           </p>
           <p className="text-stone-400 flex items-center justify-center sm:justify-end gap-1.5">
             <span>Crafted with precision by</span>

@@ -43,7 +43,7 @@ export default function TableQrGeneratorModal({
 }: TableQrGeneratorModalProps) {
   const [selectedTable, setSelectedTable] = useState(initialTable);
   const [customTableInput, setCustomTableInput] = useState('');
-  const [origin, setOrigin] = useState('https://warkop-modern-app.vercel.app');
+  const [origin, setOrigin] = useState('https://modern-cafe-ordering-app.vercel.app');
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.location.origin) {
@@ -71,7 +71,7 @@ export default function TableQrGeneratorModal({
 
   if (!isOpen) return null;
 
-  const targetUrl = `${origin}/?meja=${encodeURIComponent(selectedTable.trim() || '01')}`;
+  const targetUrl = `${origin}/?table=${encodeURIComponent(selectedTable.trim() || '01')}`;
 
   const handlePrint = () => {
     window.print();
@@ -119,10 +119,10 @@ export default function TableQrGeneratorModal({
               </div>
               <div>
                 <h2 id="qr-generator-title" className="text-base sm:text-lg font-bold text-white font-display">
-                  Generator Stand Akrilik Meja QR
+                  Acrylic Table Tent QR Generator
                 </h2>
                 <p className="text-xs text-stone-400">
-                  Cetak kartu QR nomor meja untuk ditaruh di stand akrilik meja warkop
+                  Generate printable QR cards to place inside acrylic table stands
                 </p>
               </div>
             </div>
@@ -130,7 +130,7 @@ export default function TableQrGeneratorModal({
             <button
               onClick={onClose}
               className="w-9 h-9 rounded-xl bg-stone-900 hover:bg-stone-800 text-stone-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C]"
-              aria-label="Tutup generator QR meja"
+              aria-label="Close QR generator"
             >
               <X className="w-5 h-5" />
             </button>
@@ -139,7 +139,7 @@ export default function TableQrGeneratorModal({
           {/* Table Selector Pills */}
           <div className="space-y-2 pt-1 border-t border-stone-800/80">
             <label className="text-xs font-semibold text-stone-300 block">
-              Pilih Nomor Meja:
+              Select Table Number:
             </label>
             <div className="flex flex-wrap gap-1.5 sm:gap-2">
               {PRESET_TABLES.map((t) => (
@@ -160,7 +160,7 @@ export default function TableQrGeneratorModal({
               {/* Custom table input */}
               <input
                 type="text"
-                placeholder="Kustom (mis: 99B)"
+                placeholder="Custom (e.g. 99B)"
                 value={customTableInput}
                 onChange={(e) => handleCustomInput(e.target.value)}
                 className="min-h-[38px] w-32 px-3 rounded-xl bg-[#14110E] border border-stone-800 focus:border-[#EA580C] text-xs font-mono text-white placeholder:text-stone-600 outline-none"
@@ -179,10 +179,10 @@ export default function TableQrGeneratorModal({
                 type="button"
                 onClick={handleTestOpen}
                 className="flex-1 sm:flex-initial min-h-[44px] px-4 rounded-xl bg-stone-900 hover:bg-stone-800 border border-stone-750 text-stone-200 hover:text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer"
-                title="Buka URL meja ini di tab baru untuk demo"
+                title="Open table URL in new tab for demo"
               >
                 <ExternalLink className="w-3.5 h-3.5 text-sky-400" />
-                <span>Tes Buka Meja</span>
+                <span>Test Open Table</span>
               </button>
 
               <button
@@ -191,7 +191,7 @@ export default function TableQrGeneratorModal({
                 className="flex-1 sm:flex-initial min-h-[44px] px-5 rounded-xl bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white text-xs font-extrabold flex items-center justify-center gap-2 shadow-lg shadow-[#EA580C]/30 transition-all cursor-pointer active:scale-95"
               >
                 <Printer className="w-4 h-4" />
-                <span>Cetak Stand Meja (Print A6)</span>
+                <span>Print Table Tent (A6)</span>
               </button>
             </div>
           </div>
@@ -213,20 +213,20 @@ export default function TableQrGeneratorModal({
             <div className="space-y-1 pt-1">
               <div className="inline-flex items-center justify-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-[#F59E0B] text-[11px] font-bold tracking-wider uppercase">
                 <Coffee className="w-3.5 h-3.5 text-[#EA580C]" />
-                <span>WARKOP SENTOSA</span>
+                <span>SENTOSA CAFE</span>
               </div>
               <h3 className="text-xl sm:text-2xl font-black tracking-tight text-white font-display">
-                Pesan Dari Meja
+                Order From Your Table
               </h3>
               <p className="text-[11px] text-stone-400">
-                Bebas Antre di Kasir &bull; Kopi Mantap, WiFi Kencang
+                Skip the Counter Line &bull; Artisan Coffee, Fast Wi-Fi
               </p>
             </div>
 
             {/* Central Badge: Table Number Highlight */}
             <div className="py-2.5 px-4 rounded-2xl bg-gradient-to-r from-amber-950/40 via-amber-900/30 to-amber-950/40 border border-amber-500/30 shadow-inner flex items-center justify-center gap-2">
               <span className="text-xs uppercase tracking-widest text-amber-300 font-bold">
-                NO. MEJA:
+                TABLE NO:
               </span>
               <span className="text-3xl sm:text-4xl font-black text-[#F59E0B] font-display tracking-wider">
                 {selectedTable}
@@ -240,7 +240,7 @@ export default function TableQrGeneratorModal({
                   viewBox="0 0 200 200"
                   className="w-44 h-44 sm:w-48 sm:h-48 text-stone-950 fill-current"
                   role="img"
-                  aria-label={`QR Code Meja ${selectedTable}`}
+                  aria-label={`QR Code Table ${selectedTable}`}
                 >
                   {/* Top-Left Finder */}
                   <rect x="10" y="10" width="50" height="50" rx="8" fill="#14110E" />
@@ -307,7 +307,7 @@ export default function TableQrGeneratorModal({
                 </svg>
               </div>
               <p className="text-[10px] text-stone-600 font-mono font-semibold pt-1">
-                Scan dengan Kamera HP / Google Lens
+                Scan with Smartphone Camera or Google Lens
               </p>
             </div>
 
@@ -318,23 +318,23 @@ export default function TableQrGeneratorModal({
                   <Smartphone className="w-3.5 h-3.5" />
                 </div>
                 <div className="text-[10px] font-bold text-white">1. Scan QR</div>
-                <div className="text-[9px] text-stone-400 leading-tight">Arahkan kamera HP</div>
+                <div className="text-[9px] text-stone-400 leading-tight">Open camera</div>
               </div>
 
               <div className="p-2 rounded-xl bg-stone-900/70 border border-stone-800 space-y-1">
                 <div className="w-6 h-6 mx-auto rounded-full bg-amber-500/20 text-[#F59E0B] flex items-center justify-center">
                   <UtensilsCrossed className="w-3.5 h-3.5" />
                 </div>
-                <div className="text-[10px] font-bold text-white">2. Pilih Menu</div>
-                <div className="text-[9px] text-stone-400 leading-tight">Tentukan racikan</div>
+                <div className="text-[10px] font-bold text-white">2. Pick Items</div>
+                <div className="text-[9px] text-stone-400 leading-tight">Customize menu</div>
               </div>
 
               <div className="p-2 rounded-xl bg-stone-900/70 border border-stone-800 space-y-1">
                 <div className="w-6 h-6 mx-auto rounded-full bg-amber-500/20 text-[#F59E0B] flex items-center justify-center">
                   <Sparkles className="w-3.5 h-3.5" />
                 </div>
-                <div className="text-[10px] font-bold text-white">3. Kami Antar</div>
-                <div className="text-[9px] text-stone-400 leading-tight">Duduk santai aja</div>
+                <div className="text-[10px] font-bold text-white">3. We Deliver</div>
+                <div className="text-[9px] text-stone-400 leading-tight">Relax at table</div>
               </div>
             </div>
 
@@ -342,10 +342,10 @@ export default function TableQrGeneratorModal({
             <div className="pt-2 border-t border-stone-800/80 space-y-1 text-center">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-stone-900 border border-stone-800 text-[11px] text-stone-300">
                 <Wifi className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Password WiFi: <strong className="text-white font-mono">sentosajuara2026</strong></span>
+                <span>WiFi Password: <strong className="text-white font-mono">sentosajuara2026</strong></span>
               </div>
               <p className="text-[9px] text-stone-500 pt-0.5">
-                Warkop Sentosa Modern POS &bull; Dikembangkan oleh Zeno
+                Sentosa Cafe Digital Ordering &bull; Developed by Zeno
               </p>
             </div>
           </div>

@@ -18,7 +18,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://warkop-modern-app.vercel.app"),
+  metadataBase: new URL("https://modern-cafe-ordering-app.vercel.app"),
   title: "Sentosa Cafe & Diner | Modern QR Table Ordering & Digital POS",
   description:
     "Modern digital dining and QR table ordering experience. Fast local Wi-Fi, artisan coffee, split-bill calculator, and instant cashier checkout.",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     title: "Sentosa Cafe & Diner | Modern QR Table Ordering & Digital POS",
     description:
       "Order straight from your table, split bills with friends, and enjoy zero-wait cashier checkout.",
-    url: "https://warkop-modern-app.vercel.app",
+    url: "https://modern-cafe-ordering-app.vercel.app",
     siteName: "Sentosa Cafe & Diner",
     images: [
       {

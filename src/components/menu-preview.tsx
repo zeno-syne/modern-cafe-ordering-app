@@ -41,8 +41,8 @@ export default function MenuPreview() {
 
   // Extended filter categories with Best Seller
   const extendedCategories = [
-    { id: 'all', label: 'Semua Menu' },
-    { id: 'bestseller', label: '🔥 Paling Laris' },
+    { id: 'all', label: 'All Items' },
+    { id: 'bestseller', label: '🔥 Bestsellers' },
     ...MENU_CATEGORIES.filter((c) => c.id !== 'all'),
   ];
 
@@ -95,7 +95,7 @@ export default function MenuPreview() {
     const addedQty = quantity;
     setSelectedOrderItem(null);
 
-    setToastMessage(`${addedQty}x ${itemName} masuk ke keranjang!`);
+    setToastMessage(`${addedQty}x ${itemName} added to cart!`);
     setTimeout(() => {
       setToastMessage(null);
     }, 3500);
@@ -105,13 +105,13 @@ export default function MenuPreview() {
     if (!selectedOrderItem) return;
 
     const total = selectedOrderItem.price * quantity;
-    const noteText = orderNote.trim() ? `\nCatatan: ${orderNote.trim()}` : '';
+    const noteText = orderNote.trim() ? `\nNote: ${orderNote.trim()}` : '';
     const message = encodeURIComponent(
-      `*PESANAN LANGSUNG WARKOP SENTOSA*\n\n` +
+      `*DIRECT ORDER - SENTOSA CAFE*\n\n` +
       `Item: *${selectedOrderItem.name}*\n` +
-      `Jumlah: ${quantity} porsi\n` +
+      `Quantity: ${quantity} portion(s)\n` +
       `Total: ${formatRupiah(total)}${noteText}\n\n` +
-      `Halo Kak, mau pesan ini ya. Apakah ready? Terima kasih!`
+      `Hello Sentosa Cafe, I would like to place an order for this item. Is it available? Thank you!`
     );
 
     const targetUrl = `https://wa.me/6281289902026?text=${message}`;
@@ -145,13 +145,13 @@ export default function MenuPreview() {
         <div className="text-center max-w-2xl mx-auto space-y-3 mb-8 sm:mb-10">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#EA580C]/15 border border-[#EA580C]/35 text-[#F59E0B] text-xs font-bold tracking-wide">
             <Flame className="w-3.5 h-3.5 text-[#EA580C]" />
-            <span>Menu Warkop Kekinian</span>
+            <span>Signature Cafe Menu</span>
           </div>
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white font-display">
-            Harga Merakyat, Rasa Pejabat
+            Affordable Treats, Premium Flavor
           </h2>
           <p className="text-stone-300 text-xs sm:text-sm md:text-base leading-relaxed font-normal px-2">
-            Pilihan menu andalan buat nemenin nugas berjam-jam, mabar santai bareng squad, atau nongkrong sampai jam 1 pagi.
+            Curated comfort food and specialty drinks to power study marathons, squad game nights, or relaxed late-night gatherings.
           </p>
         </div>
 
@@ -161,18 +161,18 @@ export default function MenuPreview() {
             <Search className="w-4 h-4 text-stone-400 absolute left-4 pointer-events-none" aria-hidden="true" />
             <input
               type="text"
-              placeholder="Cari kopi, indomie, mendoan, roti..."
+              placeholder="Search coffee, comfort food, bites, drinks..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              aria-label="Cari menu makanan dan minuman warkop"
+              aria-label="Search cafe food and beverage menu"
               className="w-full min-h-[44px] pl-11 pr-11 py-2.5 rounded-full bg-[#1C1612] border border-stone-800 focus:border-[#EA580C] focus-visible:ring-2 focus-visible:ring-[#EA580C] text-white text-xs sm:text-sm placeholder:text-stone-500 shadow-lg outline-none transition-all"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
                 className="absolute right-2.5 min-w-[36px] min-h-[36px] flex items-center justify-center rounded-full text-stone-400 hover:text-white hover:bg-stone-800 transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C]"
-                aria-label="Hapus kata kunci pencarian"
-                title="Hapus pencarian"
+                aria-label="Clear search input"
+                title="Clear search"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -181,7 +181,7 @@ export default function MenuPreview() {
         </div>
 
         {/* Category Filters: Floating Pill Buttons with aria-pressed */}
-        <div className="flex items-center justify-center flex-wrap gap-2 sm:gap-2.5 mb-10 sm:mb-14" role="tablist" aria-label="Filter kategori menu">
+        <div className="flex items-center justify-center flex-wrap gap-2 sm:gap-2.5 mb-10 sm:mb-14" role="tablist" aria-label="Filter menu categories">
           {extendedCategories.map((cat) => (
             <button
               key={cat.id}
@@ -206,11 +206,11 @@ export default function MenuPreview() {
               <Search className="w-6 h-6" />
             </div>
             <h3 className="text-base sm:text-lg font-bold text-white font-display">
-              Menu Tidak Ditemukan
+              No Menu Items Found
             </h3>
             <p className="text-xs text-stone-400 leading-relaxed">
-              Tidak ada menu yang cocok dengan kata kunci &ldquo;<span className="text-[#F59E0B] font-semibold">{searchQuery}</span>&rdquo;.
-              Coba cari kopi, indomie, mendoan, atau roti bakar.
+              No menu items match your search for &ldquo;<span className="text-[#F59E0B] font-semibold">{searchQuery}</span>&rdquo;.
+              Try searching for coffee, ramen, toast, or matcha.
             </p>
             <button
               onClick={() => {
@@ -220,7 +220,7 @@ export default function MenuPreview() {
               className="inline-flex min-h-[44px] items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#EA580C]/20 border border-[#EA580C]/40 text-[#F59E0B] hover:bg-[#EA580C]/30 text-xs font-bold transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C]"
             >
               <RotateCcw className="w-3 h-3" />
-              <span>Reset Pencarian</span>
+              <span>Reset Search</span>
             </button>
           </div>
         ) : (
@@ -254,17 +254,17 @@ export default function MenuPreview() {
                           ) : (
                             <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-semibold text-stone-400 bg-stone-900 border border-stone-800">
                               {item.category === 'kopi'
-                                ? 'Kopi'
+                                ? 'Coffee'
                                 : item.category === 'makanan'
-                                ? 'Makanan'
-                                : 'Minuman'}
+                                ? 'Food'
+                                : 'Beverage'}
                             </span>
                           )}
 
                           {inCartQty > 0 && (
                             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
                               <Check className="w-2.5 h-2.5" />
-                              <span>{inCartQty} di Keranjang</span>
+                              <span>{inCartQty} in Cart</span>
                             </span>
                           )}
                         </div>
@@ -291,19 +291,19 @@ export default function MenuPreview() {
                     <div className="mt-5 pt-3.5 border-t border-stone-800/90 flex items-center justify-between">
                       <span className="text-[11px] sm:text-xs text-stone-400 font-medium">
                         {item.badge === 'BEST SELLER'
-                          ? '🔥 Paling Dicari'
-                          : item.badge === 'PAKET AKHIR BULAN'
-                          ? '💰 Hemat Banget'
-                          : '☕ Porsi Mantap'}
+                          ? '🔥 Guest Favorite'
+                          : item.badge === 'BUDGET BUNDLE'
+                          ? '💰 Great Value'
+                          : '☕ Generous Portion'}
                       </span>
 
                       <button
                         onClick={() => handleOpenOrder(item)}
-                        aria-label={`Pesan ${item.name} seharga ${formatRupiah(item.price)}`}
+                        aria-label={`Order ${item.name} for ${formatRupiah(item.price)}`}
                         className="group/btn inline-flex min-h-[40px] items-center gap-1.5 pl-3.5 pr-2 py-1.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white text-xs font-bold tracking-wide cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-md shadow-[#EA580C]/25 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
                       >
                         <Plus className="w-3.5 h-3.5" />
-                        <span>{inCartQty > 0 ? 'Tambah Lagi' : 'Pesan'}</span>
+                        <span>{inCartQty > 0 ? 'Add More' : 'Order'}</span>
                         <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center transition-transform group-hover/btn:translate-x-0.5">
                           <ArrowRight className="w-3 h-3" />
                         </div>
@@ -319,13 +319,13 @@ export default function MenuPreview() {
         {/* Direct WhatsApp Callout Banner */}
         <div className="mt-12 sm:mt-14 max-w-2xl mx-auto text-center px-2">
           <a
-            href="https://wa.me/6281289902026?text=Halo%20Warkop%20Sentosa,%20mau%20tanya%20menu%20dan%20pesan"
+            href="https://wa.me/6281289902026?text=Hello%20Sentosa%20Cafe,%20I%20would%20like%20to%20inquire%20about%20the%20menu%20and%20table%20reservations"
             target="_blank"
             rel="noopener noreferrer"
             className="group inline-flex min-h-[44px] items-center justify-between sm:justify-center gap-3 pl-4 sm:pl-5 pr-2 py-2 rounded-full bg-[#1D1713] hover:bg-[#251D18] text-[#F5EDE4] hover:text-[#F59E0B] border border-stone-700/80 hover:border-[#EA580C]/50 text-xs sm:text-sm font-semibold transition-all shadow-lg active:scale-95 focus-visible:ring-2 focus-visible:ring-[#EA580C]"
           >
             <span className="text-left sm:text-center">
-              Mau tanya info menu atau booking tempat nongkrong?
+              Questions about our menu or planning a squad meetup?
             </span>
             <div className="w-7 h-7 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center transition-transform group-hover:scale-110 flex-shrink-0">
               <MessageCircle className="w-4 h-4" />
@@ -347,7 +347,7 @@ export default function MenuPreview() {
             <button
               onClick={() => setSelectedOrderItem(null)}
               className="absolute top-4 right-4 min-w-[40px] min-h-[40px] rounded-full bg-stone-900 text-stone-400 hover:text-white border border-stone-800 flex items-center justify-center transition-colors cursor-pointer active:scale-90 focus-visible:ring-2 focus-visible:ring-[#EA580C]"
-              aria-label="Tutup jendela pemilihan menu"
+              aria-label="Close menu selection modal"
             >
               <X className="w-4 h-4" />
             </button>
@@ -355,7 +355,7 @@ export default function MenuPreview() {
             {/* Header */}
             <div>
               <span className="text-[10px] font-bold uppercase tracking-wider text-[#EA580C] bg-[#EA580C]/15 px-3 py-0.5 rounded-full border border-[#EA580C]/30">
-                Pilih Menu Warkop
+                Customize Order
               </span>
               <h3 id="order-dialog-title" className="text-lg sm:text-xl font-bold text-white font-display mt-2">
                 {selectedOrderItem.name}
@@ -368,14 +368,14 @@ export default function MenuPreview() {
             {/* Quantity Selector */}
             <div className="flex items-center justify-between p-3.5 rounded-2xl bg-[#14110E] border border-stone-800">
               <span className="text-xs font-medium text-stone-300">
-                Jumlah porsi:
+                Quantity:
               </span>
               <div className="flex items-center gap-3">
                 <button
                   type="button"
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
                   className="min-w-[40px] min-h-[40px] rounded-full bg-stone-800 hover:bg-stone-700 text-white flex items-center justify-center transition-colors cursor-pointer active:scale-90 focus-visible:ring-2 focus-visible:ring-[#EA580C]"
-                  aria-label="Kurangi porsi"
+                  aria-label="Decrease quantity"
                 >
                   <Minus className="w-3.5 h-3.5" />
                 </button>
@@ -386,7 +386,7 @@ export default function MenuPreview() {
                   type="button"
                   onClick={() => setQuantity(quantity + 1)}
                   className="min-w-[40px] min-h-[40px] rounded-full bg-stone-800 hover:bg-stone-700 text-white flex items-center justify-center transition-colors cursor-pointer active:scale-90 focus-visible:ring-2 focus-visible:ring-[#EA580C]"
-                  aria-label="Tambah porsi"
+                  aria-label="Increase quantity"
                 >
                   <Plus className="w-3.5 h-3.5" />
                 </button>
@@ -396,12 +396,12 @@ export default function MenuPreview() {
             {/* Special Request / Note Input */}
             <div>
               <label htmlFor="order-dialog-note" className="text-xs font-medium text-stone-300 mb-1.5 block">
-                Catatan Khusus (Opsional):
+                Special Kitchen Notes (Optional):
               </label>
               <input
                 id="order-dialog-note"
                 type="text"
-                placeholder="Misal: pedas rawit 5, es sedikit, manis sedang"
+                placeholder="e.g. Less ice, extra spicy, oat milk preference"
                 value={orderNote}
                 onChange={(e) => setOrderNote(e.target.value)}
                 className="w-full min-h-[44px] px-3.5 py-2.5 rounded-xl bg-[#14110E] border border-stone-800 focus:border-[#EA580C] focus-visible:ring-2 focus-visible:ring-[#EA580C] text-white text-xs placeholder:text-stone-500 outline-none transition-colors"
@@ -410,7 +410,7 @@ export default function MenuPreview() {
 
             {/* Total Price */}
             <div className="flex justify-between items-center border-t border-stone-800 pt-3 text-sm font-bold text-white font-display">
-              <span>Total Harga:</span>
+              <span>Total Price:</span>
               <span className="text-[#F59E0B] font-display text-lg">
                 {formatRupiah(selectedOrderItem.price * quantity)}
               </span>
@@ -423,7 +423,7 @@ export default function MenuPreview() {
                 className="w-full min-h-[48px] py-3.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-[#EA580C]/30 active:scale-95 transition-all focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
               >
                 <ShoppingBag className="w-4 h-4" />
-                <span>+ Masukkan ke Keranjang</span>
+                <span>+ Add to Cart</span>
               </button>
 
               <button
@@ -431,7 +431,7 @@ export default function MenuPreview() {
                 className="w-full min-h-[44px] py-2.5 rounded-full bg-[#14110E] hover:bg-[#201A16] border border-stone-700/80 hover:border-emerald-500/50 text-stone-300 hover:text-emerald-400 font-semibold text-xs flex items-center justify-center gap-2 cursor-pointer active:scale-95 transition-all focus-visible:ring-2 focus-visible:ring-emerald-400"
               >
                 <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Beli Langsung via WhatsApp</span>
+                <span>Order Directly via WhatsApp</span>
               </button>
             </div>
           </div>
@@ -451,10 +451,10 @@ export default function MenuPreview() {
           </div>
           <button
             onClick={() => setIsCartOpen(true)}
-            aria-label="Buka keranjang belanja"
+            aria-label="Open cart drawer"
             className="text-[11px] font-bold text-[#F59E0B] underline hover:text-white cursor-pointer ml-2 min-h-[36px] flex items-center"
           >
-            Buka ({totalItems})
+            View Cart ({totalItems})
           </button>
         </div>
       )}

@@ -21,11 +21,11 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { label: 'Beranda', href: '#beranda' },
-    { label: 'Fasilitas Warkop', href: '#kenapa-kami' },
-    { label: 'Menu & Harga', href: '#menu' },
-    { label: 'Ulasan Google', href: '#ulasan' },
-    { label: 'Lokasi Kita', href: '#lokasi' },
+    { label: 'Home', href: '#beranda' },
+    { label: 'Why Sentosa', href: '#kenapa-kami' },
+    { label: 'Menu & Prices', href: '#menu' },
+    { label: 'Reviews', href: '#ulasan' },
+    { label: 'Location & Hours', href: '#lokasi' },
   ];
 
   const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -71,7 +71,7 @@ export default function Navbar() {
                 />
               </span>
               <span className="text-[9px] sm:text-[10px] font-bold text-[#F59E0B] tracking-wide block -mt-0.5">
-                Nongkrong &bull; Nugas &bull; Mabar
+                Coffee &bull; Dining &bull; Co-Working
               </span>
             </div>
           </a>
@@ -95,11 +95,11 @@ export default function Navbar() {
             {/* Cart Button */}
             <button
               onClick={() => setIsCartOpen(true)}
-              aria-label={`Buka Keranjang Pesanan (${totalItems} menu terpilih)`}
+              aria-label={`View order cart (${totalItems} items selected)`}
               className="relative inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-bold text-[#F5EDE4]/90 hover:text-white bg-[#221B16] hover:bg-[#2C231D] border border-stone-800 hover:border-[#EA580C]/50 active:scale-95 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C] focus-visible:outline-none"
             >
               <ShoppingBag className="w-3.5 h-3.5 text-[#EA580C]" />
-              <span>Pesanan</span>
+              <span>Cart</span>
               {totalItems > 0 && (
                 <span className="w-4 h-4 rounded-full bg-[#EA580C] text-white font-mono text-[10px] font-black flex items-center justify-center">
                   {totalItems}
@@ -113,7 +113,7 @@ export default function Navbar() {
               className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-bold text-[#F5EDE4]/90 hover:text-white hover:bg-white/5 active:scale-95 transition-all focus-visible:ring-2 focus-visible:ring-[#EA580C]"
             >
               <UtensilsCrossed className="w-3.5 h-3.5 text-[#EA580C]" />
-              <span>Lihat Menu</span>
+              <span>Menu</span>
             </a>
 
             <a
@@ -121,7 +121,7 @@ export default function Navbar() {
               onClick={(e) => handleSmoothScroll(e, '#lokasi')}
               className="group inline-flex items-center gap-2 pl-4 pr-1.5 py-1.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white text-xs font-bold uppercase tracking-wider shadow-md shadow-[#EA580C]/30 hover:scale-[1.03] active:scale-[0.97] transition-all focus-visible:ring-2 focus-visible:ring-white"
             >
-              <span>Lokasi Kita</span>
+              <span>Location</span>
               <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center transition-transform group-hover:translate-x-0.5">
                 <MapPin className="w-3 h-3" />
               </div>
@@ -133,7 +133,7 @@ export default function Navbar() {
             <button
               onClick={() => setIsCartOpen(true)}
               className="relative min-w-[44px] min-h-[44px] rounded-xl bg-[#201A16] text-[#F5EDE4] border border-stone-800 hover:border-[#EA580C]/50 flex items-center justify-center active:scale-90 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C]"
-              aria-label={`Buka Keranjang Pesanan (${totalItems} menu terpilih)`}
+              aria-label={`View order cart (${totalItems} items selected)`}
             >
               <ShoppingBag className="w-4 h-4 text-[#EA580C]" />
               {totalItems > 0 && (
@@ -146,7 +146,7 @@ export default function Navbar() {
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="min-w-[44px] min-h-[44px] rounded-xl bg-[#201A16] text-[#F5EDE4] border border-stone-800 hover:border-[#EA580C]/50 flex items-center justify-center active:scale-90 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C]"
-              aria-label={mobileMenuOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi'}
+              aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
               aria-expanded={mobileMenuOpen}
             >
               {mobileMenuOpen ? <X className="w-5 h-5 text-[#EA580C]" /> : <Menu className="w-5 h-5 text-[#F5EDE4]" />}
@@ -177,7 +177,7 @@ export default function Navbar() {
                 className="py-2.5 rounded-full bg-[#201914] hover:bg-[#2A211B] text-[#F5EDE4] text-xs font-bold text-center border border-stone-700 flex items-center justify-center gap-1.5 active:scale-95 transition-all"
               >
                 <UtensilsCrossed className="w-3.5 h-3.5 text-[#EA580C]" />
-                <span>Lihat Menu</span>
+                <span>View Menu</span>
               </a>
 
               <a
@@ -186,7 +186,7 @@ export default function Navbar() {
                 className="py-2.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white text-xs font-bold text-center flex items-center justify-center gap-1.5 shadow-md active:scale-95 transition-all"
               >
                 <MapPin className="w-3.5 h-3.5" />
-                <span>Lokasi Kita</span>
+                <span>Location</span>
               </a>
             </div>
           </div>

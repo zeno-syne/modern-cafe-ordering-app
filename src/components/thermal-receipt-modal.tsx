@@ -85,45 +85,45 @@ export default function ThermalReceiptModal({
     const doubleDivider = '==========================================';
     const tableInfo =
       orderType === 'dine-in'
-        ? `Makan di Tempat (Meja ${tableNumber.trim() || '-'})`
-        : 'Bungkus / Take Away';
+        ? `Dine-In (Table ${tableNumber.trim() || '-'})`
+        : 'Takeaway / To-Go';
 
     const itemsText = items
       .map((i) => {
         let line = `${i.item.name}\n  ${i.quantity}x @${formatRupiah(i.item.price)} = ${formatRupiah(i.item.price * i.quantity)}`;
-        if (i.notes) line += `\n  *Catatan: ${i.notes}`;
+        if (i.notes) line += `\n  *Note: ${i.notes}`;
         return line;
       })
       .join('\n');
 
     const splitInfo = splitBillEnabled
-      ? `\nPatungan       : ${splitPeopleCount} Orang\nBayar/Orang    : ${formatRupiah(perPersonShare)}`
+      ? `\nSplit Bill     : ${splitPeopleCount} Guests\nPer Person     : ${formatRupiah(perPersonShare)}`
       : '';
 
     return (
-      `           WARKOP SENTOSA           \n` +
+      `            SENTOSA CAFE            \n` +
       `  Jl. Senopati Raya No. 42, Jaksel  \n` +
-      `        Telp: 0812-8990-2026        \n` +
+      `        Tel: 0812-8990-2026         \n` +
       `${divider}\n` +
-      `No. Struk : ${receiptNumber}\n` +
-      `Waktu     : ${transactionTime}\n` +
-      `Kasir     : Zeno (POS-01)\n` +
-      `Tipe      : ${tableInfo}\n` +
-      `Pemesan   : ${customerName.trim() || 'Tamu Sentosa'}\n` +
+      `Receipt No: ${receiptNumber}\n` +
+      `Timestamp : ${transactionTime}\n` +
+      `Cashier   : Zeno (POS-01)\n` +
+      `Service   : ${tableInfo}\n` +
+      `Guest     : ${customerName.trim() || 'Valued Guest'}\n` +
       `${doubleDivider}\n` +
       `${itemsText}\n` +
       `${divider}\n` +
-      `Total Item     : ${totalItems} Porsi\n` +
-      `Biaya Meja/Ppn : Rp 0 (GRATIS)\n` +
-      `TOTAL TAGIHAN  : ${formatRupiah(totalPrice)}\n` +
+      `Total Items    : ${totalItems} Portions\n` +
+      `Table & Tax    : IDR 0 (INCLUDED)\n` +
+      `TOTAL BILL     : ${formatRupiah(totalPrice)}\n` +
       `${splitInfo}\n` +
       `${doubleDivider}\n` +
-      `Metode Bayar   : ${paymentMethod === 'qris' ? 'QRIS KASIR' : 'TUNAI DI KASIR'}\n` +
-      `Status         : MENUNGGU PROSES KASIR\n` +
+      `Payment Method : ${paymentMethod === 'qris' ? 'COUNTER QRIS' : 'CASH AT COUNTER'}\n` +
+      `Payment Status : AWAITING CASHIER VERIFICATION\n` +
       `${divider}\n` +
-      `PASSWORD WIFI  : sentosajuara2026\n` +
-      ` Terima Kasih Sudah Nongkrong Santai!\n` +
-      `      Kopi Mantap, Obrolan Sedap     \n`
+      `WIFI PASSWORD  : sentosajuara2026\n` +
+      ` Thank You for Dining with Us!\n` +
+      `  Artisan Coffee, Warm Food, Great Vibes \n`
     );
   };
 
@@ -146,7 +146,7 @@ export default function ThermalReceiptModal({
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      alert('Gagal menyalin teks struk.');
+      alert('Failed to copy receipt text.');
     }
   };
 
@@ -176,7 +176,7 @@ export default function ThermalReceiptModal({
           <div className="flex items-center gap-2">
             <Receipt className="w-4 h-4 text-[#EA580C]" />
             <span id="thermal-receipt-title" className="text-xs font-bold text-white font-display">
-              Struk Kasir Digital
+              Digital POS Receipt
             </span>
           </div>
 
@@ -184,17 +184,17 @@ export default function ThermalReceiptModal({
             <button
               onClick={handleCopyText}
               className="px-2.5 py-1.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C]"
-              aria-label="Salin teks struk kasir"
+              aria-label="Copy receipt text"
             >
               {copied ? (
                 <>
                   <Check className="w-3.5 h-3.5 text-emerald-400" />
-                  <span className="text-emerald-400">Tersalin</span>
+                  <span className="text-emerald-400">Copied</span>
                 </>
               ) : (
                 <>
                   <Copy className="w-3.5 h-3.5" />
-                  <span>Salin</span>
+                  <span>Copy</span>
                 </>
               )}
             </button>
@@ -202,7 +202,7 @@ export default function ThermalReceiptModal({
             <button
               onClick={handlePrint}
               className="px-3 py-1.5 rounded-xl bg-[#EA580C] hover:bg-[#F97316] text-white text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-md shadow-[#EA580C]/30 focus-visible:ring-2 focus-visible:ring-white"
-              aria-label="Cetak struk ke printer"
+              aria-label="Print receipt"
             >
               <Printer className="w-3.5 h-3.5" />
               <span>Print</span>
@@ -211,7 +211,7 @@ export default function ThermalReceiptModal({
             <button
               onClick={onClose}
               className="w-8 h-8 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C]"
-              aria-label="Tutup tampilan struk"
+              aria-label="Close receipt preview"
             >
               <X className="w-4 h-4" />
             </button>
@@ -238,7 +238,7 @@ export default function ThermalReceiptModal({
           {/* Receipt Store Header */}
           <div className="text-center space-y-1 pb-3 border-b border-dashed border-stone-400">
             <h3 className="text-base sm:text-lg font-black tracking-wider text-stone-950 uppercase font-mono">
-              WARKOP SENTOSA
+              SENTOSA CAFE
             </h3>
             <p className="text-[11px] text-stone-600 leading-tight">
               Jl. Senopati Raya No. 42, Kebayoran Baru
@@ -250,28 +250,28 @@ export default function ThermalReceiptModal({
           {/* Receipt Metadata */}
           <div className="py-2.5 border-b border-dashed border-stone-400 space-y-1 text-[11px]">
             <div className="flex justify-between">
-              <span className="text-stone-500">No. Nota</span>
+              <span className="text-stone-500">Receipt No.</span>
               <span className="font-bold text-stone-900">{receiptNumber}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-stone-500">Waktu</span>
+              <span className="text-stone-500">Timestamp</span>
               <span>{transactionTime}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-stone-500">Kasir POS</span>
+              <span className="text-stone-500">POS Terminal</span>
               <span className="font-semibold text-stone-800">Zeno (POS-01)</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-stone-500">Layanan</span>
+              <span className="text-stone-500">Order Type</span>
               <span className="font-bold text-stone-900">
                 {orderType === 'dine-in'
-                  ? `Dine-In (Meja ${tableNumber.trim() || '-'})`
-                  : 'Take Away (Bungkus)'}
+                  ? `Dine-In (Table ${tableNumber.trim() || '-'})`
+                  : 'Takeaway / To-Go'}
               </span>
             </div>
             {customerName.trim() && (
               <div className="flex justify-between">
-                <span className="text-stone-500">Pelanggan</span>
+                <span className="text-stone-500">Guest Name</span>
                 <span className="font-semibold text-stone-900">{customerName.trim()}</span>
               </div>
             )}
@@ -280,7 +280,7 @@ export default function ThermalReceiptModal({
           {/* Items Breakdown */}
           <div className="py-3 border-b border-dashed border-stone-400 space-y-2">
             <div className="flex justify-between text-[10px] font-bold text-stone-500 uppercase tracking-wider pb-1">
-              <span>Menu Item</span>
+              <span>Item Name</span>
               <span>Subtotal</span>
             </div>
 
@@ -297,7 +297,7 @@ export default function ThermalReceiptModal({
                 </div>
                 {cartItem.notes && (
                   <p className="text-[10px] text-stone-500 italic pl-1">
-                    * Catatan: {cartItem.notes}
+                    * Note: {cartItem.notes}
                   </p>
                 )}
               </div>
@@ -307,15 +307,15 @@ export default function ThermalReceiptModal({
           {/* Totals & Calculations */}
           <div className="py-2.5 border-b border-dashed border-stone-400 space-y-1.5 text-xs">
             <div className="flex justify-between text-stone-700">
-              <span>Total Porsi ({totalItems} item)</span>
+              <span>Total Items ({totalItems} portions)</span>
               <span>{formatRupiah(totalPrice)}</span>
             </div>
             <div className="flex justify-between text-stone-700">
-              <span>Biaya Layanan &amp; Meja</span>
-              <span className="text-emerald-700 font-bold">Rp 0 (GRATIS)</span>
+              <span>Table &amp; Service Charge</span>
+              <span className="text-emerald-700 font-bold">IDR 0 (INCLUDED)</span>
             </div>
             <div className="flex justify-between items-center text-sm font-black pt-1.5 border-t border-stone-300 text-stone-950">
-              <span>TOTAL TAGIHAN</span>
+              <span>TOTAL BILL</span>
               <span className="text-base font-black">{formatRupiah(totalPrice)}</span>
             </div>
           </div>
@@ -324,8 +324,8 @@ export default function ThermalReceiptModal({
           {splitBillEnabled && (
             <div className="py-2 border-b border-dashed border-stone-400 bg-amber-50/80 -mx-2 px-2 rounded-lg text-xs space-y-1 my-1">
               <div className="flex justify-between text-amber-900 font-bold">
-                <span>Patungan ({splitPeopleCount} Orang)</span>
-                <span>@{formatRupiah(perPersonShare)} / org</span>
+                <span>Split Bill ({splitPeopleCount} Guests)</span>
+                <span>@{formatRupiah(perPersonShare)} / person</span>
               </div>
             </div>
           )}
@@ -333,15 +333,15 @@ export default function ThermalReceiptModal({
           {/* Payment Method & Status */}
           <div className="py-2.5 border-b border-dashed border-stone-400 space-y-1 text-xs">
             <div className="flex justify-between">
-              <span className="text-stone-500">Metode Bayar</span>
+              <span className="text-stone-500">Payment Method</span>
               <span className="font-bold text-stone-900">
-                {paymentMethod === 'qris' ? 'QRIS KASIR' : 'TUNAI DI KASIR'}
+                {paymentMethod === 'qris' ? 'COUNTER QRIS' : 'CASH AT COUNTER'}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-stone-500">Status Pembayaran</span>
+              <span className="text-stone-500">Payment Status</span>
               <span className="px-1.5 py-0.5 bg-stone-200 text-stone-800 text-[10px] font-bold rounded">
-                MENUNGGU VERIFIKASI KASIR
+                AWAITING CASHIER VERIFICATION
               </span>
             </div>
           </div>
@@ -369,10 +369,10 @@ export default function ThermalReceiptModal({
                 WIFI: <span className="font-black text-stone-950">sentosajuara2026</span>
               </div>
               <p className="text-[11px] font-bold text-stone-800 pt-1">
-                Terima Kasih Sudah Nongkrong Santai!
+                Thank You for Dining with Us!
               </p>
               <p className="text-[10px] text-stone-500">
-                Kopi Mantap &bull; Makanan Hangat &bull; Obrolan Sedap
+                Artisan Coffee &bull; Comfort Bites &bull; Good Conversations
               </p>
             </div>
           </div>

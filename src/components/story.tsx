@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Image from 'next/image';
 import {
   Wifi,
-  Zap,
   Wind,
   Clock,
   Sparkles,
@@ -26,7 +25,7 @@ export default function Story() {
     setSpeedResult(null);
 
     setTimeout(() => {
-      // Generate realistic high-speed warkop metrics
+      // Generate realistic high-speed cafe network metrics
       const download = Math.floor(Math.random() * 25) + 145; // 145 - 170 Mbps
       const upload = Math.floor(Math.random() * 20) + 75; // 75 - 95 Mbps
       const ping = Math.floor(Math.random() * 4) + 5; // 5 - 8 ms
@@ -38,33 +37,33 @@ export default function Story() {
   const points = [
     {
       icon: Wifi,
-      title: 'WiFi Dewa & Colokan Dimana-mana.',
+      title: 'Ultra-Fast Fiber Wi-Fi & Plentiful Power Outlets',
       description:
-        'Nggak perlu takut baterai habis atau nge-lag pas lagi push rank / kejar deadline skripsi.',
-      badge: 'Anti Lag & Full Power',
+        'Never worry about dying batteries or video call lag spikes during deep focus work or squad gaming.',
+      badge: 'Lag-Free & Full Power',
       interactive: true,
     },
     {
       icon: Wind,
-      title: 'Area Lesehan & Smoking Luas.',
+      title: 'Comfortable Booths & Open-Air Patio',
       description:
-        'Mau duduk di kursi atau selonjoran di lesehan, bebas! Ruang sirkulasi udara juga aman.',
-      badge: 'Bisa Selonjoran Santai',
+        'Choose between ergonomic indoor AC seating or relaxed semi-outdoor patio tables with fresh air circulation.',
+      badge: 'Spacious & Relaxed',
       interactive: false,
     },
     {
       icon: Clock,
-      title: 'Buka Sampai Tengah Malam.',
+      title: 'Open Past Midnight Every Day',
       description:
-        'Otak baru encer pas malam hari? Tenang, kita temenin sampai jam 1 atau 2 pagi.',
-      badge: 'Teman Lembur & Begadang',
+        'Best ideas happen after hours? We keep your caffeine fueled and kitchen warm until 1:00 or 2:00 AM.',
+      badge: 'Night Owls Welcome',
       interactive: false,
     },
   ];
 
   return (
     <section
-      id="kenapa-kami"
+      id="story"
       className="scroll-mt-24 py-20 sm:py-28 md:py-32 relative bg-[#17120E] border-y border-stone-800/80"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -72,28 +71,27 @@ export default function Story() {
         <div className="text-center max-w-3xl mx-auto space-y-3 mb-12 sm:mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#EA580C]/15 border border-[#EA580C]/35 text-[#F59E0B] text-xs font-bold tracking-wide">
             <Sparkles className="w-3.5 h-3.5 text-[#EA580C]" />
-            <span>Kenapa Nongkrong di Sini?</span>
+            <span>Why Guests Love Sentosa</span>
           </div>
 
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white font-display">
-            Fasilitas Warkop Sentosa
+            Crafted for Focus, Work &amp; Community
           </h2>
 
           <p className="text-xs sm:text-sm md:text-base text-stone-300 max-w-xl mx-auto leading-relaxed font-normal px-2">
-            Bukan sekadar ngopi, tapi tempat nyaman buat nugas berjam-jam, mabar
-            santai bareng squad, atau nongkrong seru tanpa canggung.
+            More than just coffee—a modern, unpretentious haven designed for productive focus hours, group hangouts, and authentic conversation.
           </p>
         </div>
 
-        {/* Content Layout: Candid Photo + 3 Main Youth Focus Points with Double-Bezel */}
+        {/* Content Layout: Photo + 3 Main Focus Points with Double-Bezel */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
-          {/* Left: Candid Photo in Double-Bezel Framing */}
+          {/* Left: Candid Photo */}
           <div className="lg:col-span-5 w-full">
             <div className="bezel-shell">
               <div className="relative rounded-[calc(1.75rem-0.375rem)] overflow-hidden border border-stone-800/80 aspect-[4/3] group">
                 <Image
                   src="/warkop-candid.jpg"
-                  alt="Suasana anak muda nongkrong dan nugas santai di Warkop Sentosa"
+                  alt="Guests enjoying coffee and productive work at Sentosa Cafe"
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
@@ -102,17 +100,17 @@ export default function Story() {
                 <div className="absolute bottom-3 left-3 right-3 p-3 rounded-2xl bg-[#1C1612]/90 backdrop-blur-md border border-stone-800 text-xs">
                   <div className="flex items-center gap-2 text-white font-bold mb-0.5">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-                    <span>Paling Pewe Buat Nugas &amp; Mabar</span>
+                    <span>The Ultimate Co-Working Cafe</span>
                   </div>
                   <p className="text-stone-300 font-normal text-[11px] leading-tight">
-                    Suasana hidup, ramah, dan bebas tanpa batasan waktu duduk.
+                    Vibrant, welcoming atmosphere with zero seating time limits.
                   </p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right: 3 Core Youth Focus Points with Double-Bezel Cards */}
+          {/* Right: 3 Core Highlights */}
           <div className="lg:col-span-7 space-y-4">
             {points.map((pt, idx) => {
               const MainIcon = pt.icon;
@@ -158,7 +156,7 @@ export default function Story() {
                               </div>
                             ) : (
                               <span>
-                                Dedicated Fiber Optic • <strong>150 Mbps</strong> stabil anti drop
+                                Dedicated Enterprise Fiber &bull; <strong>150 Mbps</strong> ultra-stable bandwidth
                               </span>
                             )}
                           </div>
@@ -175,7 +173,7 @@ export default function Story() {
                               }`}
                             />
                             <span>
-                              {isTestingSpeed ? 'Mengukur Speed...' : speedResult ? 'Tes Ulang WiFi' : 'Tes Speed WiFi'}
+                              {isTestingSpeed ? 'Measuring Latency...' : speedResult ? 'Retest Wi-Fi Speed' : 'Test Wi-Fi Speed'}
                             </span>
                           </button>
                         </div>

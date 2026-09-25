@@ -29,7 +29,7 @@ export default function Home() {
         <div className="fixed top-20 sm:top-24 left-1/2 -translate-x-1/2 z-40 max-w-sm w-[92%] sm:w-auto px-4 py-2 rounded-full bg-emerald-950/90 border border-emerald-500/40 text-emerald-200 text-xs font-medium shadow-xl flex items-center justify-center gap-2 backdrop-blur-md animate-in fade-in slide-in-from-top-2">
           <QrCode className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
           <span>
-            Mode Nongkrong Aktif: <strong>Meja {qrDetectedTable}</strong>
+            Dine-In Active: <strong>Table {qrDetectedTable}</strong>
           </span>
         </div>
       )}
@@ -43,19 +43,19 @@ export default function Home() {
       {/* 2. Hero Section */}
       <Hero
         onScrollToMenu={() => scrollTo('menu')}
-        onScrollToLocation={() => scrollTo('lokasi')}
+        onScrollToLocation={() => scrollTo('location')}
       />
 
-      {/* 3. Fasilitas Warkop Sentosa */}
+      {/* 3. Sentosa Cafe Work & Focus Space */}
       <Story />
 
-      {/* 4. Menu Warkop Kekinian with Multi-Item Cart */}
+      {/* 4. Cafe Menu Catalog with Multi-Item Cart */}
       <MenuPreview />
 
-      {/* 5. Ulasan Google Maps Asli */}
+      {/* 5. Verified Google Reviews */}
       <Testimonials />
 
-      {/* 6. Lokasi & Jam Buka */}
+      {/* 6. Location & Operating Hours */}
       <LocationHours />
 
       {/* 7. Footer */}

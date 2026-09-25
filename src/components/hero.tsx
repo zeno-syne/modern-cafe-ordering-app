@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { ArrowDown, MapPin, Wifi, Zap, Clock, UtensilsCrossed } from 'lucide-react';
+import { ArrowDown, MapPin, Wifi, Zap, Clock } from 'lucide-react';
 import { CAFE_INFO } from '@/data/coffee-menu';
 import { useOperationalStatus } from '@/hooks/use-operational-status';
 
@@ -22,11 +22,11 @@ export default function Hero({ onScrollToMenu, onScrollToLocation }: HeroProps) 
   return (
     <section id="beranda" className="scroll-mt-28 relative min-h-[92vh] flex items-center justify-center pt-32 sm:pt-36 pb-16 sm:pb-20 overflow-hidden bg-[#14110E]">
       
-      {/* Background Image: Bright Warm-Tone Warkop Scene */}
+      {/* Background Image: Bright Warm-Tone Cafe Scene */}
       <div className="absolute inset-0 z-0 select-none">
         <Image
           src="/warkop-hero.jpg"
-          alt="Suasana Warkop Sentosa Nongkrong dan Nugas"
+          alt="Sentosa Cafe Ambiance and Dining"
           fill
           priority
           className="object-cover object-center scale-100 opacity-40 brightness-95 contrast-105"
@@ -67,43 +67,43 @@ export default function Hero({ onScrollToMenu, onScrollToLocation }: HeroProps) 
           </div>
         </div>
 
-        {/* Judul Utama (Headline) - Scaled for zero clipping on narrow mobile */}
+        {/* Headline */}
         <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white font-display leading-[1.18] sm:leading-[1.1] max-w-4xl mx-auto drop-shadow-sm px-1">
-          Kopi Enak, WiFi Kencang,{' '}
+          Artisan Coffee, Fast Wi-Fi,{' '}
           <span className="bg-gradient-to-r from-[#FDE047] via-[#F97316] to-[#EA580C] bg-clip-text text-transparent">
-            Nongkrong Sampai Pagi.
+            Open Till Late.
           </span>
         </h1>
 
-        {/* Deskripsi (Sub-headline) */}
+        {/* Sub-headline */}
         <p className="text-sm sm:text-lg md:text-xl text-[#F5EDE4]/90 max-w-2xl mx-auto leading-relaxed font-normal px-2">
-          Tempat pelarian paling pas buat nugas, mabar, atau sekadar ngobrol ngalor-ngidul sama teman. Harga merakyat, rasa tetap pejabat.
+          {CAFE_INFO.subheading}
         </p>
 
-        {/* CTA Buttons: Button-in-Button Architecture with Active Press */}
+        {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-2 w-full max-w-xs sm:max-w-none mx-auto">
           <button
             onClick={() => onScrollToMenu ? onScrollToMenu() : scrollTo('menu')}
             className="group w-full sm:w-auto inline-flex items-center justify-between gap-4 pl-7 pr-2.5 py-3 sm:py-2.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white font-black text-sm tracking-wide shadow-xl shadow-[#EA580C]/30 hover:scale-[1.03] active:scale-[0.96] transition-all duration-200 cursor-pointer"
           >
-            <span>Lihat Menu</span>
+            <span>Explore Menu</span>
             <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/20 flex items-center justify-center transition-transform duration-200 group-hover:translate-y-0.5">
               <ArrowDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
             </div>
           </button>
 
           <button
-            onClick={() => onScrollToLocation ? onScrollToLocation() : scrollTo('lokasi')}
+            onClick={() => onScrollToLocation ? onScrollToLocation() : scrollTo('location')}
             className="group w-full sm:w-auto inline-flex items-center justify-between gap-4 pl-6 pr-2.5 py-3 sm:py-2.5 rounded-full bg-[#201914]/90 hover:bg-[#2A211B] text-[#F5EDE4] hover:text-[#F59E0B] border border-stone-700/90 hover:border-[#EA580C]/50 text-sm font-bold tracking-wide shadow-md hover:scale-[1.03] active:scale-[0.96] transition-all duration-200 cursor-pointer"
           >
-            <span>Lokasi Kita</span>
+            <span>Find Location</span>
             <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-stone-800/90 border border-stone-700 flex items-center justify-center transition-transform duration-200 group-hover:translate-x-0.5">
               <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#EA580C]" />
             </div>
           </button>
         </div>
 
-        {/* Double-Bezel Highlight Shell for Features - Mobile Clean Stack */}
+        {/* Feature Highlights Bar */}
         <div className="pt-6 sm:pt-8 max-w-3xl mx-auto w-full">
           <div className="bezel-shell">
             <div className="bezel-core !p-3 sm:!p-3.5 !flex-row flex-wrap items-center justify-center sm:justify-around gap-2.5 sm:gap-3 text-xs sm:text-sm text-[#F5EDE4]/85">
@@ -111,7 +111,7 @@ export default function Hero({ onScrollToMenu, onScrollToLocation }: HeroProps) 
                 <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#EA580C]/20 flex items-center justify-center text-[#F59E0B]">
                   <Wifi className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 </div>
-                <span>WiFi 150 Mbps</span>
+                <span>150 Mbps Fiber Wi-Fi</span>
               </div>
 
               <div className="hidden sm:block w-px h-4 bg-stone-800" />
@@ -120,7 +120,7 @@ export default function Hero({ onScrollToMenu, onScrollToLocation }: HeroProps) 
                 <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#EA580C]/20 flex items-center justify-center text-[#F59E0B]">
                   <Zap className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 </div>
-                <span>Banyak Colokan</span>
+                <span>Outlets at Every Table</span>
               </div>
 
               <div className="hidden sm:block w-px h-4 bg-stone-800" />
@@ -129,13 +129,13 @@ export default function Hero({ onScrollToMenu, onScrollToLocation }: HeroProps) 
                 <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#EA580C]/20 flex items-center justify-center text-[#F59E0B]">
                   <Clock className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 </div>
-                <span>{isOpen ? detailLabel : 'Buka 09.00 WIB'}</span>
+                <span>{isOpen ? detailLabel : 'Opens at 09:00 AM'}</span>
               </div>
 
               <div className="hidden md:block w-px h-4 bg-stone-800" />
 
               <div className="flex items-center gap-1 font-bold text-amber-400 bg-amber-950/40 px-2.5 py-0.5 rounded-full border border-amber-800/40 text-[11px] sm:text-xs">
-                <span>Mulai Rp 8.000</span>
+                <span>From IDR 8,000</span>
               </div>
             </div>
           </div>
@@ -147,7 +147,7 @@ export default function Hero({ onScrollToMenu, onScrollToLocation }: HeroProps) 
       <div 
         onClick={() => scrollTo('kenapa-kami')}
         className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2 text-stone-500 hover:text-[#EA580C] active:scale-90 transition-all cursor-pointer p-2"
-        aria-label="Scroll down"
+        aria-label="Scroll down to features"
       >
         <ArrowDown className="w-4 h-4 animate-bounce" />
       </div>
