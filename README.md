@@ -1,4 +1,4 @@
-# ☕ Warkop Sentosa — Modern F&B Digital Ordering & QR Table Experience
+# ☕ Sentosa Cafe & Diner — Modern QR Table Ordering & Smart POS Experience
 
 [![Next.js](https://img.shields.io/badge/Next.js-16.3-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.2-61DAFB?style=for-the-badge&logo=react)](https://react.dev/)
@@ -13,13 +13,13 @@
 
 ## 📌 Executive Summary & Problem Statement
 
-In the fast-paced casual F&B industry (coffee shops, casual diners, and Indonesian warkop hangouts), brick-and-mortar operators face recurring operational bottlenecks:
+In the fast-paced casual F&B industry (coffee shops, casual diners, and Asian bistro hangouts), brick-and-mortar operators face recurring operational bottlenecks:
 1. **Queue Bottlenecks & Manual Order Mistakes:** Cashiers and baristas struggle during evening rush hours, resulting in incorrect table deliveries or missed kitchen customizations (*e.g., "half-sweet coffee", "soft-boiled noodles with 5 bird-eye chilies"*).
 2. **Expensive SaaS POS Subscriptions:** Commercial cloud POS systems charge recurring monthly fees ($25 to $70+/month per outlet), heavily eating into small business profit margins.
 3. **Customer App-Install Fatigue:** Diners refuse to download dedicated mobile apps or go through tedious sign-ups just to order a snack and iced coffee.
 
 ### 💡 Product Solution:
-**Warkop Sentosa Modern App** is an ultra-fast, zero-friction, mobile-first web ordering platform requiring **no app installation and no account registration**:
+**Sentosa Modern Cafe Ordering App** is an ultra-fast, zero-friction, mobile-first web ordering platform requiring **no app installation and no account registration**:
 * **Instant Table Locking:** Diners simply scan an acrylic QR code stand on their table using their phone camera.
 * **Smart Cart & Customization:** Select items with custom kitchen notes, calculate quantities, and compute split-bill totals in real time.
 * **WhatsApp POS Integration:** Direct formatted digital receipt dispatch to the cashier's WhatsApp terminal for immediate fulfillment.
@@ -106,8 +106,8 @@ This project adheres to the rigorous QA exploratory standards practiced on crowd
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/zeno-syne/warkop-modern-app.git
-   cd warkop-modern-app
+   git clone https://github.com/zeno-syne/modern-cafe-ordering-app.git
+   cd modern-cafe-ordering-app
    ```
 
 2. **Install dependencies:**

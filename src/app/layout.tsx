@@ -19,45 +19,45 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://warkop-modern-app.vercel.app"),
-  title: "Warkop Sentosa | Kopi Enak, WiFi Kencang, Nongkrong Sampai Pagi",
+  title: "Sentosa Cafe & Diner | Modern QR Table Ordering & Digital POS",
   description:
-    "Tempat nongkrong asik di Senopati. Pas buat nugas, mabar, atau sekadar ngobrol ngalor-ngidul sama teman. Harga merakyat, rasa tetap pejabat!",
+    "Modern digital dining and QR table ordering experience. Fast local Wi-Fi, artisan coffee, split-bill calculator, and instant cashier checkout.",
   keywords: [
-    "warkop sentosa",
-    "warkop senopati",
-    "tempat nugas senopati",
-    "kopi susu murah jakarta",
-    "tempat mabar jakarta selatan",
-    "warkop murah senopati",
-    "warkop jakarta wifi kencang",
+    "sentosa cafe",
+    "digital dining ordering",
+    "qr table ordering system",
+    "cafe pos software",
+    "split bill calculator",
+    "modern coffee shop web app",
+    "restaurant pos web ordering",
   ],
-  authors: [{ name: "Warkop Sentosa" }],
+  authors: [{ name: "Sentosa Cafe & Diner" }],
   icons: {
     icon: "/icon.svg",
     apple: "/icon.svg",
   },
   openGraph: {
-    title: "Warkop Sentosa | Tempat Nongkrong Asik di Senopati",
+    title: "Sentosa Cafe & Diner | Modern QR Table Ordering & Digital POS",
     description:
-      "Kopi Enak, WiFi Kencang, Nongkrong Sampai Pagi. Harga Merakyat, Rasa Tetap Pejabat.",
+      "Order straight from your table, split bills with friends, and enjoy zero-wait cashier checkout.",
     url: "https://warkop-modern-app.vercel.app",
-    siteName: "Warkop Sentosa",
+    siteName: "Sentosa Cafe & Diner",
     images: [
       {
         url: "/warkop-hero.jpg",
         width: 1200,
         height: 630,
-        alt: "Warkop Sentosa Senopati",
+        alt: "Sentosa Cafe & Diner",
       },
     ],
     type: "website",
-    locale: "id_ID",
+    locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Warkop Sentosa | Tempat Nongkrong Asik di Senopati",
+    title: "Sentosa Cafe & Diner | Modern QR Table Ordering & Digital POS",
     description:
-      "Kopi Enak, WiFi Kencang, Nongkrong Sampai Pagi. Harga Merakyat, Rasa Tetap Pejabat.",
+      "Order straight from your table, split bills with friends, and enjoy zero-wait cashier checkout.",
     images: ["/warkop-hero.jpg"],
   },
 };
@@ -76,7 +76,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="id"
+      lang="en"
       className={`${jakarta.variable} ${outfit.variable} h-full antialiased scroll-smooth`}
     >
       <body className="min-h-full flex flex-col bg-[#14110E] text-[#F9F5F0] selection:bg-[#E65100] selection:text-white font-sans">

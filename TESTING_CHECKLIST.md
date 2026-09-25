@@ -1,6 +1,6 @@
-# 📋 Test.io Exploratory Testing Checklist — Warkop Sentosa Modern App
+# 📋 Test.io Exploratory Testing Checklist — Sentosa Cafe & Diner Modern App
 
-> **Test Cycle Target:** Warkop Sentosa ([https://warkop-modern-app.vercel.app](https://warkop-modern-app.vercel.app))  
+> **Test Cycle Target:** Sentosa Cafe & Diner ([https://warkop-modern-app.vercel.app](https://warkop-modern-app.vercel.app))  
 > **Platform Scope:** Web Mobile Responsive (iOS Safari, Android Chrome), Desktop (Chrome, Safari, Firefox, Edge)  
 > **Tester Focus:** Usability, Cart & Checkout, QR Dine-in, Split Bill, QRIS Payment, Thermal Receipt, Edge Cases, Real Devices Only  
 > **Author & QA Lead:** Zeno  
