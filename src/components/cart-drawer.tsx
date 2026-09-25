@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useCart } from '@/context/cart-context';
 import ThermalReceiptModal from '@/components/thermal-receipt-modal';
+import CurrencySelector from '@/components/currency-selector';
 import {
   ShoppingBag,
   X,
@@ -34,6 +35,8 @@ export default function CartDrawer() {
     totalItems,
     totalPrice,
     qrDetectedTable,
+    formatPrice,
+    currency,
     setIsCartOpen,
     setOrderType,
     setTableNumber,
@@ -77,15 +80,6 @@ export default function CartDrawer() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isCartOpen, showQrisModal, showReceiptModal, setIsCartOpen]);
 
-  const formatRupiah = (amount: number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
-
   const perPersonShare = Math.ceil(totalPrice / Math.max(1, splitPeopleCount));
 
   const copyToClipboard = async (text: string) => {
@@ -117,7 +111,7 @@ export default function CartDrawer() {
         : 'Takeaway Express';
 
     const menuLines = items
-      .map((i) => `  • ${i.quantity}x ${i.item.name} (${formatRupiah(i.item.price * i.quantity)})`)
+      .map((i) => `  • ${i.quantity}x ${i.item.name} (${formatPrice(i.item.price * i.quantity)})`)
       .join('\n');
 
     const splitText =
@@ -125,8 +119,8 @@ export default function CartDrawer() {
       `==============================\n` +
       `📍 Dining: *${tableInfo}*\n` +
       `👥 Guests: *${splitPeopleCount} Diners*\n` +
-      `💰 Total Bill: *${formatRupiah(totalPrice)}*\n` +
-      `👉 *PER-PERSON SHARE: ${formatRupiah(perPersonShare)}*\n` +
+      `💰 Total Bill: *${formatPrice(totalPrice)}* (${currency})\n` +
+      `👉 *PER-PERSON SHARE: ${formatPrice(perPersonShare)}*\n` +
       `==============================\n` +
       `📋 Order Breakdown:\n${menuLines}\n` +
       `==============================\n` +
@@ -173,12 +167,12 @@ export default function CartDrawer() {
         : 'Cash at Counter';
 
     const splitLine = splitBillEnabled
-      ? `👥 Split Bill: *${splitPeopleCount} Guests* (@ *${formatRupiah(perPersonShare)}*/person)\n`
+      ? `👥 Split Bill: *${splitPeopleCount} Guests* (@ *${formatPrice(perPersonShare)}*/person)\n`
       : '';
 
     const itemsList = items
       .map((i) => {
-        let text = `• *${i.quantity}x ${i.item.name}* (${formatRupiah(i.item.price * i.quantity)})`;
+        let text = `• *${i.quantity}x ${i.item.name}* (${formatPrice(i.item.price * i.quantity)})`;
         if (i.notes && i.notes.trim()) {
           text += `\n  ↳ _Kitchen Note: ${i.notes.trim()}_`;
         }
@@ -192,11 +186,12 @@ export default function CartDrawer() {
       `📋 Service: *${orderTypeLabel}*\n` +
       customerLine +
       `💳 Payment: *${paymentLabel}*\n` +
+      `💱 Currency: *${currency}*\n` +
       splitLine +
       `\n*Order Summary:*\n` +
       `${itemsList}\n` +
       `------------------------------\n` +
-      `*Total: ${formatRupiah(totalPrice)}* (${totalItems} items)\n` +
+      `*Total: ${formatPrice(totalPrice)}* (${totalItems} items)\n` +
       `==============================\n` +
       `Hello Sentosa Cafe team, I would like to place this dining order. Please prepare it for our table. Thank you! 🙏`;
 
@@ -221,7 +216,7 @@ export default function CartDrawer() {
             {/* Left info: Icon & Total items + price */}
             <button
               onClick={() => setIsCartOpen(true)}
-              aria-label={`Open order cart: ${totalItems} items, total ${formatRupiah(totalPrice)}`}
+              aria-label={`Open order cart: ${totalItems} items, total ${formatPrice(totalPrice)}`}
               className="flex items-center gap-3 pl-3 text-left cursor-pointer group focus-visible:ring-2 focus-visible:ring-[#EA580C] focus-visible:outline-none rounded-full py-1 pr-2"
             >
               <div className="relative w-10 h-10 rounded-full bg-gradient-to-br from-[#EA580C] to-[#C2410C] flex items-center justify-center text-white shadow-md shadow-[#EA580C]/40 group-hover:scale-105 transition-transform">
@@ -235,7 +230,7 @@ export default function CartDrawer() {
                   {orderType === 'dine-in' && tableNumber ? `Table ${tableNumber} • ` : ''}{totalItems} Item(s) Selected
                 </span>
                 <span className="text-sm sm:text-base font-extrabold text-[#F59E0B] font-display">
-                  {formatRupiah(totalPrice)}
+                  {formatPrice(totalPrice)}
                 </span>
               </div>
             </button>
@@ -258,6 +253,7 @@ export default function CartDrawer() {
         <div
           role="dialog"
           aria-modal="true"
+          aria-label="Dining Order & Checkout"
           aria-labelledby="cart-drawer-title"
           className="fixed inset-0 z-50 flex justify-end bg-black/75 backdrop-blur-sm animate-in fade-in duration-200"
         >
@@ -287,11 +283,14 @@ export default function CartDrawer() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-1 sm:gap-2">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                {/* Currency selector inside drawer */}
+                <CurrencySelector compact />
+
                 {items.length > 0 && (
                   <button
                     onClick={clearCart}
-                    className="min-w-[44px] min-h-[44px] rounded-xl text-stone-400 hover:text-rose-400 hover:bg-rose-500/10 flex items-center justify-center transition-colors text-xs font-medium cursor-pointer focus-visible:ring-2 focus-visible:ring-rose-500 focus-visible:outline-none"
+                    className="min-w-[40px] min-h-[40px] rounded-xl text-stone-400 hover:text-rose-400 hover:bg-rose-500/10 flex items-center justify-center transition-colors text-xs font-medium cursor-pointer focus-visible:ring-2 focus-visible:ring-rose-500 focus-visible:outline-none"
                     aria-label="Clear all items in cart"
                     title="Clear Order"
                   >
@@ -300,7 +299,7 @@ export default function CartDrawer() {
                 )}
                 <button
                   onClick={() => setIsCartOpen(false)}
-                  className="min-w-[44px] min-h-[44px] rounded-xl bg-stone-900 hover:bg-stone-800 text-stone-400 hover:text-white border border-stone-800 flex items-center justify-center transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C] focus-visible:outline-none"
+                  className="min-w-[40px] min-h-[40px] rounded-xl bg-stone-900 hover:bg-stone-800 text-stone-400 hover:text-white border border-stone-800 flex items-center justify-center transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C] focus-visible:outline-none"
                   aria-label="Close order drawer"
                 >
                   <X className="w-5 h-5" />
@@ -431,13 +430,13 @@ export default function CartDrawer() {
                               {cartItem.item.name}
                             </h4>
                             <span className="text-xs text-stone-400 font-mono">
-                              {formatRupiah(cartItem.item.price)}
+                              {formatPrice(cartItem.item.price)}
                             </span>
                           </div>
 
                           <div className="text-right">
                             <span className="text-sm font-bold text-[#F59E0B] font-mono">
-                              {formatRupiah(itemSubtotal)}
+                              {formatPrice(itemSubtotal)}
                             </span>
                           </div>
                         </div>
@@ -595,7 +594,7 @@ export default function CartDrawer() {
                             aria-label="Decrease number of diners"
                             className="w-7 h-7 rounded-lg bg-stone-800 hover:bg-stone-700 disabled:opacity-30 disabled:cursor-not-allowed text-white flex items-center justify-center transition-colors cursor-pointer"
                           >
-                            <Minus className="w-3 h-3" />
+                            <Minus className="w-3.5 h-3.5" />
                           </button>
                           
                           <span className="text-xs font-bold text-white font-mono px-2 min-w-[28px] text-center">
@@ -611,7 +610,7 @@ export default function CartDrawer() {
                             aria-label="Increase number of diners"
                             className="w-7 h-7 rounded-lg bg-stone-800 hover:bg-stone-700 disabled:opacity-30 disabled:cursor-not-allowed text-white flex items-center justify-center transition-colors cursor-pointer"
                           >
-                            <Plus className="w-3 h-3" />
+                            <Plus className="w-3.5 h-3.5" />
                           </button>
                         </div>
                       </div>
@@ -623,7 +622,7 @@ export default function CartDrawer() {
                             Pay Per Person:
                           </span>
                           <span className="text-base sm:text-lg font-black text-[#F59E0B] font-mono">
-                            {formatRupiah(perPersonShare)}
+                            {formatPrice(perPersonShare)}
                           </span>
                         </div>
 
@@ -727,7 +726,7 @@ export default function CartDrawer() {
                   <div className="flex justify-between">
                     <span>Total Items ({totalItems} portions)</span>
                     <span className="font-mono text-stone-200">
-                      {formatRupiah(totalPrice)}
+                      {formatPrice(totalPrice)}
                     </span>
                   </div>
                   <div className="flex justify-between text-stone-400">
@@ -740,14 +739,14 @@ export default function CartDrawer() {
                     <div className="flex justify-between text-stone-400">
                       <span>Split Bill ({splitPeopleCount} diners)</span>
                       <span className="text-amber-300 font-semibold font-mono">
-                        @{formatRupiah(perPersonShare)}
+                        @{formatPrice(perPersonShare)}
                       </span>
                     </div>
                   )}
                   <div className="flex justify-between items-center text-sm sm:text-base font-extrabold text-white pt-2 border-t border-stone-800 font-display">
                     <span>Total Bill:</span>
                     <span className="text-[#F59E0B] text-lg sm:text-xl font-mono">
-                      {formatRupiah(totalPrice)}
+                      {formatPrice(totalPrice)}
                     </span>
                   </div>
                 </div>
@@ -912,7 +911,7 @@ export default function CartDrawer() {
                   Total Payable:
                 </span>
                 <span className="text-base sm:text-lg font-black text-stone-900 font-mono">
-                  {formatRupiah(totalPrice)}
+                  {formatPrice(totalPrice)}
                 </span>
               </div>
 

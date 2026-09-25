@@ -5,100 +5,117 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 [![WCAG 2.2 AA](https://img.shields.io/badge/Accessibility-WCAG_2.2_AA-emerald?style=for-the-badge)](https://www.w3.org/WAI/standards-guidelines/wcag/)
+[![Playwright Tests](https://img.shields.io/badge/Playwright_E2E-Passing_100%25-green?style=for-the-badge&logo=playwright)](https://playwright.dev/)
 
-> **Live Production Demo:** [https://warkop-modern-app.vercel.app](https://warkop-modern-app.vercel.app)  
-> **Product Builder & QA Lead:** Zeno  
+> **Live Production URL:** [https://modern-cafe-ordering-app.vercel.app](https://modern-cafe-ordering-app.vercel.app)  
+> **GitHub Repository:** [https://github.com/zeno-syne/modern-cafe-ordering-app](https://github.com/zeno-syne/modern-cafe-ordering-app)  
+> **Product Builder & QA Lead:** **Zeno** (Product Builder & QA Specialist)
 
 ---
 
 ## 📌 Executive Summary & Problem Statement
 
-In the fast-paced casual F&B industry (coffee shops, casual diners, and Asian bistro hangouts), brick-and-mortar operators face recurring operational bottlenecks:
-1. **Queue Bottlenecks & Manual Order Mistakes:** Cashiers and baristas struggle during evening rush hours, resulting in incorrect table deliveries or missed kitchen customizations (*e.g., "half-sweet coffee", "soft-boiled noodles with 5 bird-eye chilies"*).
-2. **Expensive SaaS POS Subscriptions:** Commercial cloud POS systems charge recurring monthly fees ($25 to $70+/month per outlet), heavily eating into small business profit margins.
-3. **Customer App-Install Fatigue:** Diners refuse to download dedicated mobile apps or go through tedious sign-ups just to order a snack and iced coffee.
+In the modern hospitality and specialty coffee industry, brick-and-mortar operators face recurring operational bottlenecks:
+1. **Queue Bottlenecks & Order Miscommunications:** Cashiers and baristas struggle during evening and late-night rushes, leading to misplaced orders, wrong table deliveries, or lost kitchen customizations (*e.g., "oat milk substitution", "less sweet", "extra spicy sambal"*).
+2. **Expensive SaaS POS Subscriptions:** Traditional cloud restaurant POS systems charge recurring monthly fees ($30 to $120+/month per tablet), heavily eroding profit margins for independent cafe owners.
+3. **Customer App Fatigue:** Diners refuse to download dedicated native apps or complete multi-step signups just to order an iced latte and a sandwich.
 
-### 💡 Product Solution:
-**Sentosa Modern Cafe Ordering App** is an ultra-fast, zero-friction, mobile-first web ordering platform requiring **no app installation and no account registration**:
-* **Instant Table Locking:** Diners simply scan an acrylic QR code stand on their table using their phone camera.
-* **Smart Cart & Customization:** Select items with custom kitchen notes, calculate quantities, and compute split-bill totals in real time.
-* **WhatsApp POS Integration:** Direct formatted digital receipt dispatch to the cashier's WhatsApp terminal for immediate fulfillment.
-* **Zero Monthly SaaS Overhead:** Completely self-hosted on modern serverless edge architecture.
+### 💡 The Solution:
+**Sentosa Modern Cafe Ordering App** is an ultra-fast, mobile-first web application requiring **zero app installation and zero account registration**:
+* **Instant Table Binding:** Diners scan an acrylic QR stand at their table using standard phone cameras or Google Lens.
+* **Custom Kitchen Orders:** Pick handcrafted espresso, artisan snacks, customize preparation notes, and review totals in real time.
+* **Fair-Share Group Bill Splitter:** Effortlessly divides group dining bills with integer rounding to prevent fractional currency disputes.
+* **Cashless QRIS & Instant WhatsApp Dispatch:** Formats orders into clean, structured dispatch messages sent directly to the barista/cashier WhatsApp queue.
+* **Zero Recurring Cloud Overhead:** Runs entirely serverless with client-side state resilience.
 
 ---
 
-## 🚀 Key Features & Technical Architecture
+## 🏗️ System Architecture & Data Flow
 
-### 1. Smart QR Table Detection (`?meja=XX`)
-* **Dynamic Table Binding:** URL query parameter auto-detection (e.g., `?meja=05`) binds table numbers directly to the state machine, displaying a sticky table banner.
-* **Interactive Client Demo Switcher:** Built-in floating widget (`DemoTableSwitcher`) allowing prospective clients and stakeholders to test table hopping and takeaway modes in one click without physical QR codes.
+```mermaid
+flowchart TD
+    A["📱 Guest Scans Table QR (?table=04)"] --> B["⚡ Client State Initialization (CartContext)"]
+    B --> C["🔍 Explore Artisanal Menu & Real-Time Filter"]
+    C --> D["📝 Item Customization Modal (Quantity & Kitchen Notes)"]
+    D --> E["🛒 Persistent Cart (localStorage Sync)"]
+    E --> F{"💡 Choose Checkout Flow"}
+    F -->|Option A| G["👥 Fair-Share Bill Splitter (Group Diners)"]
+    F -->|Option B| H["💳 QRIS Cashless / Cash Selection"]
+    F -->|Option C| I["🧾 Digital POS Thermal Receipt Preview"]
+    G --> J["📲 Instant WhatsApp Dispatch to Cashier/Kitchen"]
+    H --> J
+    I --> K["🖨️ Direct 58mm/80mm Thermal Receipt Printing"]
+```
+
+---
+
+## 🚀 Core Features & Technical Highlights
+
+### 1. Dynamic QR Table Binding (`?table=XX` / `?meja=XX`)
+* Automatically parses URL query parameters (`?table=04`) upon landing, locking the active table into context and showing an active dine-in indicator pill.
+* **Interactive Client Demo Simulator:** A floating header widget (`DemoTableSwitcher`) enables prospective clients, investors, and reviewers to simulate table switching or takeaway mode with one click.
 
 ### 2. Multi-Item Cart & State Persistence
-* Architected with **React 19 Context API** (`CartContext`) paired with resilient `localStorage` synchronization.
-* Customer carts persist seamlessly across browser refreshes, tab closures, and unstable mobile network drops.
+* Architected with **React 19 Context API** paired with resilient `localStorage` synchronization.
+* Customer carts survive accidental page refreshes, tab closures, and cellular reconnection drops.
 
-### 3. POS-Ready WhatsApp Order Payload Generator
-* Compiles clean, human-readable receipts formatted directly into WhatsApp URL schema:
-  * Order type (Dine-In Table No. vs. Takeaway).
-  * Customer name & table identifier.
-  * Line-item breakdown with item notes and quantities.
-  * Payment method indicator and split-bill summary.
-  * 100% accurate total calculation to prevent manual cashier calculation errors.
+### 3. Fair-Share Group Bill Splitter
+* Dynamic bill splitting engine supporting **2 to 20 diners**.
+* Utilizes integer ceiling division (`Math.ceil`) to ensure fair distribution and avoid fractional currency errors.
+* Includes a **"Copy to Group Chat"** clipboard utility to post formatted breakdown messages into WhatsApp/Telegram groups.
 
-### 4. Real-Time Operational Logic (Asia/Jakarta Timezone)
-* Custom hook `useOperationalStatus` deterministically calculates operating status based on WIB (`Asia/Jakarta`) hours:
-  * **Weekdays (Mon–Fri):** 09:00 AM to 01:00 AM WIB (Midnight).
-  * **Weekends (Sat–Sun):** 09:00 AM to 02:00 AM WIB (Midnight).
-* Automatically shifts UI indicators between *"🟢 Open for Dine-In"* and *"🔴 Closed / Rest Hours"* without manual merchant intervention.
+### 4. Dual Payment Modes & Interactive QRIS Modal
+* Seamless tender switching: **💵 Cash at Counter** vs. **📲 Counter QRIS (All Banks & Wallets)**.
+* Authentic National QRIS modal with crisp vector SVG matrix code, merchant ID validation, and **"Copy Amount"** utility.
 
-### 5. Sub-Second Instant Search & Category Filtering
-* Client-side zero-latency search engine that matches keywords across item titles, ingredients, flavor profiles, and promotional badges with an interactive empty state.
+### 5. Digital Thermal Paper POS Receipt
+* Emulates Toast / Square POS 58mm & 80mm thermal receipts with dot-matrix font rendering, serrated paper tear edges, order timestamp, and store Wi-Fi credentials (`sentosajuara2026`).
+* Integrated `@media print` CSS rules allowing store operators or diners to physically print receipts on any standard thermal POS printer.
 
-### 6. Fair-Share Split Bill Calculator
-* Real-time bill splitter tailored for squad dining (2 to 20 people) using integer ceil rounding (`Math.ceil`) to prevent fractional currency losses.
-* Single-click **"Copy Split Summary"** button to share an instant payment breakdown to group chats.
+### 6. Printable Acrylic Table Tent QR Generator
+* In-app store operations tool: cafe owners can generate and print high-resolution A6 table tent cards for tables 01 through 12, VIP booths, or custom tables.
+* Includes 3-step customer onboarding instructions: *1. Scan QR &rarr; 2. Pick Items &rarr; 3. Fast Service*.
 
-### 7. Dual Payment Gateway & Interactive QRIS Modal
-* Flexible tender selection: **💵 Cash at Counter** vs. **📲 QRIS Digital Payment**.
-* Authentic national QRIS modal with vector SVG mockups, merchant identification (`WARKOP SENTOSA`), and a one-click **"Copy Nominal"** utility for banking app pasting.
+### 7. Deterministic Operational Hours Hook (`useOperationalStatus`)
+* Calculates live open/closed states using standard `Asia/Jakarta (GMT+7)` timezone without server-side roundtrips:
+  * **Weekdays (Mon–Fri):** 09:00 AM – 01:00 AM (GMT+7)
+  * **Weekends (Sat–Sun):** 09:00 AM – 02:00 AM (GMT+7)
+* Automatically adapts live status badges (*"🟢 Open for Dine-In & Takeaway"* vs *"🔴 Closed • Resting"*).
 
-### 8. Digital Thermal Paper POS Receipt
-* Authentic 58mm/80mm thermal receipt popover styled with dot-matrix typography, serrated paper tear edges, order timestamp, and store WiFi credentials (`sentosajuara2026`).
-* Optimized with clean `@media print` CSS rules for direct thermal printer hardware compatibility.
-
-### 9. Printable Acrylic Table Tent QR Generator
-* Operational utility for cafe owners: generates high-resolution, print-ready A6 acrylic table tent inserts for Tables 01 to 12, VIP booths, or custom tables.
-* Equipped with customer 3-step onboarding instructions and a **"Test Open Table"** simulation shortcut.
-
-### 10. Accessibility & Mobile Ergonomics (WCAG 2.2 AA)
-* **Keyboard Navigation:** Full `Escape` key listeners to dismiss all modals and drawers hierarchically.
-* **Touch Target Standards:** 100% compliance with Apple HIG & Android WCAG 2.5.5 touch target sizing (minimum 44x44px interactive regions).
-* **Semantic ARIA:** Explicit ARIA roles, dialog modal tags, screen-reader labels, and focus rings.
+### 8. Accessibility & Ergonomics (WCAG 2.2 AA)
+* **Keyboard Accessibility:** Global `Escape` key event listeners dismiss drawers, modal popovers, and dialogs cleanly.
+* **Touch Targets:** 100% compliant with Apple Human Interface Guidelines and Android Material Design (minimum 44×44px touch bounding boxes).
+* **Semantic ARIA:** Explicit `role="dialog"`, `role="radiogroup"`, `role="tablist"`, and live region announcements.
 
 ---
 
 ## 🛡️ Quality Assurance & Test.io Rigor
 
-This project adheres to the rigorous QA exploratory standards practiced on crowdsourced testing platforms like **test.io**:
+As a **Product Builder and QA Specialist**, this application was designed and tested according to crowdsourced quality benchmarks (such as **test.io** exploratory cycles):
 
-📄 **[View Full QA Exploratory Checklist (TESTING_CHECKLIST.md)](./TESTING_CHECKLIST.md)**
-* **Priority 1 (Core Functional):** Cart state mutations, WhatsApp URL encoding, QR parameter binding.
-* **Priority 2 (Edge Cases & Boundaries):** Extreme characters in notes (`!@#$%^&*()_+`), boundary quantity counters, midnight operational rollover.
-* **Priority 3 (Mobile Responsiveness):** Viewports from 375px (iPhone SE) to 4K displays, zero horizontal overflow.
-* **Priority 4 (Social Metadata):** OpenGraph previews, Web Share API, SVG vector favicon.
-* **Priority 5 (Accessibility):** VoiceOver/TalkBack labels, keyboard tab order, focus containment.
+| Test Area | Scope & Coverage | Status |
+|:---|:---|:---:|
+| **Core Flows** | Table detection &rarr; item addition &rarr; kitchen notes &rarr; WA order generation | ✅ PASS |
+| **Edge Cases** | Boundary quantity counters, empty search queries, extreme note characters | ✅ PASS |
+| **Split Bill Precision** | Zero-remainder rounding across odd guest numbers (e.g. 3, 7 diners) | ✅ PASS |
+| **Responsiveness** | Tested across 375px (iPhone SE), 390px (iPhone 14/15), 768px (iPad), and 4K displays | ✅ PASS |
+| **Keyboard Accessibility** | Tab navigation, visible focus rings, `Escape` key dismiss | ✅ PASS |
+| **Automated E2E Suite** | Playwright automated integration tests | ✅ PASS |
+
+📄 **[Explore Full QA Test Plan (TESTING_CHECKLIST.md)](./TESTING_CHECKLIST.md)**
 
 ---
 
-## 🛠️ Technology Stack & Engineering Rationale
+## 🛠️ Technology Stack & Engineering Decisions
 
-| Architecture Layer | Technology | Engineering Rationale |
-|---|---|---|
-| **Framework** | Next.js 16 (App Router) | Server-side rendering, zero-bundle overhead, modern Turbopack compilation |
-| **UI Library** | React 19 | Modern concurrent features, native hooks, efficient component lifecycle |
-| **Styling** | Tailwind CSS v4 | High-performance CSS engine, responsive token utility system |
-| **Icons** | Lucide React | Lightweight, tree-shakable, accessible vector icons |
-| **Deployment** | Vercel Edge Network | Low-latency global CDN with automated CI/CD branch preview deployments |
+| Layer | Technology | Decision Rationale |
+|:---|:---|:---|
+| **Framework** | Next.js 16 (App Router) | Server-side rendering, zero client-bundle bloat, Turbopack sub-second rebuilds |
+| **UI Library** | React 19 | Concurrent features, native hook ergonomics, lean component lifecycle |
+| **Styling** | Tailwind CSS v4 | High-performance CSS engine with atomic responsive token architecture |
+| **Icons** | Lucide React | Lightweight, tree-shakable SVG vector glyphs |
+| **Testing** | Playwright | Multi-browser end-to-end regression validation |
+| **Deployment** | Vercel Edge Network | Global low-latency CDN with automated preview builds |
 
 ---
 
@@ -115,7 +132,7 @@ This project adheres to the rigorous QA exploratory standards practiced on crowd
    npm install
    ```
 
-3. **Start development server:**
+3. **Start the development server:**
    ```bash
    npm run dev
    ```
@@ -130,12 +147,22 @@ This project adheres to the rigorous QA exploratory standards practiced on crowd
    npm run build
    ```
 
+6. **Run Playwright automated E2E tests:**
+   ```bash
+   npm run test:e2e
+   ```
+
 ---
 
-## 👤 Product Builder & Contact
+## 👤 Product Builder & Creator Profile
 
-Crafted with dedication by:
-* **Lead Engineer & QA:** Zeno
-* **Specialization:** Product Builder, Frontend Engineer & QA Specialist (Freelance Tester at test.io)
-* **GitHub Profile:** [@zeno-syne](https://github.com/zeno-syne)
-* **Live Application:** [warkop-modern-app.vercel.app](https://warkop-modern-app.vercel.app)
+Crafted with engineering rigor and attention to detail by:
+* **Creator:** **Zeno**
+* **Role:** Product Builder, Frontend Engineer & QA Specialist (Freelance Tester at test.io)
+* **GitHub:** [@zeno-syne](https://github.com/zeno-syne)
+* **Live Product:** [https://modern-cafe-ordering-app.vercel.app](https://modern-cafe-ordering-app.vercel.app)
+
+---
+
+## 📄 License
+Released under the [MIT License](LICENSE).

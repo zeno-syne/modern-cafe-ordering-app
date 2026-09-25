@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Printer, Copy, Check, X, Receipt } from 'lucide-react';
-import { CartItem } from '@/context/cart-context';
+import { CartItem, useCart } from '@/context/cart-context';
 
 interface ThermalReceiptModalProps {
   isOpen: boolean;
@@ -33,6 +33,7 @@ export default function ThermalReceiptModal({
   splitPeopleCount,
   perPersonShare,
 }: ThermalReceiptModalProps) {
+  const { formatPrice, currency } = useCart();
   const [copied, setCopied] = useState(false);
   const [receiptNumber, setReceiptNumber] = useState('WS-20260925-01');
   const [transactionTime, setTransactionTime] = useState('');
@@ -71,15 +72,6 @@ export default function ThermalReceiptModal({
 
   if (!isOpen) return null;
 
-  const formatRupiah = (amount: number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
-
   const generatePlainTextReceipt = () => {
     const divider = '------------------------------------------';
     const doubleDivider = '==========================================';
@@ -90,14 +82,14 @@ export default function ThermalReceiptModal({
 
     const itemsText = items
       .map((i) => {
-        let line = `${i.item.name}\n  ${i.quantity}x @${formatRupiah(i.item.price)} = ${formatRupiah(i.item.price * i.quantity)}`;
+        let line = `${i.item.name}\n  ${i.quantity}x @${formatPrice(i.item.price)} = ${formatPrice(i.item.price * i.quantity)}`;
         if (i.notes) line += `\n  *Note: ${i.notes}`;
         return line;
       })
       .join('\n');
 
     const splitInfo = splitBillEnabled
-      ? `\nSplit Bill     : ${splitPeopleCount} Guests\nPer Person     : ${formatRupiah(perPersonShare)}`
+      ? `\nSplit Bill     : ${splitPeopleCount} Guests\nPer Person     : ${formatPrice(perPersonShare)}`
       : '';
 
     return (
@@ -109,13 +101,14 @@ export default function ThermalReceiptModal({
       `Timestamp : ${transactionTime}\n` +
       `Operator  : Zeno (POS-01)\n` +
       `Service   : ${tableInfo}\n` +
+      `Currency  : ${currency}\n` +
       `Guest     : ${customerName.trim() || 'Valued Guest'}\n` +
       `${doubleDivider}\n` +
       `${itemsText}\n` +
       `${divider}\n` +
       `Total Items    : ${totalItems} Portions\n` +
       `Service Charge : IDR 0 (INCLUDED)\n` +
-      `TOTAL PAYABLE  : ${formatRupiah(totalPrice)}\n` +
+      `TOTAL PAYABLE  : ${formatPrice(totalPrice)}\n` +
       `${splitInfo}\n` +
       `${doubleDivider}\n` +
       `Payment Method : ${paymentMethod === 'qris' ? 'COUNTER QRIS' : 'CASH AT COUNTER'}\n` +
@@ -176,7 +169,7 @@ export default function ThermalReceiptModal({
           <div className="flex items-center gap-2">
             <Receipt className="w-4 h-4 text-[#EA580C]" />
             <span id="thermal-receipt-title" className="text-xs font-bold text-white font-display">
-              Digital POS Receipt
+              Digital POS Receipt ({currency})
             </span>
           </div>
 
@@ -269,6 +262,10 @@ export default function ThermalReceiptModal({
                   : 'Takeaway Express'}
               </span>
             </div>
+            <div className="flex justify-between">
+              <span className="text-stone-500">Currency</span>
+              <span className="font-bold text-stone-900">{currency}</span>
+            </div>
             {customerName.trim() && (
               <div className="flex justify-between">
                 <span className="text-stone-500">Guest Name</span>
@@ -288,11 +285,11 @@ export default function ThermalReceiptModal({
               <div key={cartItem.item.id} className="space-y-0.5 text-xs">
                 <div className="flex justify-between font-bold text-stone-950">
                   <span className="max-w-[70%] truncate">{cartItem.item.name}</span>
-                  <span>{formatRupiah(cartItem.item.price * cartItem.quantity)}</span>
+                  <span>{formatPrice(cartItem.item.price * cartItem.quantity)}</span>
                 </div>
                 <div className="flex justify-between text-[11px] text-stone-600 pl-1">
                   <span>
-                    {cartItem.quantity} x {formatRupiah(cartItem.item.price)}
+                    {cartItem.quantity} x {formatPrice(cartItem.item.price)}
                   </span>
                 </div>
                 {cartItem.notes && (
@@ -308,7 +305,7 @@ export default function ThermalReceiptModal({
           <div className="py-2.5 border-b border-dashed border-stone-400 space-y-1.5 text-xs">
             <div className="flex justify-between text-stone-700">
               <span>Total Items ({totalItems} portions)</span>
-              <span>{formatRupiah(totalPrice)}</span>
+              <span>{formatPrice(totalPrice)}</span>
             </div>
             <div className="flex justify-between text-stone-700">
               <span>Service Charge &amp; Tax</span>
@@ -316,7 +313,7 @@ export default function ThermalReceiptModal({
             </div>
             <div className="flex justify-between items-center text-sm font-black pt-1.5 border-t border-stone-300 text-stone-950">
               <span>TOTAL PAYABLE</span>
-              <span className="text-base font-black">{formatRupiah(totalPrice)}</span>
+              <span className="text-base font-black">{formatPrice(totalPrice)}</span>
             </div>
           </div>
 
@@ -325,7 +322,7 @@ export default function ThermalReceiptModal({
             <div className="py-2 border-b border-dashed border-stone-400 bg-amber-50/80 -mx-2 px-2 rounded-lg text-xs space-y-1 my-1">
               <div className="flex justify-between text-amber-900 font-bold">
                 <span>Split Bill ({splitPeopleCount} Guests)</span>
-                <span>@{formatRupiah(perPersonShare)} / person</span>
+                <span>@{formatPrice(perPersonShare)} / person</span>
               </div>
             </div>
           )}

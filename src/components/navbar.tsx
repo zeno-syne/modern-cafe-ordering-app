@@ -5,6 +5,7 @@ import { Coffee, Menu, X, MapPin, UtensilsCrossed, ShoppingBag } from 'lucide-re
 import { CAFE_INFO } from '@/data/coffee-menu';
 import { useCart } from '@/context/cart-context';
 import { useOperationalStatus } from '@/hooks/use-operational-status';
+import CurrencySelector from '@/components/currency-selector';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -23,7 +24,7 @@ export default function Navbar() {
   const navLinks = [
     { label: 'Home', href: '#beranda' },
     { label: 'Why Sentosa', href: '#kenapa-kami' },
-    { label: 'Menu & Prices', href: '#menu' },
+    { label: 'Menu & Ordering', href: '#menu' },
     { label: 'Reviews', href: '#ulasan' },
     { label: 'Location & Hours', href: '#lokasi' },
   ];
@@ -71,7 +72,7 @@ export default function Navbar() {
                 />
               </span>
               <span className="text-[9px] sm:text-[10px] font-bold text-[#F59E0B] tracking-wide block -mt-0.5">
-                Coffee &bull; Dining &bull; Co-Working
+                Artisanal Coffee &bull; Diner &bull; Co-Working
               </span>
             </div>
           </a>
@@ -92,6 +93,9 @@ export default function Navbar() {
 
           {/* Desktop Right CTAs */}
           <div className="hidden sm:flex items-center gap-2">
+            {/* Multi-Currency Selector */}
+            <CurrencySelector />
+
             {/* Cart Button */}
             <button
               onClick={() => setIsCartOpen(true)}
@@ -128,11 +132,13 @@ export default function Navbar() {
             </a>
           </div>
 
-          {/* Mobile Right Controls: Cart Icon & Hamburger Button */}
-          <div className="flex items-center gap-2 sm:hidden">
+          {/* Mobile Right Controls: Currency, Cart Icon & Hamburger Button */}
+          <div className="flex items-center gap-1.5 sm:hidden">
+            <CurrencySelector compact />
+
             <button
               onClick={() => setIsCartOpen(true)}
-              className="relative min-w-[44px] min-h-[44px] rounded-xl bg-[#201A16] text-[#F5EDE4] border border-stone-800 hover:border-[#EA580C]/50 flex items-center justify-center active:scale-90 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C]"
+              className="relative min-w-[40px] min-h-[40px] rounded-xl bg-[#201A16] text-[#F5EDE4] border border-stone-800 hover:border-[#EA580C]/50 flex items-center justify-center active:scale-90 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C]"
               aria-label={`View order cart (${totalItems} items selected)`}
             >
               <ShoppingBag className="w-4 h-4 text-[#EA580C]" />
@@ -145,7 +151,7 @@ export default function Navbar() {
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="min-w-[44px] min-h-[44px] rounded-xl bg-[#201A16] text-[#F5EDE4] border border-stone-800 hover:border-[#EA580C]/50 flex items-center justify-center active:scale-90 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C]"
+              className="min-w-[40px] min-h-[40px] rounded-xl bg-[#201A16] text-[#F5EDE4] border border-stone-800 hover:border-[#EA580C]/50 flex items-center justify-center active:scale-90 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-[#EA580C]"
               aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
               aria-expanded={mobileMenuOpen}
             >

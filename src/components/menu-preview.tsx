@@ -25,7 +25,7 @@ export default function MenuPreview() {
   const [orderNote, setOrderNote] = useState<string>('');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  const { addItem, getItemQuantity, setIsCartOpen, totalItems } = useCart();
+  const { addItem, getItemQuantity, setIsCartOpen, totalItems, formatPrice } = useCart();
 
   // Close item order dialog on Escape key (WCAG Accessibility)
   useEffect(() => {
@@ -73,15 +73,6 @@ export default function MenuPreview() {
     return matchesCategory && matchesQuery;
   });
 
-  const formatRupiah = (amount: number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
-
   const handleOpenOrder = (item: MenuItem) => {
     setSelectedOrderItem(item);
     setQuantity(1);
@@ -111,7 +102,7 @@ export default function MenuPreview() {
       `*DIRECT ORDER - SENTOSA CAFE*\n\n` +
       `Item: *${selectedOrderItem.name}*\n` +
       `Quantity: ${quantity} portion(s)\n` +
-      `Total: ${formatRupiah(total)}${noteText}\n\n` +
+      `Total: ${formatPrice(total)}${noteText}\n\n` +
       `Hello Sentosa Cafe team, I would like to order this item. Please confirm availability. Thank you!`
     );
 
@@ -272,7 +263,7 @@ export default function MenuPreview() {
 
                         <div className="text-right flex-shrink-0">
                           <span className="text-lg sm:text-2xl font-black text-[#F59E0B] font-display">
-                            {formatRupiah(item.price)}
+                            {formatPrice(item.price)}
                           </span>
                         </div>
                       </div>
@@ -300,7 +291,7 @@ export default function MenuPreview() {
 
                       <button
                         onClick={() => handleOpenOrder(item)}
-                        aria-label={`Order ${item.name} for ${formatRupiah(item.price)}`}
+                        aria-label={`Order ${item.name} for ${formatPrice(item.price)}`}
                         className="group/btn inline-flex min-h-[40px] items-center gap-1.5 pl-3.5 pr-2 py-1.5 rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] hover:from-[#F97316] hover:to-[#EA580C] text-white text-xs font-bold tracking-wide cursor-pointer hover:scale-105 active:scale-95 transition-all shadow-md shadow-[#EA580C]/25 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
                       >
                         <Plus className="w-3.5 h-3.5" />
@@ -340,6 +331,7 @@ export default function MenuPreview() {
         <div
           role="dialog"
           aria-modal="true"
+          aria-label="Customize Order"
           aria-labelledby="order-dialog-title"
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
         >
@@ -413,7 +405,7 @@ export default function MenuPreview() {
             <div className="flex justify-between items-center border-t border-stone-800 pt-3 text-sm font-bold text-white font-display">
               <span>Item Total:</span>
               <span className="text-[#F59E0B] font-display text-lg">
-                {formatRupiah(selectedOrderItem.price * quantity)}
+                {formatPrice(selectedOrderItem.price * quantity)}
               </span>
             </div>
 
